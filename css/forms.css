@@ -1,0 +1,613 @@
+/* ============================================================
+   BudgetTracker Financial Suite — Professional Forms CSS
+   ============================================================ */
+
+:root {
+  --primary: #6366f1;
+  --primary-hover: #4f46e5;
+  --primary-light: rgba(99, 102, 241, 0.08);
+  --primary-subtle: rgba(99, 102, 241, 0.18);
+  --income: #10b981;
+  --income-hover: #059669;
+  --expense: #ef4444;
+  --expense-hover: #dc2626;
+  --transfer: #3b82f6;
+  --transfer-hover: #2563eb;
+  --budget: #0ea5e9;
+  --goal: #8b5cf6;
+  --schedule: #f97316;
+
+  --bg-app: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-card-subtle: #f1f5f9;
+  --text-main: #0f172a;
+  --text-heading: #1e293b;
+  --text-muted: #64748b;
+  --border-card: #e2e8f0;
+  --border-subtle: #cbd5e1;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+  --transition: 0.2s ease;
+}
+
+[data-theme="dark"] {
+  --bg-app: #090d16;
+  --bg-card: #111827;
+  --bg-card-subtle: #1e293b;
+  --text-main: #f1f5f9;
+  --text-heading: #ffffff;
+  --text-muted: #94a3b8;
+  --border-card: rgba(255, 255, 255, 0.1);
+  --border-subtle: rgba(255, 255, 255, 0.07);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   Global Executive Top Nav Bar
+   ============================================================ */
+.entry-top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: var(--shadow-sm);
+}
+
+.nav-brand-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.btn-nav-hub {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid var(--primary-subtle);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.btn-nav-hub:hover {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+.nav-brand-text {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-heading);
+  letter-spacing: -0.01em;
+}
+
+.nav-brand-text span {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-left: 4px;
+}
+
+/* Navigation Links Group */
+.nav-links-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 2px 0;
+}
+
+.nav-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: none;
+  background: transparent;
+  border: 1px solid transparent;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.nav-link-btn:hover {
+  color: var(--text-heading);
+  background: var(--bg-card-subtle);
+}
+
+.nav-link-btn.active {
+  color: #ffffff;
+  background: var(--primary);
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(99, 102, 241, 0.35);
+}
+
+.nav-right-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-theme-toggle {
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-card);
+  color: var(--text-main);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: var(--transition);
+}
+
+.btn-theme-toggle:hover {
+  background: var(--primary-light);
+  color: var(--primary);
+  border-color: var(--primary-subtle);
+}
+
+/* ============================================================
+   Page Layout
+   ============================================================ */
+.entry-page-wrapper {
+  max-width: 960px;
+  margin: 24px auto;
+  padding: 0 16px 40px 16px;
+}
+
+.entry-hero-banner {
+  margin-bottom: 20px;
+}
+
+.entry-hero-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-heading);
+  letter-spacing: -0.02em;
+  margin: 0 0 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.entry-hero-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* Tab Switcher for Transactions (Income, Expense, Transfer) */
+.flow-tabs-wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+  background: var(--bg-card);
+  padding: 6px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-card);
+  box-shadow: var(--shadow-sm);
+}
+
+.flow-tab-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.flow-tab-btn:hover {
+  color: var(--text-heading);
+  background: var(--bg-card-subtle);
+}
+
+.flow-tab-btn.active[data-flow="Income"] {
+  background: var(--income);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+}
+
+.flow-tab-btn.active[data-flow="Expense"] {
+  background: var(--expense);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
+}
+
+.flow-tab-btn.active[data-flow="Transfer"] {
+  background: var(--transfer);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35);
+}
+
+/* ============================================================
+   Form Card Container
+   ============================================================ */
+.entry-form-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.form-card-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-card);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.form-header-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-subtle);
+}
+
+.theme-Income .form-header-icon { background: rgba(16, 185, 129, 0.12); color: var(--income); }
+.theme-Expense .form-header-icon { background: rgba(239, 68, 68, 0.12); color: var(--expense); }
+.theme-Transfer .form-header-icon { background: rgba(59, 130, 246, 0.12); color: var(--transfer); }
+.theme-Budget .form-header-icon { background: rgba(14, 165, 233, 0.12); color: var(--budget); }
+.theme-Goal .form-header-icon { background: rgba(139, 92, 246, 0.12); color: var(--goal); }
+.theme-Schedule .form-header-icon { background: rgba(249, 115, 22, 0.12); color: var(--schedule); }
+
+.form-header-title {
+  margin: 0 0 3px 0;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text-heading);
+}
+
+.form-header-sub {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+.form-card-body {
+  padding: 24px;
+}
+
+/* ============================================================
+   Form Field Grid & Inputs
+   ============================================================ */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px 20px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.field-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.field-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-heading);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.field-label.req::after {
+  content: "*";
+  color: #ef4444;
+  font-weight: 800;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 13.5px;
+  font-family: inherit;
+  color: var(--text-main);
+  outline: none;
+  transition: var(--transition);
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-subtle);
+}
+
+.amount-input-group {
+  display: grid;
+  grid-template-columns: 1fr 100px;
+  gap: 8px;
+}
+
+.form-textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* Note Accordion */
+.note-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  width: 100%;
+  transition: var(--transition);
+}
+
+.note-toggle-btn:hover {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.note-editor-wrap {
+  display: none;
+  margin-top: 8px;
+}
+
+.note-editor-wrap.open {
+  display: block;
+}
+
+/* ============================================================
+   Form Action Buttons
+   ============================================================ */
+.form-actions-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border-card);
+}
+
+.btn-form-clear {
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-card);
+  color: var(--text-main);
+  border-radius: var(--radius-sm);
+  padding: 11px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-form-clear:hover {
+  background: #fee2e2;
+  color: #b91c1c;
+  border-color: #fca5a5;
+}
+
+.btn-form-save {
+  background: var(--primary);
+  border: 1px solid var(--primary-hover);
+  color: #ffffff;
+  border-radius: var(--radius-sm);
+  padding: 11px 28px;
+  font-size: 13.5px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 2px 6px rgba(99, 102, 241, 0.35);
+}
+
+.btn-form-save:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.theme-Income .btn-form-save { background: var(--income); border-color: var(--income-hover); box-shadow: 0 2px 6px rgba(16, 185, 129, 0.35); }
+.theme-Expense .btn-form-save { background: var(--expense); border-color: var(--expense-hover); box-shadow: 0 2px 6px rgba(239, 68, 68, 0.35); }
+.theme-Transfer .btn-form-save { background: var(--transfer); border-color: var(--transfer-hover); box-shadow: 0 2px 6px rgba(59, 130, 246, 0.35); }
+.theme-Budget .btn-form-save { background: var(--budget); border-color: #0284c7; box-shadow: 0 2px 6px rgba(14, 165, 233, 0.35); }
+.theme-Goal .btn-form-save { background: var(--goal); border-color: #7c3aed; box-shadow: 0 2px 6px rgba(139, 92, 246, 0.35); }
+.theme-Schedule .btn-form-save { background: var(--schedule); border-color: #ea580c; box-shadow: 0 2px 6px rgba(249, 115, 22, 0.35); }
+
+/* ============================================================
+   Recent Entries Table Preview
+   ============================================================ */
+.recent-entries-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.recent-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.recent-section-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-heading);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.recent-table-wrap {
+  overflow-x: auto;
+}
+
+.recent-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+
+.recent-table th {
+  text-align: left;
+  padding: 8px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-bottom: 1px solid var(--border-card);
+}
+
+.recent-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-main);
+}
+
+.recent-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: #10b981;
+  color: #ffffff;
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+  font-weight: 700;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  transition: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1000;
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .entry-top-nav {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 14px;
+  }
+  .nav-brand-group {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .nav-links-wrap {
+    width: 100%;
+  }
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .flow-tabs-wrapper {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 6px;
+    padding: 4px;
+  }
+  .flow-tab-btn {
+    padding: 10px 4px;
+    font-size: 12.5px;
+    gap: 5px;
+  }
+  .flow-tab-btn span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (max-width: 420px) {
+  .flow-tabs-wrapper {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 4px;
+    padding: 3px;
+  }
+  .flow-tab-btn {
+    padding: 9px 2px;
+    font-size: 11.5px;
+    gap: 3px;
+  }
+}

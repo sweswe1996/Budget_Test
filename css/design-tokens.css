@@ -1,0 +1,117 @@
+/* ==========================================================================
+   BudgetTracker Design Tokens — Unified Creative Theme
+   ========================================================================== */
+
+:root {
+  /* Color Palette */
+  --bg-app: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-card-hover: #fafafa;
+  --bg-subtle: #f1f5f9;
+  --bg-input: #ffffff;
+
+  --border-subtle: #f1f5f9;
+  --border-card: #e2e8f0;
+  --border-focus: #7c3aed;
+
+  /* Typography Colors */
+  --text-main: #0f172a;
+  --text-heading: #1e293b;
+  --text-muted: #64748b;
+  --text-light: #94a3b8;
+  --text-white: #ffffff;
+
+  /* Primary Theme Accent (Purple & Indigo) */
+  --primary: #7c3aed;
+  --primary-hover: #6d28d9;
+  --primary-light: #f5f3ff;
+  --primary-subtle: #ede9fe;
+
+  --success: #16a34a;
+  --success-text: #15803d;
+  --success-light: #f0fdf4;
+
+  --danger: #ef4444;
+  --danger-text: #b91c1c;
+  --danger-light: #fef2f2;
+
+  --warning: #f59e0b;
+  --warning-text: #b45309;
+  --warning-light: #fffbeb;
+
+  --purple: #8b5cf6;
+  --purple-text: #6d28d9;
+  --purple-light: #f5f3ff;
+
+  --blue: #2563eb;
+  --blue-light: #eff6ff;
+
+  --cyan: #06b6d4;
+  --cyan-light: #ecfeff;
+
+  --pink: #ec4899;
+  --pink-light: #fdf2f8;
+
+  --orange: #f97316;
+  --orange-light: #fff7ed;
+
+  /* Category Specific Palette */
+  --cat-housing: #2563eb;
+  --cat-food: #0ea5e9;
+  --cat-transport: #f59e0b;
+  --cat-utilities: #eab308;
+  --cat-entertainment: #ec4899;
+  --cat-shopping: #8b5cf6;
+  --cat-healthcare: #06b6d4;
+  --cat-education: #10b981;
+  --cat-income: #16a34a;
+
+  /* Layout & Spacing */
+  --sidebar-width: 250px;
+  --header-height: 64px;
+  --card-padding: 18px;
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-pill: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.03);
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Dark Mode Overrides */
+[data-theme="dark"] {
+  --bg-app: #090d16;
+  --bg-card: #111827;
+  --bg-card-hover: #1e293b;
+  --bg-subtle: #1f2937;
+  --bg-input: #1f2937;
+
+  --border-subtle: #1f2937;
+  --border-card: #374151;
+  --border-focus: #8b5cf6;
+
+  --text-main: #f9fafb;
+  --text-heading: #f3f4f6;
+  --text-muted: #9ca3af;
+  --text-light: #6b7280;
+
+  --primary-light: rgba(124, 58, 237, 0.2);
+  --primary-subtle: rgba(124, 58, 237, 0.3);
+
+  --success-light: rgba(22, 163, 74, 0.2);
+  --danger-light: rgba(239, 68, 68, 0.2);
+  --warning-light: rgba(245, 158, 11, 0.2);
+  --purple-light: rgba(139, 92, 246, 0.2);
+
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.3);
+}

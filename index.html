@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BudgetTracker — Family Finance Dashboard</title>
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Application CSS -->
+  <link rel="stylesheet" href="css/dashboard.css">
+
+  <!-- Chart.js 4.4.1 -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <div class="app-wrapper">
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+      <!-- Brand Header -->
+      <div class="brand">
+        <div class="brand-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+            <polyline points="16 7 22 7 22 13"></polyline>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>BudgetTracker</h1>
+          <span>Family Finance</span>
+        </div>
+        <a class="btn-hub-link" href="./home.html" title="Back to Home Page">← Home</a>
+        <button class="sidebar-close-btn" id="sidebarCloseBtn" title="Close Menu">✕</button>
+      </div>
+
+      <!-- Main Navigation Menu -->
+      <nav class="sidebar-nav">
+        <a class="nav-item" href="./home.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Home</span>
+        </a>
+        <a class="nav-item active" data-view="overview">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Overview</span>
+        </a>
+        <a class="nav-item" data-view="accounts">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+          <span>Accounts</span>
+        </a>
+        <a class="nav-item" data-view="budget">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>
+          <span>Budget</span>
+        </a>
+        <a class="nav-item" data-view="debt">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v4M12 14v4M16 14v4"/></svg>
+          <span>Debt &amp; Lend</span>
+        </a>
+        <a class="nav-item" data-view="spending">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+          <span>Spending</span>
+        </a>
+        <a class="nav-item" data-view="goals">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>
+          <span>Goals</span>
+        </a>
+        <a class="nav-item" data-view="transactions">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="10" y1="3" y2="21"/><line x1="16" x2="16" y1="3" y2="21"/></svg>
+          <span>Transactions</span>
+        </a>
+        <a class="nav-item" data-view="reports">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          <span>Reports</span>
+        </a>
+        <a class="nav-item" data-view="settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <!-- Sidebar Bottom: Household Balance & Actions -->
+      <div class="sidebar-footer">
+        <div class="household-card">
+          <div class="household-card-title">Household Balance</div>
+          <div class="household-card-value">¥842,150</div>
+          <div class="household-card-sub"><span style="color:#16a34a; font-weight:700;">▲ +12.4%</span> vs last month</div>
+          <svg class="household-sparkline" viewBox="0 0 100 24" preserveAspectRatio="none">
+            <path d="M0,18 Q25,10 50,14 T100,4" fill="none" stroke="#7c3aed" stroke-width="2.2" stroke-linecap="round" />
+          </svg>
+        </div>
+
+        <!-- Dynamic Contextual Sidebar Motivational Card -->
+        <div class="sidebar-motivation-box" id="sidebarMotivationBox">
+          <div class="motivation-box-img" id="sidebarMotivationImg">🏆</div>
+          <div class="motivation-box-title" id="sidebarMotivationTitle">You're doing Amazing!</div>
+          <div class="motivation-box-sub" id="sidebarMotivationSub">Keep going, your future self will thank you. 💜</div>
+        </div>
+
+        <!-- Quick Action Buttons -->
+        <div class="sidebar-actions">
+          <div class="sidebar-actions-title">Data Entry & Actions</div>
+          <div class="quick-actions-grid">
+            <a class="sidebar-action-btn" href="./input.html" title="Record Transaction Cash Flow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>+ Transaction</span>
+            </a>
+            <a class="sidebar-action-btn" href="./budget.html" title="Set Monthly Budget Limit">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+              <span>+ Budget</span>
+            </a>
+            <a class="sidebar-action-btn" href="./goal.html" title="Create Savings Goal">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+              <span>+ Goal</span>
+            </a>
+            <a class="sidebar-action-btn" href="./schedule.html" title="Schedule Payment / Bill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+              <span>+ Schedule</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Controls: Dark Mode & Sync -->
+        <div class="sidebar-controls">
+          <div class="dark-mode-row">
+            <span style="display:flex; align-items:center; gap:6px;">🌙 Dark Mode</span>
+            <input type="checkbox" id="darkModeToggle" style="cursor:pointer;">
+          </div>
+          <div class="sync-status-row">
+            <span class="sync-indicator">
+              <span class="sync-dot"></span> Last synced: <span id="lastSyncedText">2 min ago</span>
+            </span>
+          </div>
+          <button class="sync-btn" id="btnSyncNow">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            <span>Sync Now</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Sidebar Backdrop Overlay -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <!-- Main Application Body -->
+    <main class="main-content">
+      <!-- Global Top Filter Bar -->
+      <header class="top-header">
+        <div class="filter-bar">
+          <!-- Sidebar Menu Toggle Button -->
+          <button class="btn-menu-toggle" id="sidebarMenuBtn" title="Toggle Navigation Menu">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+            <span>Menu</span>
+          </button>
+
+          <!-- Quick Data Entry Launcher -->
+          <a class="btn-quick-entry" href="./input.html" title="Open Data Entry System">
+            <span>✦ + New Entry</span>
+          </a>
+
+          <div class="filter-controls-group">
+            <!-- Date Range Filter with 2 Separate Date Boxes (From & To) + Quick Preset -->
+            <div class="filter-item date-range-group">
+              <label class="filter-label">Date Range</label>
+              <div class="date-inputs-wrap">
+                <div class="date-box-wrapper">
+                  <span class="date-box-tag">From</span>
+                  <input type="date" class="filter-date-input" id="filterStartDate" value="2026-08-01" min="2020-01-01" max="2030-12-31" />
+                </div>
+                <span class="date-sep">→</span>
+                <div class="date-box-wrapper">
+                  <span class="date-box-tag">To</span>
+                  <input type="date" class="filter-date-input" id="filterEndDate" value="2026-08-31" min="2020-01-01" max="2030-12-31" />
+                </div>
+                <select class="filter-select preset-select" id="filterDatePreset" title="Quick Month by Month Presets">
+                  <option value="2026-08" selected>Aug 2026</option>
+                  <option value="2026-07">Jul 2026</option>
+                  <option value="2026-06">Jun 2026</option>
+                  <option value="2026-05">May 2026</option>
+                  <option value="2026-04">Apr 2026</option>
+                  <option value="2026-03">Mar 2026</option>
+                  <option value="2026-02">Feb 2026</option>
+                  <option value="2026-01">Jan 2026</option>
+                  <option value="2025-12">Dec 2025</option>
+                  <option value="2025-11">Nov 2025</option>
+                  <option value="2025-10">Oct 2025</option>
+                  <option value="2025-09">Sep 2025</option>
+                  <option value="all_2026">2026 Full Year</option>
+                  <option value="year_2025">2025 Full Year</option>
+                  <option value="all_2_years">All 2 Years</option>
+                  <option value="custom">Custom Range</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Currency Filter -->
+            <div class="filter-item">
+              <label class="filter-label">Currency</label>
+              <select class="filter-select" id="filterCurrency">
+                <option value="JPY" selected>JPY</option>
+                <option value="MMK">MMK</option>
+                <option value="USD">USD</option>
+              </select>
+            </div>
+
+            <!-- ForWho Filter -->
+            <div class="filter-item">
+              <label class="filter-label">ForWho</label>
+              <select class="filter-select" id="filterForWho">
+                <option value="all" selected>All</option>
+                <option value="Me">Me</option>
+                <option value="Family">Family</option>
+                <option value="Partner">Partner</option>
+                <option value="Parents">Parents</option>
+                <option value="US">US</option>
+                <option value="CS">CS</option>
+                <option value="MG">MG</option>
+              </select>
+            </div>
+
+            <!-- Category Filter -->
+            <div class="filter-item">
+              <label class="filter-label">Category</label>
+              <select class="filter-select" id="filterCategory">
+                <option value="all" selected>All categories</option>
+                <option value="Food_Expenses">Food &amp; Dining</option>
+                <option value="Transportation_Expenses">Transportation</option>
+                <option value="Bills_Utilities">Utilities</option>
+                <option value="Fixed_Expenses">Housing / Fixed</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Healthcare_Expenses">Healthcare</option>
+                <option value="PersonalCare_Expenses">Shopping &amp; Care</option>
+                <option value="Education_Expenses">Education</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Reset Button -->
+          <div class="filter-actions">
+            <button class="btn-reset" id="btnResetFilters">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+              <span>Reset Filters</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Top View Selector Tab Bar -->
+        <nav class="view-tabs-bar">
+          <button class="view-tab active" data-view="overview">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            <span>Overview</span>
+          </button>
+          <button class="view-tab" data-view="accounts">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+            <span>Accounts</span>
+          </button>
+          <button class="view-tab" data-view="budget">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/></svg>
+            <span>Budget</span>
+          </button>
+          <button class="view-tab" data-view="debt">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11"/></svg>
+            <span>Debt &amp; Lend</span>
+          </button>
+          <button class="view-tab" data-view="spending">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+            <span>Spending</span>
+          </button>
+          <button class="view-tab" data-view="goals">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/></svg>
+            <span>Goals</span>
+          </button>
+          <button class="view-tab" data-view="transactions">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="10" y2="21"/><line x1="16" y1="3" x2="16" y2="21"/></svg>
+            <span>Transactions</span>
+          </button>
+          <button class="view-tab" data-view="reports">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <span>Reports</span>
+          </button>
+          <button class="view-tab" data-view="settings">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span>Settings</span>
+          </button>
+        </nav>
+      </header>
+
+      <!-- View Containers -->
+      <section id="view-overview" class="dashboard-view active"></section>
+      <section id="view-accounts" class="dashboard-view"></section>
+      <section id="view-budget" class="dashboard-view"></section>
+      <section id="view-debt" class="dashboard-view"></section>
+      <section id="view-spending" class="dashboard-view"></section>
+      <section id="view-goals" class="dashboard-view"></section>
+      <section id="view-transactions" class="dashboard-view"></section>
+      <section id="view-reports" class="dashboard-view"></section>
+      <section id="view-settings" class="dashboard-view"></section>
+    </main>
+  </div>
+
+  <!-- Modal Dialog for In-Memory Transaction Editing & Adding -->
+  <div class="modal-backdrop" id="editModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="modalTitle">Edit Transaction</h3>
+        <button class="btn-icon" id="modalCloseBtn" style="font-size:16px;">✕</button>
+      </div>
+      <form id="transactionForm">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Date</label>
+              <input type="date" class="form-input" id="txDate" required>
+            </div>
+            <div class="form-group">
+              <label>Currency</label>
+              <select class="form-select" id="txCurrency">
+                <option value="JPY">JPY (¥)</option>
+                <option value="MMK">MMK (Ks)</option>
+                <option value="USD">USD ($)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Description</label>
+            <input type="text" class="form-input" id="txDesc" placeholder="e.g. AEON Supermarket" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Amount</label>
+              <input type="number" class="form-input" id="txAmount" step="any" placeholder="Enter amount" required>
+            </div>
+            <div class="form-group">
+              <label>Cash Flow</label>
+              <select class="form-select" id="txCashFlow">
+                <option value="Expense" selected>Expense</option>
+                <option value="Income">Income</option>
+                <option value="Transfer">Transfer</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label id="txTypeLabel">Category Type</label>
+              <select class="form-select" id="txType" required></select>
+            </div>
+            <div class="form-group">
+              <label>ForWho</label>
+              <select class="form-select" id="txForWho" required></select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>From Source</label>
+              <select class="form-select" id="txFromSource" required></select>
+            </div>
+            <div class="form-group">
+              <label>To Source</label>
+              <select class="form-select" id="txToSource" required></select>
+            </div>
+          </div>
+
+          <div class="form-row" id="txDetailStatusRow">
+            <div class="form-group" id="txDetailGroup">
+              <label id="txDetailLabel">Cash Flow Detail</label>
+              <select class="form-select" id="txDetail"></select>
+            </div>
+            <div class="form-group" id="txStatusGroup">
+              <label>Status</label>
+              <select class="form-select" id="txStatus">
+                <option value="-">-</option>
+                <option value="Need">Need</option>
+                <option value="Want">Want</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Note</label>
+            <input type="text" class="form-input" id="txNote" placeholder="Optional notes">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="modalCancelBtn">Cancel</button>
+          <button type="submit" class="btn-primary" id="modalSubmitBtn">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Application JavaScript Modules -->
+  <script src="js/dashboard-data.js"></script>
+  <script src="js/calculations.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/views/overview.js"></script>
+  <script src="js/views/accounts.js"></script>
+  <script src="js/views/budget.js"></script>
+  <script src="js/views/debt.js"></script>
+  <script src="js/views/spending.js"></script>
+  <script src="js/views/goals.js"></script>
+  <script src="js/views/transactions.js"></script>
+  <script src="js/views/reports.js"></script>
+  <script src="js/views/settings.js"></script>
+  <script src="js/ai-service.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Savings Goal Entry — BudgetTracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/forms.css">
+</head>
+<body>
+
+  <!-- Top Executive Navigation Bar -->
+  <nav class="entry-top-nav">
+    <div class="nav-brand-group">
+      <a class="btn-nav-hub" href="./home.html">← Hub</a>
+      <div class="nav-brand-text">BudgetTracker <span>Goal Planning</span></div>
+    </div>
+
+    <div class="nav-links-wrap">
+      <a class="nav-link-btn" href="./index.html">📊 Dashboard</a>
+      <a class="nav-link-btn" href="./input.html">✦ Transactions</a>
+      <a class="nav-link-btn" href="./budget.html">◔ Budget</a>
+      <a class="nav-link-btn active" href="./goal.html">🎯 Goals</a>
+      <a class="nav-link-btn" href="./schedule.html">🗓️ Schedule</a>
+    </div>
+
+    <div class="nav-right-group">
+      <button class="btn-theme-toggle" id="themeToggleBtn">☀️ Light</button>
+    </div>
+  </nav>
+
+  <div class="entry-page-wrapper">
+    <div class="entry-hero-banner">
+      <h1 class="entry-hero-title">🎯 Savings Goal & Milestone Planning</h1>
+      <p class="entry-hero-subtitle">Establish target milestone funds, emergency cushions, and major future investments.</p>
+    </div>
+
+    <!-- Main Goal Entry Form Card -->
+    <section class="entry-form-card theme-Goal">
+      <div class="form-card-header">
+        <div class="form-header-icon">🎯</div>
+        <div>
+          <h2 class="form-header-title">Create New Savings Goal</h2>
+          <p class="form-header-sub">Set financial milestones with deadline and target amount.</p>
+        </div>
+      </div>
+
+      <div class="form-card-body">
+        <form id="goalForm" onsubmit="submitGoal(event)">
+          <input type="hidden" name="formType" value="Savings_Goals">
+
+          <div class="form-grid">
+            <div class="field-group">
+              <label class="field-label req" for="goalName">Goal Name</label>
+              <input type="text" id="goalName" name="goalName" class="form-input" placeholder="e.g., Japan Family Vacation, MacBook Pro M3" required>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label req" for="goalCategory">Goal Category</label>
+              <select id="goalCategory" name="goalCategory" class="form-select" required>
+                <option value="Emergency Fund">🛡️ Emergency Fund</option>
+                <option value="Travel & Leisure" selected>✈️ Travel & Leisure</option>
+                <option value="Electronics & Work">💻 Electronics & Hardware</option>
+                <option value="Education Fund">🎓 Kids Education</option>
+                <option value="House & Land">🏡 House & Real Estate</option>
+                <option value="Investments">📈 Stocks & NISA</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label req" for="goalTarget">Target Amount</label>
+              <div class="amount-input-group">
+                <input type="number" id="goalTarget" name="goalTarget" class="form-input" step="1" placeholder="e.g. 500000" required>
+                <select id="goalCurrency" name="goalCurrency" class="form-select" required>
+                  <option value="JPY" selected>JPY</option>
+                  <option value="MMK">MMK</option>
+                  <option value="USD">USD</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label req" for="goalDate">Target Completion Date</label>
+              <input type="date" id="goalDate" name="goalDate" class="form-input" required>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="initialDeposit">Initial Seed Saved Amount</label>
+              <input type="number" id="initialDeposit" name="initialDeposit" class="form-input" step="1" placeholder="e.g. 25000 (Optional)">
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="goalPriority">Milestone Priority</label>
+              <select id="goalPriority" name="goalPriority" class="form-select">
+                <option value="High" selected>🔥 High Priority</option>
+                <option value="Medium">⚡ Medium Priority</option>
+                <option value="Low">🌱 Long-term / Low</option>
+              </select>
+            </div>
+
+            <div class="field-group full-width">
+              <label class="field-label" for="goalNotes">Motivation & Milestone Notes</label>
+              <textarea id="goalNotes" name="goalNotes" class="form-textarea" placeholder="e.g., Monthly contribution of ¥25,000 required to reach summit on time..."></textarea>
+            </div>
+          </div>
+
+          <div class="form-actions-row">
+            <button type="button" class="btn-form-clear" onclick="document.getElementById('goalForm').reset()">Clear Form</button>
+            <button id="saveBtn" type="submit" class="btn-form-save">Create Savings Goal</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Active Savings Goals List -->
+    <section class="recent-entries-section">
+      <div class="recent-section-header">
+        <h3 class="recent-section-title">🏔️ Active Goals Journey (5 Goals · ¥859,000 Saved)</h3>
+        <span style="font-size:11px; color:var(--text-muted);">Overall Progress: 43.1%</span>
+      </div>
+      <div class="recent-table-wrap">
+        <table class="recent-table">
+          <thead>
+            <tr>
+              <th>Goal Name</th>
+              <th>Category</th>
+              <th>Target Date</th>
+              <th style="text-align:right;">Target</th>
+              <th style="text-align:right;">Saved</th>
+              <th style="text-align:right;">Progress</th>
+            </tr>
+          </thead>
+          <tbody id="goalsTableBody">
+            <tr>
+              <td><strong>🛡️ Family Emergency Fund</strong></td>
+              <td>Emergency</td>
+              <td>2026-12-31</td>
+              <td style="text-align:right;">¥500,000</td>
+              <td style="text-align:right; color:#10b981; font-weight:700;">¥380,000</td>
+              <td style="text-align:right;"><strong style="color:#10b981;">76.0% (On Track)</strong></td>
+            </tr>
+            <tr>
+              <td><strong>✈️ Japan Family Vacation</strong></td>
+              <td>Travel</td>
+              <td>2026-10-15</td>
+              <td style="text-align:right;">¥300,000</td>
+              <td style="text-align:right; color:#10b981; font-weight:700;">¥195,000</td>
+              <td style="text-align:right;"><strong style="color:#10b981;">65.0% (On Track)</strong></td>
+            </tr>
+            <tr>
+              <td><strong>💻 MacBook Pro M3 Workstation</strong></td>
+              <td>Electronics</td>
+              <td>2026-09-30</td>
+              <td style="text-align:right;">¥280,000</td>
+              <td style="text-align:right; color:#8b5cf6; font-weight:700;">¥140,000</td>
+              <td style="text-align:right;"><strong style="color:#8b5cf6;">50.0% (Midway)</strong></td>
+            </tr>
+            <tr>
+              <td><strong>🎓 Kids Education Fund</strong></td>
+              <td>Education</td>
+              <td>2027-04-01</td>
+              <td style="text-align:right;">¥400,000</td>
+              <td style="text-align:right; color:#8b5cf6; font-weight:700;">¥110,000</td>
+              <td style="text-align:right;"><strong style="color:#8b5cf6;">27.5% (Keep Going)</strong></td>
+            </tr>
+            <tr>
+              <td><strong>🏡 Home Renovation Fund</strong></td>
+              <td>House & Land</td>
+              <td>2027-08-31</td>
+              <td style="text-align:right;">¥500,000</td>
+              <td style="text-align:right; color:#64748b; font-weight:700;">¥34,000</td>
+              <td style="text-align:right;"><strong style="color:#f59e0b;">6.8% (Starting)</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="./js/common-forms.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Default deadline: 6 months from today
+      const d = new Date();
+      d.setMonth(d.getMonth() + 6);
+      const pad = n => String(n).padStart(2, '0');
+      document.getElementById('goalDate').value = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+    });
+
+    function submitGoal(event) {
+      event.preventDefault();
+      const form = document.getElementById('goalForm');
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      const btn = document.getElementById('saveBtn');
+      btn.disabled = true;
+      btn.textContent = 'Saving Goal...';
+
+      saveLocalRecent('goals', data);
+
+      // Optimistically add to table
+      const tbody = document.getElementById('goalsTableBody');
+      const tr = document.createElement('tr');
+      const saved = Number(data.initialDeposit) || 0;
+      const target = Number(data.goalTarget) || 1;
+      const pct = ((saved / target) * 100).toFixed(1);
+
+      tr.innerHTML = `
+        <td><strong>🎯 ${data.goalName}</strong></td>
+        <td>${data.goalCategory}</td>
+        <td>${data.goalDate}</td>
+        <td style="text-align:right; font-weight:700;">¥${target.toLocaleString()}</td>
+        <td style="text-align:right; color:#8b5cf6; font-weight:700;">¥${saved.toLocaleString()}</td>
+        <td style="text-align:right;"><strong style="color:#8b5cf6;">${pct}% (New)</strong></td>
+      `;
+      tbody.insertBefore(tr, tbody.firstChild);
+
+      fetch(APPS_SCRIPT_WEB_APP_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(data),
+        redirect: 'follow'
+      })
+      .then(res => res.json())
+      .then(res => {
+        btn.disabled = false;
+        btn.textContent = 'Create Savings Goal';
+        showToast('Savings goal created successfully!');
+      })
+      .catch(err => {
+        btn.disabled = false;
+        btn.textContent = 'Create Savings Goal';
+        showToast('Goal saved locally & queued for sync!');
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Payment Schedule Entry — BudgetTracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/forms.css">
+</head>
+<body>
+
+  <!-- Top Executive Navigation Bar -->
+  <nav class="entry-top-nav">
+    <div class="nav-brand-group">
+      <a class="btn-nav-hub" href="./home.html">← Hub</a>
+      <div class="nav-brand-text">BudgetTracker <span>Payment Schedules</span></div>
+    </div>
+
+    <div class="nav-links-wrap">
+      <a class="nav-link-btn" href="./index.html">📊 Dashboard</a>
+      <a class="nav-link-btn" href="./input.html">✦ Transactions</a>
+      <a class="nav-link-btn" href="./budget.html">◔ Budget</a>
+      <a class="nav-link-btn" href="./goal.html">🎯 Goals</a>
+      <a class="nav-link-btn active" href="./schedule.html">🗓️ Schedule</a>
+    </div>
+
+    <div class="nav-right-group">
+      <button class="btn-theme-toggle" id="themeToggleBtn">☀️ Light</button>
+    </div>
+  </nav>
+
+  <div class="entry-page-wrapper">
+    <div class="entry-hero-banner">
+      <h1 class="entry-hero-title">🗓️ Payment & Debt Schedule Entry</h1>
+      <p class="entry-hero-subtitle">Organize upcoming monthly bills, loan amortizations, and automated card payment deadlines.</p>
+    </div>
+
+    <!-- Main Schedule Entry Form Card -->
+    <section class="entry-form-card theme-Schedule">
+      <div class="form-card-header">
+        <div class="form-header-icon">🗓️</div>
+        <div>
+          <h2 class="form-header-title">Schedule New Payment / Bill</h2>
+          <p class="form-header-sub">Prevent missed deadlines and forecast cash requirements.</p>
+        </div>
+      </div>
+
+      <div class="form-card-body">
+        <form id="scheduleForm" onsubmit="submitSchedule(event)">
+          <input type="hidden" name="formType" value="Payment_Schedule">
+
+          <div class="form-grid">
+            <div class="field-group">
+              <label class="field-label req" for="payeeName">Payee / Bill / Debt Name</label>
+              <input type="text" id="payeeName" name="payeeName" class="form-input" placeholder="e.g., Mizuho Credit Card, Tokyo Gas Bill, Rent Housing" required>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label req" for="scheduleCategory">Payment Category</label>
+              <select id="scheduleCategory" name="scheduleCategory" class="form-select" required>
+                <option value="Credit Card Bill" selected>💳 Credit Card Bill</option>
+                <option value="House Rent">🏠 House Rent</option>
+                <option value="Utilities & Bills">💡 Utilities & Internet</option>
+                <option value="Taxes & Insurance">🛡️ Taxes & Pension</option>
+                <option value="Debt / Loan Repayment">🏦 Debt / Loan Repayment</option>
+                <option value="Subscription Services">📱 Subscriptions & Cloud</option>
+                <option value="Family Support">👨‍👩‍👧 Family Living Support</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label req" for="paymentAmount">Amount Due</label>
+              <div class="amount-input-group">
+                <input type="number" id="paymentAmount" name="paymentAmount" class="form-input" step="1" placeholder="e.g. 46000" required>
+                <select id="scheduleCurrency" name="scheduleCurrency" class="form-select" required>
+                  <option value="JPY" selected>JPY</option>
+                  <option value="MMK">MMK</option>
+                  <option value="USD">USD</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label req" for="dueDate">Payment Due Date</label>
+              <input type="date" id="dueDate" name="dueDate" class="form-input" required>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label req" for="frequency">Recurrence Frequency</label>
+              <select id="frequency" name="frequency" class="form-select" required>
+                <option value="Monthly" selected>🔄 Monthly Recurring</option>
+                <option value="One-Time">⚡ One-Time Payment</option>
+                <option value="Quarterly">🗓️ Quarterly (Every 3 Months)</option>
+                <option value="Annually">📅 Annually (Yearly)</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label req" for="paymentAccount">Debit Account / Source</label>
+              <select id="paymentAccount" name="paymentAccount" class="form-select" required></select>
+            </div>
+
+            <div class="field-group full-width">
+              <label class="field-label" for="scheduleNotes">Notes & Auto-Debit Instructions</label>
+              <textarea id="scheduleNotes" name="scheduleNotes" class="form-textarea" placeholder="e.g., Auto-debited on 27th every month. Ensure minimum ¥50,000 balance in Mizuho account by 25th..."></textarea>
+            </div>
+          </div>
+
+          <div class="form-actions-row">
+            <button type="button" class="btn-form-clear" onclick="document.getElementById('scheduleForm').reset()">Clear Form</button>
+            <button id="saveBtn" type="submit" class="btn-form-save">Schedule Payment</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Upcoming Scheduled Payments List -->
+    <section class="recent-entries-section">
+      <div class="recent-section-header">
+        <h3 class="recent-section-title">🗓️ Upcoming Scheduled Payments (Next 30 Days)</h3>
+        <span style="font-size:11px; color:var(--text-muted);">Total Upcoming: ¥165,800</span>
+      </div>
+      <div class="recent-table-wrap">
+        <table class="recent-table">
+          <thead>
+            <tr>
+              <th>Payee / Bill</th>
+              <th>Due Date</th>
+              <th>Frequency</th>
+              <th>Source Account</th>
+              <th style="text-align:right;">Amount Due</th>
+              <th style="text-align:right;">Status</th>
+            </tr>
+          </thead>
+          <tbody id="scheduleTableBody">
+            <tr>
+              <td><strong>💳 Mizuho Credit Card</strong></td>
+              <td>2026-08-27</td>
+              <td>Monthly</td>
+              <td>Bk-MIZUHO_CS</td>
+              <td style="text-align:right; font-weight:700; color:#ef4444;">¥46,000</td>
+              <td style="text-align:right;"><span style="color:#f59e0b; font-weight:700;">12 days left</span></td>
+            </tr>
+            <tr>
+              <td><strong>🏠 House Rent Housing</strong></td>
+              <td>2026-08-28</td>
+              <td>Monthly</td>
+              <td>Bk-MUFG_MG</td>
+              <td style="text-align:right; font-weight:700; color:#ef4444;">¥70,000</td>
+              <td style="text-align:right;"><span style="color:#f59e0b; font-weight:700;">13 days left</span></td>
+            </tr>
+            <tr>
+              <td><strong>💳 JCB Credit Card MG</strong></td>
+              <td>2026-09-10</td>
+              <td>Monthly</td>
+              <td>Bk-MUFG_MG</td>
+              <td style="text-align:right; font-weight:700; color:#ef4444;">¥28,500</td>
+              <td style="text-align:right;"><span style="color:#10b981; font-weight:700;">26 days left</span></td>
+            </tr>
+            <tr>
+              <td><strong>💡 Tokyo Electric Power</strong></td>
+              <td>2026-09-12</td>
+              <td>Monthly</td>
+              <td>Bk-PAYPAY_CS</td>
+              <td style="text-align:right; font-weight:700; color:#ef4444;">¥11,300</td>
+              <td style="text-align:right;"><span style="color:#10b981; font-weight:700;">28 days left</span></td>
+            </tr>
+            <tr>
+              <td><strong>📶 SoftBank Internet Fiber</strong></td>
+              <td>2026-09-15</td>
+              <td>Monthly</td>
+              <td>Crd-RAKUTEN_CS</td>
+              <td style="text-align:right; font-weight:700; color:#ef4444;">¥6,200</td>
+              <td style="text-align:right;"><span style="color:#10b981; font-weight:700;">31 days left</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="./js/common-forms.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const d = new Date();
+      d.setDate(d.getDate() + 10);
+      const pad = n => String(n).padStart(2, '0');
+      document.getElementById('dueDate').value = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+
+      const accSelect = document.getElementById('paymentAccount');
+      const items = ALL_SOURCES.JPY;
+      accSelect.innerHTML = groupedSourceOptions(items, 'Select Debit Account');
+      accSelect.value = 'Bk-MIZUHO_CS';
+    });
+
+    function submitSchedule(event) {
+      event.preventDefault();
+      const form = document.getElementById('scheduleForm');
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      const btn = document.getElementById('saveBtn');
+      btn.disabled = true;
+      btn.textContent = 'Saving Schedule...';
+
+      saveLocalRecent('schedules', data);
+
+      // Optimistically add to table
+      const tbody = document.getElementById('scheduleTableBody');
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><strong>🗓️ ${data.payeeName}</strong></td>
+        <td>${data.dueDate}</td>
+        <td>${data.frequency}</td>
+        <td>${data.paymentAccount}</td>
+        <td style="text-align:right; font-weight:700; color:#ef4444;">¥${Number(data.paymentAmount).toLocaleString()}</td>
+        <td style="text-align:right;"><span style="color:#10b981; font-weight:700;">Scheduled</span></td>
+      `;
+      tbody.insertBefore(tr, tbody.firstChild);
+
+      fetch(APPS_SCRIPT_WEB_APP_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(data),
+        redirect: 'follow'
+      })
+      .then(res => res.json())
+      .then(res => {
+        btn.disabled = false;
+        btn.textContent = 'Schedule Payment';
+        showToast('Payment scheduled successfully!');
+      })
+      .catch(err => {
+        btn.disabled = false;
+        btn.textContent = 'Schedule Payment';
+        showToast('Payment scheduled locally & queued for sync!');
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Budget Limits Entry — BudgetTracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/forms.css">
+</head>
+<body>
+
+  <!-- Top Executive Navigation Bar -->
+  <nav class="entry-top-nav">
+    <div class="nav-brand-group">
+      <a class="btn-nav-hub" href="./home.html">← Hub</a>
+      <div class="nav-brand-text">BudgetTracker <span>Budget Planning</span></div>
+    </div>
+
+    <div class="nav-links-wrap">
+      <a class="nav-link-btn" href="./index.html">📊 Dashboard</a>
+      <a class="nav-link-btn" href="./input.html">✦ Transactions</a>
+      <a class="nav-link-btn active" href="./budget.html">◔ Budget</a>
+      <a class="nav-link-btn" href="./goal.html">🎯 Goals</a>
+      <a class="nav-link-btn" href="./schedule.html">🗓️ Schedule</a>
+    </div>
+
+    <div class="nav-right-group">
+      <button class="btn-theme-toggle" id="themeToggleBtn">☀️ Light</button>
+    </div>
+  </nav>
+
+  <div class="entry-page-wrapper">
+    <div class="entry-hero-banner">
+      <h1 class="entry-hero-title">◔ Monthly Budget Planning</h1>
+      <p class="entry-hero-subtitle">Define and update category-level monthly spending limits and financial caps.</p>
+    </div>
+
+    <!-- Main Budget Entry Form Card -->
+    <section class="entry-form-card theme-Budget">
+      <div class="form-card-header">
+        <div class="form-header-icon">◔</div>
+        <div>
+          <h2 class="form-header-title">Set Monthly Budget Limit</h2>
+          <p class="form-header-sub">Configure spending caps for the upcoming calendar period.</p>
+        </div>
+      </div>
+
+      <div class="form-card-body">
+        <form id="budgetForm" onsubmit="submitBudget(event)">
+          <input type="hidden" name="formType" value="Budgets">
+
+          <div class="form-grid">
+            <div class="field-group">
+              <label class="field-label req" for="budgetMonth">Budget Month</label>
+              <input type="month" id="budgetMonth" name="budgetMonth" class="form-input" required>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label req" for="budgetCategory">Expense Category</label>
+              <select id="budgetCategory" name="budgetCategory" class="form-select" onchange="handleCategoryChange()" required></select>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label req" for="budgetAmount">Planned Budget Limit</label>
+              <div class="amount-input-group">
+                <input type="number" id="budgetAmount" name="budgetAmount" class="form-input" step="1" placeholder="e.g. 50000" required>
+                <select id="budgetCurrency" name="budgetCurrency" class="form-select" required>
+                  <option value="JPY" selected>JPY</option>
+                  <option value="MMK">MMK</option>
+                  <option value="USD">USD</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="budgetPriority">Priority / Flexibility</label>
+              <select id="budgetPriority" name="budgetPriority" class="form-select">
+                <option value="Fixed">🔒 Fixed / Strict Limit</option>
+                <option value="Flexible" selected>⚖️ Flexible Target</option>
+                <option value="Discretionary">🎈 Discretionary Spend</option>
+              </select>
+            </div>
+
+            <div class="field-group full-width">
+              <label class="field-label" for="budgetNotes">Strategy Notes / Rationales</label>
+              <textarea id="budgetNotes" name="budgetNotes" class="form-textarea" placeholder="e.g., Summer electricity allowance, dining out budget cap..."></textarea>
+            </div>
+          </div>
+
+          <div class="form-actions-row">
+            <button type="button" class="btn-form-clear" onclick="document.getElementById('budgetForm').reset(); handleCategoryChange();">Clear Form</button>
+            <button id="saveBtn" type="submit" class="btn-form-save">Save Budget Limit</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Active Monthly Budget Limits Overview (All Categories) -->
+    <section class="recent-entries-section">
+      <div class="recent-section-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+          <h3 class="recent-section-title" style="margin:0;">📊 Active Budget Targets</h3>
+          <!-- Month Dropdown Selector Button -->
+          <div style="display:flex; align-items:center; gap:6px; background:var(--bg-card); padding:3px 10px; border-radius:8px; border:1px solid var(--border-color);">
+            <span style="font-size:13px;">📅</span>
+            <label for="tableMonthSelector" style="font-size:12px; font-weight:700; color:var(--text-muted);">Month:</label>
+            <select id="tableMonthSelector" class="form-select" style="padding:4px 10px; font-size:12px; font-weight:700; border-radius:6px; width:auto; border:none; background:transparent; color:var(--text-heading); cursor:pointer;" onchange="onTableMonthChange(this.value)">
+              <option value="2026-08" selected>August 2026 (Current)</option>
+              <option value="2026-07">July 2026</option>
+              <option value="2026-06">June 2026</option>
+              <option value="2026-05">May 2026</option>
+              <option value="2026-04">April 2026</option>
+              <option value="2026-03">March 2026</option>
+              <option value="2026-02">February 2026</option>
+              <option value="2026-01">January 2026</option>
+              <option value="2025-12">December 2025</option>
+              <option value="2025-11">November 2025</option>
+              <option value="2025-10">October 2025</option>
+              <option value="2025-09">September 2025</option>
+            </select>
+          </div>
+        </div>
+        <span id="totalPlannedBadge" style="font-size:12px; font-weight:700; color:var(--brand-primary); background:rgba(99,102,241,0.1); padding:4px 10px; border-radius:20px;">Total Planned: ¥274,500</span>
+      </div>
+      <div class="recent-table-wrap">
+        <table class="recent-table">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Priority</th>
+              <th style="text-align:right;">Budget Limit</th>
+              <th style="text-align:right;">Actual Spent</th>
+              <th style="text-align:right;">Status</th>
+            </tr>
+          </thead>
+          <tbody id="budgetTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="./js/dashboard-data.js"></script>
+  <script src="./js/calculations.js"></script>
+  <script src="./js/common-forms.js"></script>
+  <script>
+    const CATEGORY_ICONS = {
+      Fixed_Expenses: '🏠',
+      Bills_Utilities: '⚡',
+      Taxes_Insurance: '🧾',
+      Food_Expenses: '🍱',
+      Fashion_Expenses: '👕',
+      Living_Expenses: '🧼',
+      Social_Expenses: '🤝',
+      Education_Expenses: '📚',
+      Healthcare_Expenses: '🏥',
+      Transportation_Expenses: '🚆',
+      Business_Expenses: '💼',
+      Work_Expenses: '👔',
+      Loan_Expenses: '💳',
+      Lend_Expenses: '🤝',
+      Exchange_Expenses: '💱',
+      Digital_Expenses: '💻',
+      PersonalCare_Expenses: '💇',
+      Travel_Leisure: '✈️',
+      Entertainment: '🎮',
+      Family_Support: '👨‍👩‍👧',
+      Savings_Investments: '💰',
+      Other_Expenses: '📦'
+    };
+
+    const DEFAULT_BUDGET_AMOUNTS = {
+      Fixed_Expenses: 72000,
+      Bills_Utilities: 15000,
+      Taxes_Insurance: 70000,
+      Transportation_Expenses: 5000,
+      Food_Expenses: 30000,
+      Fashion_Expenses: 5000,
+      Living_Expenses: 10000,
+      Work_Expenses: 30000,
+      Education_Expenses: 5000,
+      Healthcare_Expenses: 5000,
+      Entertainment: 5000,
+      Family_Support: 40000
+    };
+
+    const BUDGET_CATEGORIES = [
+      'Fixed_Expenses',
+      'Bills_Utilities',
+      'Taxes_Insurance',
+      'Transportation_Expenses',
+      'Food_Expenses',
+      'Fashion_Expenses',
+      'Living_Expenses',
+      'Work_Expenses',
+      'Education_Expenses',
+      'Healthcare_Expenses',
+      'Entertainment',
+      'Family_Support'
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const monthInput = document.getElementById('budgetMonth');
+      if (monthInput) {
+        monthInput.value = currentMonthISO();
+        monthInput.addEventListener('change', (e) => {
+          const monthSelector = document.getElementById('tableMonthSelector');
+          if (monthSelector) monthSelector.value = e.target.value;
+          renderAllBudgetCategories();
+        });
+      }
+
+      const categorySelect = document.getElementById('budgetCategory');
+      categorySelect.innerHTML = optionList(BUDGET_CATEGORIES, 'Select Category');
+
+      if (BUDGET_CATEGORIES.length > 0) {
+        categorySelect.value = BUDGET_CATEGORIES[0];
+        handleCategoryChange();
+      }
+
+      renderAllBudgetCategories();
+    });
+
+    function onTableMonthChange(val) {
+      const monthInput = document.getElementById('budgetMonth');
+      if (monthInput) monthInput.value = val;
+      renderAllBudgetCategories();
+    }
+
+    function handleCategoryChange() {
+      const category = document.getElementById('budgetCategory').value;
+      const amountInput = document.getElementById('budgetAmount');
+      if (DEFAULT_BUDGET_AMOUNTS[category]) {
+        amountInput.placeholder = `e.g. ${DEFAULT_BUDGET_AMOUNTS[category]}`;
+      }
+    }
+
+    async function renderAllBudgetCategories() {
+      const tbody = document.getElementById('budgetTableBody');
+      const month = document.getElementById('tableMonthSelector')?.value || document.getElementById('budgetMonth')?.value || currentMonthISO();
+
+      let data = null;
+      try {
+        if (window.BudgetTrackerData) {
+          data = await window.BudgetTrackerData.getDashboardData();
+        }
+      } catch (e) {
+        console.warn("Live fetch error", e);
+      }
+
+      const calc = window.BudgetTrackerCalc;
+      let actualMap = {};
+      let calculatedTotalLimit = 0;
+      if (data && data.transactions && calc) {
+        const budgetRes = calc.computeBudgets(data.transactions, data.budgets, 'JPY', month);
+        calculatedTotalLimit = budgetRes.totalBudget || 0;
+        (budgetRes.budgets || []).forEach(b => {
+          actualMap[b.categoryKey] = { actual: b.actual, limit: b.budget, progress: b.progress, status: b.status };
+        });
+      }
+
+      let totalLimit = 0;
+
+      const rowsHtml = BUDGET_CATEGORIES.map(catKey => {
+        const icon = CATEGORY_ICONS[catKey] || '🏷️';
+        const displayName = catKey.replace(/_/g, ' ');
+        const actInfo = actualMap[catKey] || { actual: 0, limit: 0, progress: 0, status: 'under' };
+        const limit = (actInfo && actInfo.limit !== undefined) ? actInfo.limit : (DEFAULT_BUDGET_AMOUNTS[catKey] || 0);
+        totalLimit += limit;
+
+        const actualSpend = actInfo.actual || 0;
+        const progressPct = limit > 0 ? ((actualSpend / limit) * 100).toFixed(1) : 0;
+        const isOver = limit > 0 && actualSpend > limit;
+
+        const isFixed = ['Fixed_Expenses', 'Bills_Utilities', 'Taxes_Insurance'].includes(catKey);
+        const priorityLabel = isFixed ? 'Fixed' : (limit > 0 ? 'Flexible' : 'Discretionary');
+        const priorityColor = isFixed ? '#6366f1' : (limit > 0 ? '#0ea5e9' : '#ec4899');
+
+        return `
+          <tr>
+            <td>
+              <div style="font-weight:700; color:var(--text-heading);">
+                ${icon} ${displayName}
+              </div>
+            </td>
+            <td><span style="color:${priorityColor}; font-weight:700;">${priorityLabel}</span></td>
+            <td style="text-align:right; font-weight:700;">${limit > 0 ? '¥' + limit.toLocaleString() : '-'}</td>
+            <td style="text-align:right; color:${isOver ? '#ef4444' : '#10b981'}; font-weight:700;">¥${actualSpend.toLocaleString()}</td>
+            <td style="text-align:right;">
+              <span style="color:${isOver ? '#ef4444' : '#10b981'}; font-weight:700;">
+                ${limit > 0 ? `${progressPct}% (${isOver ? 'Over' : 'OK'})` : 'Uncapped'}
+              </span>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      tbody.innerHTML = rowsHtml;
+      const totalBadge = document.getElementById('totalPlannedBadge');
+      const finalTotal = calculatedTotalLimit > 0 ? calculatedTotalLimit : totalLimit;
+      if (totalBadge) totalBadge.textContent = `Total Planned: ¥${finalTotal.toLocaleString()}`;
+    }
+
+    function submitBudget(event) {
+      event.preventDefault();
+      const form = document.getElementById('budgetForm');
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      const btn = document.getElementById('saveBtn');
+      btn.disabled = true;
+      btn.textContent = 'Saving Budget...';
+
+      saveLocalRecent('budgets', data);
+
+      // Optimistically prepend row
+      const tbody = document.getElementById('budgetTableBody');
+      const tr = document.createElement('tr');
+      const icon = CATEGORY_ICONS[data.budgetCategory] || '🏷️';
+      tr.innerHTML = `
+        <td>
+          <div style="font-weight:700; color:var(--text-heading);">
+            ${icon} ${data.budgetCategory.replace(/_/g, ' ')}
+          </div>
+        </td>
+        <td><span style="color:#0ea5e9; font-weight:700;">${data.budgetPriority}</span></td>
+        <td style="text-align:right; font-weight:700; color:var(--brand-primary);">¥${Number(data.budgetAmount).toLocaleString()}</td>
+        <td style="text-align:right; color:#64748b;">-</td>
+        <td style="text-align:right;"><span style="color:#10b981; font-weight:700;">New Target 🟢</span></td>
+      `;
+      tbody.insertBefore(tr, tbody.firstChild);
+
+      fetch(APPS_SCRIPT_WEB_APP_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(data),
+        redirect: 'follow'
+      })
+      .then(res => res.json())
+      .then(res => {
+        btn.disabled = false;
+        btn.textContent = 'Save Budget Limit';
+        showToast('Budget limit saved successfully!');
+        renderAllBudgetCategories();
+      })
+      .catch(err => {
+        btn.disabled = false;
+        btn.textContent = 'Save Budget Limit';
+        showToast('Budget saved locally & queued for sync!');
+      });
+    }
+  </script>
+</body>
+</html>

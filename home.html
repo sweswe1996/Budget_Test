@@ -1,0 +1,1741 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Financial Planning — Family Finance Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/variables.css">
+  <link rel="stylesheet" href="./css/layout.css">
+  <link rel="stylesheet" href="./css/components.css">
+  <style>
+    :root {
+      --bg-space: #060919;
+      --bg-gradient: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.18) 0%, transparent 60%),
+                          radial-gradient(circle at 100% 30%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
+                          radial-gradient(circle at 0% 70%, rgba(14, 165, 233, 0.12) 0%, transparent 50%),
+                          #060919;
+      --card-glass: rgba(18, 26, 54, 0.65);
+      --card-border: rgba(99, 102, 241, 0.22);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-cyan: #38bdf8;
+      --accent-purple: #a855f7;
+      --accent-indigo: #6366f1;
+      --accent-green: #10b981;
+      --accent-orange: #f97316;
+      --shadow-glow: 0 12px 35px rgba(99, 102, 241, 0.2);
+    }
+
+    [data-theme="light"] {
+      --bg-space: #f1f5f9;
+      --bg-gradient: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.1) 0%, transparent 60%),
+                          radial-gradient(circle at 100% 30%, rgba(168, 85, 247, 0.08) 0%, transparent 50%),
+                          #f8fafc;
+      --card-glass: rgba(255, 255, 255, 0.85);
+      --card-border: rgba(99, 102, 241, 0.15);
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --shadow-glow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-gradient);
+      background-attachment: fixed;
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 40px;
+    }
+
+    .app-screen {
+      width: 100%;
+      max-width: 600px;
+      padding: 16px 18px 32px 18px;
+      position: relative;
+    }
+
+    @media (min-width: 920px) {
+      .app-screen {
+        max-width: 1140px;
+        padding: 28px 32px 50px 32px;
+      }
+    }
+
+    /* Top Nav Bar */
+    .top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      padding: 4px 0;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-btn-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: var(--card-glass);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(12px);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn-icon:hover {
+      background: rgba(99, 102, 241, 0.2);
+      border-color: #6366f1;
+      transform: translateY(-1px);
+    }
+
+    .app-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .app-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #38bdf8 0%, #6366f1 50%, #a855f7 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+      flex-shrink: 0;
+    }
+
+    .app-logo svg {
+      width: 22px;
+      height: 22px;
+      fill: #ffffff;
+    }
+
+    .brand-text h1 {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    .brand-text p {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .brand-text p span {
+      color: var(--accent-cyan);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .notification-badge {
+      position: absolute;
+      top: -3px;
+      right: -3px;
+      background: #ef4444;
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 800;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
+    }
+
+    /* Hero AI Advisor Card */
+    .ai-hero-card {
+      background: linear-gradient(145deg, rgba(26, 36, 74, 0.75) 0%, rgba(15, 23, 49, 0.85) 100%);
+      border: 1px solid rgba(139, 92, 246, 0.35);
+      border-radius: 24px;
+      padding: 18px;
+      margin-bottom: 22px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(99, 102, 241, 0.15);
+      backdrop-filter: blur(16px);
+    }
+
+    .ai-hero-card::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 140px;
+      height: 140px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.35) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .ai-hero-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .ai-avatar-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .ai-robot-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+      border: 1.5px solid rgba(168, 85, 247, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 6px 18px rgba(99, 102, 241, 0.35);
+      flex-shrink: 0;
+    }
+
+    .ai-robot-avatar svg {
+      width: 34px;
+      height: 34px;
+    }
+
+    .online-indicator {
+      width: 10px;
+      height: 10px;
+      background: #10b981;
+      border-radius: 50%;
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      border: 2px solid #0f172a;
+      box-shadow: 0 0 8px #10b981;
+    }
+
+    .ai-info h3 {
+      font-size: 15px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 3px;
+    }
+
+    .ai-status-pills {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-pill-online {
+      font-size: 11px;
+      font-weight: 600;
+      color: #34d399;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .status-pill-tips {
+      font-size: 11px;
+      font-weight: 600;
+      color: #c084fc;
+    }
+
+    .ai-header-pin {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #94a3b8;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+
+    .ai-header-pin:hover {
+      color: #ffffff;
+      background: rgba(99, 102, 241, 0.2);
+    }
+
+    .ai-chat-bubble {
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      border-radius: 16px;
+      padding: 13px 15px;
+      margin-bottom: 14px;
+      position: relative;
+    }
+
+    .ai-chat-text {
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: #e2e8f0;
+      margin-bottom: 6px;
+    }
+
+    .ai-chat-time {
+      font-size: 10px;
+      color: #64748b;
+      text-align: right;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 4px;
+    }
+
+    .ai-typing-dots {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 12px;
+      padding-left: 6px;
+    }
+
+    .dot {
+      width: 5px;
+      height: 5px;
+      background: #6366f1;
+      border-radius: 50%;
+      animation: blinkDot 1.4s infinite ease-in-out both;
+    }
+    .dot:nth-child(1) { animation-delay: -0.32s; }
+    .dot:nth-child(2) { animation-delay: -0.16s; }
+    @keyframes blinkDot {
+      0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
+      40% { opacity: 1; transform: scale(1.2); }
+    }
+
+    .ai-input-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(10, 15, 30, 0.85);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 16px;
+      padding: 4px 6px 4px 14px;
+    }
+
+    .ai-input-field {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #ffffff;
+      font-size: 12.5px;
+      font-family: inherit;
+    }
+
+    .ai-input-field::placeholder {
+      color: #64748b;
+      font-size: 12px;
+    }
+
+    .btn-ask-ai {
+      background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-ask-ai:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(168, 85, 247, 0.45);
+    }
+
+    /* Main Menu Section */
+    .section-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 12px;
+      letter-spacing: -0.2px;
+    }
+
+    .menu-cards-list {
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      margin-bottom: 20px;
+    }
+
+    .menu-card {
+      background: var(--card-glass);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 13px 15px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: var(--text-main);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(99, 102, 241, 0.5);
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.2);
+    }
+
+    .menu-icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .menu-icon-box.icon-blue {
+      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+      color: #ffffff;
+    }
+    .menu-icon-box.icon-green {
+      background: linear-gradient(135deg, #065f46 0%, #10b981 100%);
+      color: #ffffff;
+    }
+    .menu-icon-box.icon-teal {
+      background: linear-gradient(135deg, #0e7490 0%, #06b6d4 100%);
+      color: #ffffff;
+    }
+    .menu-icon-box.icon-purple {
+      background: linear-gradient(135deg, #6b21a8 0%, #a855f7 100%);
+      color: #ffffff;
+    }
+    .menu-icon-box.icon-orange {
+      background: linear-gradient(135deg, #c2410c 0%, #f97316 100%);
+      color: #ffffff;
+    }
+
+    .menu-icon-box svg {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+    }
+
+    .menu-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .menu-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 2px;
+    }
+
+    .menu-desc {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .menu-arrow {
+      color: #64748b;
+      font-size: 16px;
+      transition: transform 0.2s;
+    }
+
+    .menu-card:hover .menu-arrow {
+      transform: translateX(3px);
+      color: #38bdf8;
+    }
+
+    /* Hub Bento Responsive Layout Grid (Mobile 1-Col & Desktop Wide 2-Col) */
+    .hub-layout-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .hub-col-left,
+    .hub-col-right {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .section-title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-bottom: 2px;
+    }
+
+    .section-subtitle {
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    /* Executive Quick Financial Snapshot Card */
+    .quick-summary-card {
+      background: var(--card-glass);
+      border: 1px solid var(--card-border);
+      border-radius: 22px;
+      padding: 16px 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(14px);
+    }
+
+    .summary-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .summary-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .summary-badge {
+      font-size: 10px;
+      font-weight: 700;
+      color: #34d399;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 2px 7px;
+      border-radius: 20px;
+    }
+
+    .summary-kpi-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .summary-kpi-item {
+      background: rgba(10, 15, 32, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .summary-kpi-label {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .summary-kpi-val {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-main);
+      font-feature-settings: "tnum";
+    }
+
+    /* Desktop Wide Screen (>= 920px) Media Queries */
+    @media (min-width: 920px) {
+      body {
+        padding-bottom: 40px;
+      }
+      .app-screen {
+        max-width: 1140px;
+        padding: 28px 32px 50px 32px;
+      }
+      .hub-layout-grid {
+        grid-template-columns: 1.15fr 1fr;
+        gap: 32px;
+        align-items: start;
+      }
+      .ai-hero-card {
+        margin-bottom: 0;
+      }
+      .menu-cards-list {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .app-screen {
+        max-width: 1240px;
+      }
+      .hub-layout-grid {
+        grid-template-columns: 1.2fr 1fr;
+        gap: 36px;
+      }
+      .menu-cards-list {
+        gap: 14px;
+      }
+    }
+
+    /* Floating & Draggable Robot AI Avatar Trigger */
+    @keyframes floatBreathing {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-6px) rotate(1.5deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+
+    .floating-robot-trigger {
+      position: fixed;
+      bottom: 24px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #38bdf8 0%, #6366f1 50%, #a855f7 100%);
+      padding: 2.5px;
+      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.55), 0 0 0 2px rgba(168, 85, 247, 0.3);
+      cursor: grab;
+      z-index: 100000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+      animation: floatBreathing 3.5s ease-in-out infinite;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .floating-robot-trigger:active,
+    .floating-robot-trigger.is-dragging {
+      cursor: grabbing;
+      animation: none !important;
+      transform: scale(1.1);
+      box-shadow: 0 16px 36px rgba(168, 85, 247, 0.8), 0 0 0 4px rgba(56, 189, 248, 0.4);
+    }
+
+    .floating-robot-trigger:hover:not(.is-dragging) {
+      box-shadow: 0 12px 30px rgba(168, 85, 247, 0.7);
+    }
+
+    .robot-inner-avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: #0f172a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .robot-inner-avatar svg {
+      width: 35px;
+      height: 35px;
+      transition: all 0.3s;
+    }
+
+    .robot-online-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #10b981;
+      border: 2px solid #0f172a;
+      position: absolute;
+      bottom: 1px;
+      right: 1px;
+      box-shadow: 0 0 8px #10b981;
+    }
+
+    /* ✨ Compact Floating AI Chat Popover (Speech-Bubble Floating Card) */
+    .floating-ai-chat-popover {
+      position: fixed;
+      bottom: 96px;
+      right: 20px;
+      width: 340px;
+      max-width: calc(100vw - 32px);
+      background: rgba(13, 20, 48, 0.96);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1.5px solid rgba(139, 92, 246, 0.45);
+      border-radius: 26px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.65), 0 0 25px rgba(99, 102, 241, 0.3);
+      z-index: 99999;
+      display: none;
+      flex-direction: column;
+      overflow: visible;
+      opacity: 0;
+      transform: translateY(14px) scale(0.95);
+      transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .floating-ai-chat-popover.open {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* Downward Speech Bubble Notch pointing to Floating Robot Avatar */
+    .floating-ai-chat-popover::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      right: 24px;
+      width: 14px;
+      height: 14px;
+      background: rgba(13, 20, 48, 0.98);
+      border-right: 1.5px solid rgba(139, 92, 246, 0.45);
+      border-bottom: 1.5px solid rgba(139, 92, 246, 0.45);
+      transform: rotate(45deg);
+      z-index: 1;
+    }
+
+    /* Upward Speech Bubble Notch when popover is placed below robot */
+    .floating-ai-chat-popover.notch-top::after {
+      bottom: auto;
+      top: -8px;
+      border-right: none;
+      border-bottom: none;
+      border-left: 1.5px solid rgba(139, 92, 246, 0.45);
+      border-top: 1.5px solid rgba(139, 92, 246, 0.45);
+    }
+
+    .popover-dialog-inner {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      border-radius: 26px;
+      overflow: hidden;
+    }
+
+    .popover-header {
+      padding: 14px 16px;
+      background: rgba(22, 33, 72, 0.7);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .popover-header-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .popover-robot-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+      border: 1px solid rgba(168, 85, 247, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .popover-robot-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .popover-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .popover-btn {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      font-size: 15px;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .popover-btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .popover-chat-body {
+      padding: 14px;
+      max-height: 290px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .chat-msg-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .chat-msg-row.ai-row {
+      justify-content: flex-start;
+    }
+
+    .chat-msg-row.user-row {
+      justify-content: flex-end;
+    }
+
+    .chat-avatar-mini {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-bottom: 2px;
+    }
+
+    .chat-avatar-mini svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .chat-msg {
+      padding: 10px 14px;
+      border-radius: 18px;
+      font-size: 12.5px;
+      line-height: 1.45;
+      max-width: 82%;
+      position: relative;
+    }
+
+    .chat-msg.ai {
+      background: rgba(26, 36, 78, 0.85);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      border-top-left-radius: 4px;
+      color: #f1f5f9;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .chat-msg.user {
+      background: linear-gradient(135deg, #2563eb 0%, #6366f1 100%);
+      border-bottom-right-radius: 4px;
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+    }
+
+    .msg-time {
+      display: block;
+      font-size: 9.5px;
+      color: rgba(255, 255, 255, 0.6);
+      text-align: right;
+      margin-top: 3px;
+      font-feature-settings: "tnum";
+    }
+
+    .popover-input-area {
+      padding: 10px 12px 14px 12px;
+      background: rgba(10, 15, 36, 0.8);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .popover-input {
+      flex: 1;
+      background: rgba(6, 9, 22, 0.85);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: 24px;
+      padding: 9px 15px;
+      font-size: 12px;
+      color: #ffffff;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .popover-input:focus {
+      border-color: #38bdf8;
+    }
+
+    .popover-input::placeholder {
+      color: #64748b;
+    }
+
+    .popover-send-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+      border: none;
+      color: #ffffff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+      transition: transform 0.2s;
+    }
+
+    .popover-send-btn:hover {
+      transform: scale(1.06);
+    }
+
+    /* Slide-in Dashboard Sidebar on Hub Page */
+    #homeSidebar {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      bottom: 0 !important;
+      width: 280px !important;
+      max-width: 85vw !important;
+      height: 100vh !important;
+      height: 100dvh !important;
+      background-color: var(--bg-surface, #0f172a) !important;
+      border-right: 1px solid var(--border-color, rgba(139, 92, 246, 0.25)) !important;
+      box-shadow: 12px 0 45px rgba(0, 0, 0, 0.75) !important;
+      z-index: 100002 !important;
+      transform: translateX(-100%) !important;
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      overflow-y: auto !important;
+      display: flex !important;
+      flex-direction: column !important;
+      margin-left: 0 !important;
+    }
+
+    #homeSidebar.open {
+      transform: translateX(0) !important;
+    }
+
+    #homeSidebarBackdrop {
+      position: fixed !important;
+      inset: 0 !important;
+      background: rgba(0, 0, 0, 0.6) !important;
+      backdrop-filter: blur(4px) !important;
+      -webkit-backdrop-filter: blur(4px) !important;
+      z-index: 100001 !important;
+      display: none !important;
+      opacity: 0 !important;
+      transition: opacity 0.25s ease !important;
+      pointer-events: none;
+    }
+
+    #homeSidebarBackdrop.open {
+      display: block !important;
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
+
+    #aiCornerWidget,
+    #aiCornerDrawer {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-screen">
+    <!-- Top Header -->
+    <header class="top-nav">
+      <div class="nav-left">
+        <button class="nav-btn-icon" id="homeSidebarMenuBtn" onclick="toggleHomeSidebar()" title="Open Navigation Menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        </button>
+        <div class="app-brand">
+          <div class="app-logo">
+            <svg viewBox="0 0 24 24"><path d="M12 2L2 19.5h20L12 2zm0 4.5l6.5 11.5h-13L12 6.5z"/></svg>
+          </div>
+          <div class="brand-text">
+            <h1>Financial Planning</h1>
+            <p><span>Plan</span> • <span>Track</span> • <span>Achieve</span></p>
+          </div>
+        </div>
+      </div>
+
+    </header>
+
+    <!-- Slide-in Sidebar Navigation Drawer (Full Rich Dashboard Sidebar) -->
+    <div class="sidebar-backdrop" id="homeSidebarBackdrop" onclick="toggleHomeSidebar(false)"></div>
+    <aside class="sidebar" id="homeSidebar">
+      <!-- Brand Header -->
+      <div class="brand">
+        <div class="brand-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+            <polyline points="16 7 22 7 22 13"></polyline>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>BudgetTracker</h1>
+          <span>Family Finance</span>
+        </div>
+        <button class="sidebar-close-btn" onclick="toggleHomeSidebar(false)" title="Close Menu">✕</button>
+      </div>
+
+      <!-- Main Navigation Menu -->
+      <nav class="sidebar-nav">
+        <a class="nav-item active" href="./home.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Home</span>
+        </a>
+        <a class="nav-item" href="./index.html#overview">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Overview</span>
+        </a>
+        <a class="nav-item" href="./index.html#accounts">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+          <span>Accounts</span>
+        </a>
+        <a class="nav-item" href="./index.html#budget">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>
+          <span>Budget</span>
+        </a>
+        <a class="nav-item" href="./index.html#debt">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v4M12 14v4M16 14v4"/></svg>
+          <span>Debt &amp; Lend</span>
+        </a>
+        <a class="nav-item" href="./index.html#spending">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+          <span>Spending</span>
+        </a>
+        <a class="nav-item" href="./index.html#goals">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          <span>Goals</span>
+        </a>
+        <a class="nav-item" href="./index.html#transactions">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="10" y1="3" y2="21"/><line x1="16" x2="16" y1="3" y2="21"/></svg>
+          <span>Transactions</span>
+        </a>
+        <a class="nav-item" href="./index.html#reports">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          <span>Reports</span>
+        </a>
+        <a class="nav-item" href="./index.html#settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <!-- Sidebar Bottom: Household Balance & Actions -->
+      <div class="sidebar-footer">
+        <div class="household-card">
+          <div class="household-card-title">HOUSEHOLD BALANCE</div>
+          <div class="household-card-value" id="sidebarHouseholdVal">¥842,150</div>
+          <div class="household-card-sub"><span style="color:#10b981; font-weight:700;">▲ +12.4%</span> vs last month</div>
+          <svg class="household-sparkline" viewBox="0 0 100 24" preserveAspectRatio="none">
+            <path d="M0,18 Q25,10 50,14 T100,4" fill="none" stroke="#8b5cf6" stroke-width="2.5" stroke-linecap="round" />
+          </svg>
+        </div>
+
+        <!-- Dynamic Contextual Motivational Card -->
+        <div class="sidebar-motivation-box">
+          <div class="motivation-box-img">🏆</div>
+          <div class="motivation-box-title">You're doing Amazing!</div>
+          <div class="motivation-box-sub">Keep going, your future self will thank you. 💜</div>
+        </div>
+
+        <!-- Quick Action Buttons (2x2 Grid) -->
+        <div class="sidebar-actions">
+          <div class="sidebar-actions-title">DATA ENTRY &amp; ACTIONS</div>
+          <div class="quick-actions-grid">
+            <a class="sidebar-action-btn" href="./input.html" title="Record Transaction Cash Flow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>+ Transaction</span>
+            </a>
+            <a class="sidebar-action-btn" href="./budget.html" title="Set Monthly Budget Limit">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+              <span>+ Budget</span>
+            </a>
+            <a class="sidebar-action-btn" href="./goal.html" title="Create Savings Goal">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+              <span>+ Goal</span>
+            </a>
+            <a class="sidebar-action-btn" href="./schedule.html" title="Schedule Payment / Bill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" x2="16" y2="6"/><line x1="8" x2="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span>+ Schedule</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Controls: Dark Mode & Sync -->
+        <div class="sidebar-controls">
+          <div class="dark-mode-row">
+            <span style="display:flex; align-items:center; gap:6px;">🌙 Dark Mode</span>
+            <input type="checkbox" id="sidebarDarkModeToggle" style="cursor:pointer;" onchange="toggleTheme()">
+          </div>
+          <div class="sync-status-row">
+            <span class="sync-indicator">
+              <span class="sync-dot"></span> Last synced: <span id="sidebarLastSynced">Just now (Live Sheet)</span>
+            </span>
+          </div>
+          <button class="sync-btn" onclick="window.location.reload()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            <span>Sync Now</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Master Hub Bento Grid (Responsive 2-Col on Wide Screen, 1-Col on Mobile) -->
+    <div class="hub-layout-grid">
+      <!-- Left Column: Hero AI Advisor Card + Live Financial Snapshot -->
+      <div class="hub-col-left">
+        <!-- Hero AI Financial Advisor Card -->
+        <section class="ai-hero-card">
+          <div class="ai-hero-header">
+            <div class="ai-avatar-group">
+              <div class="ai-robot-avatar">
+                <!-- 3D Robot Avatar SVG -->
+                <svg viewBox="0 0 100 100" fill="none">
+                  <rect x="22" y="32" width="56" height="42" rx="14" fill="#6366f1" opacity="0.9"/>
+                  <rect x="26" y="36" width="48" height="34" rx="10" fill="#0f172a"/>
+                  <circle cx="40" cy="53" r="5" fill="#38bdf8"/>
+                  <circle cx="60" cy="53" r="5" fill="#38bdf8"/>
+                  <path d="M44 63c2 2 10 2 12 0" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+                  <rect x="46" y="18" width="8" height="14" rx="4" fill="#a855f7"/>
+                  <circle cx="50" cy="15" r="5" fill="#38bdf8"/>
+                  <rect x="14" y="44" width="8" height="18" rx="4" fill="#a855f7"/>
+                  <rect x="78" y="44" width="8" height="18" rx="4" fill="#a855f7"/>
+                </svg>
+                <div class="online-indicator"></div>
+              </div>
+              <div class="ai-info">
+                <h3 id="heroAiTitle">AI Financial Advisor</h3>
+                <div class="ai-status-pills">
+                  <span class="status-pill-online">● Online</span>
+                  <span style="color:#64748b; font-size:10px;">•</span>
+                  <span class="status-pill-tips">Smart Tips</span>
+                </div>
+              </div>
+            </div>
+
+            <button class="ai-header-pin" onclick="window.setAiAdvisorLang ? window.setAiAdvisorLang(localStorage.getItem('ai_advisor_lang') === 'en' ? 'mm' : 'en') : null" title="Toggle Language (MM / EN)">
+              <span style="font-size:11px; font-weight:800;" id="heroLangBadge">🇲🇲</span>
+            </button>
+          </div>
+
+          <div class="ai-chat-bubble">
+            <p class="ai-chat-text" id="heroAiAdvice">
+              Loading live financial insights from your Google Sheets...
+            </p>
+            <div class="ai-chat-time">
+              <span id="heroAiTimestamp">9:30 AM</span>
+              <span style="color:#38bdf8;">✓✓</span>
+            </div>
+          </div>
+
+          <div class="ai-typing-dots">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+
+          <div class="ai-input-bar">
+            <input type="text" id="heroAiInput" class="ai-input-field" placeholder="Ask me anything about your finances..." onkeydown="if(event.key==='Enter') submitHeroAi()">
+            <button class="btn-ask-ai" onclick="submitHeroAi()">
+              <span>Ask AI</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            </button>
+          </div>
+        </section>
+
+        <!-- Executive Quick Financial Snapshot Bento -->
+        <section class="quick-summary-card">
+          <div class="summary-header">
+            <span class="summary-title">📊 Live Financial Snapshot</span>
+            <span class="summary-badge" id="hubLiveBadge">● Live Sheet</span>
+          </div>
+          <div class="summary-kpi-grid">
+            <div class="summary-kpi-item">
+              <span class="summary-kpi-label">Total Balance (JPY)</span>
+              <span class="summary-kpi-val" id="hubTotalBalance">¥0</span>
+            </div>
+            <div class="summary-kpi-item">
+              <span class="summary-kpi-label">Month Cashflow</span>
+              <span class="summary-kpi-val" id="hubMonthCashflow">¥0</span>
+            </div>
+            <div class="summary-kpi-item">
+              <span class="summary-kpi-label">Savings Goals</span>
+              <span class="summary-kpi-val" id="hubActiveGoals">0</span>
+            </div>
+            <div class="summary-kpi-item">
+              <span class="summary-kpi-label">Upcoming Bills</span>
+              <span class="summary-kpi-val" id="hubDuePayments">0</span>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Right Column: 5 Master Financial Planning Modules -->
+      <div class="hub-col-right">
+        <div class="section-title-wrap">
+          <div class="section-title" style="margin-bottom:0;">Financial Planning Modules</div>
+          <div class="section-subtitle">Select a module to manage, track, and budget</div>
+        </div>
+
+        <main class="menu-cards-list">
+          <!-- 1. Dashboard -->
+          <a class="menu-card" href="./index.html">
+            <div class="menu-icon-box icon-blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="13" width="4" height="8" rx="1"/><rect x="10" y="8" width="4" height="13" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg>
+            </div>
+            <div class="menu-text">
+              <div class="menu-title">Dashboard</div>
+              <div class="menu-desc">View your financial overview and key insights.</div>
+            </div>
+            <div class="menu-arrow">›</div>
+          </a>
+
+          <!-- 2. Data Entry -->
+          <a class="menu-card" href="./input.html">
+            <div class="menu-icon-box icon-green">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <div class="menu-text">
+              <div class="menu-title">Data Entry</div>
+              <div class="menu-desc">Record income, expense or transfer.</div>
+            </div>
+            <div class="menu-arrow">›</div>
+          </a>
+
+          <!-- 3. Budget Entry -->
+          <a class="menu-card" href="./budget.html">
+            <div class="menu-icon-box icon-teal">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+            </div>
+            <div class="menu-text">
+              <div class="menu-title">Budget Entry</div>
+              <div class="menu-desc">Plan and set your monthly budget.</div>
+            </div>
+            <div class="menu-arrow">›</div>
+          </a>
+
+          <!-- 4. Goal Entry -->
+          <a class="menu-card" href="./goal.html">
+            <div class="menu-icon-box icon-purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+            </div>
+            <div class="menu-text">
+              <div class="menu-title">Goal Entry</div>
+              <div class="menu-desc">Track your savings goals and progress.</div>
+            </div>
+            <div class="menu-arrow">›</div>
+          </a>
+
+          <!-- 5. Payment Schedule -->
+          <a class="menu-card" href="./schedule.html">
+            <div class="menu-icon-box icon-orange">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div class="menu-text">
+              <div class="menu-title">Payment Schedule</div>
+              <div class="menu-desc">Manage and track your upcoming payments.</div>
+            </div>
+            <div class="menu-arrow">›</div>
+          </a>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Robot AI Avatar Trigger (Moveable & Draggable) -->
+  <div class="floating-robot-trigger" id="floatingRobotTrigger" title="Drag to move • Tap to chat with AI Advisor">
+    <div class="robot-inner-avatar">
+      <svg viewBox="0 0 100 100" fill="none">
+        <rect x="22" y="32" width="56" height="42" rx="14" fill="#6366f1" opacity="0.9"/>
+        <rect x="26" y="36" width="48" height="34" rx="10" fill="#0f172a"/>
+        <circle cx="40" cy="53" r="5" fill="#38bdf8"/>
+        <circle cx="60" cy="53" r="5" fill="#38bdf8"/>
+        <path d="M44 63c2 2 10 2 12 0" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+        <rect x="46" y="18" width="8" height="14" rx="4" fill="#a855f7"/>
+        <circle cx="50" cy="15" r="5" fill="#38bdf8"/>
+      </svg>
+      <div class="robot-online-dot"></div>
+    </div>
+  </div>
+
+  <!-- Compact Floating AI Chat Popover (Speech-Bubble Floating Card) -->
+  <div class="floating-ai-chat-popover" id="floatingAiPopover">
+    <div class="popover-dialog-inner">
+      <!-- Header -->
+      <div class="popover-header">
+        <div class="popover-header-info">
+          <div class="popover-robot-icon">
+            <svg viewBox="0 0 100 100" fill="none">
+              <rect x="22" y="32" width="56" height="42" rx="14" fill="#6366f1" opacity="0.9"/>
+              <rect x="26" y="36" width="48" height="34" rx="10" fill="#0f172a"/>
+              <circle cx="40" cy="53" r="5" fill="#38bdf8"/>
+              <circle cx="60" cy="53" r="5" fill="#38bdf8"/>
+              <path d="M44 63c2 2 10 2 12 0" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+              <rect x="46" y="18" width="8" height="14" rx="4" fill="#a855f7"/>
+              <circle cx="50" cy="15" r="5" fill="#38bdf8"/>
+            </svg>
+            <div class="robot-online-dot" style="width:10px; height:10px; bottom:0; right:0;"></div>
+          </div>
+          <div>
+            <h4 style="font-size:14.5px; font-weight:800; color:#ffffff; margin:0; line-height:1.2;">AI Advisor</h4>
+            <span style="font-size:11px; color:#10b981; font-weight:600; display:flex; align-items:center; gap:4px; margin-top:2px;">
+              <span>● Online</span>
+            </span>
+          </div>
+        </div>
+        <div class="popover-header-actions">
+          <button class="popover-btn" onclick="togglePopoverChat(false)" title="Minimize" style="font-size:18px; line-height:1;">−</button>
+          <button class="popover-btn" onclick="togglePopoverChat(false)" title="Close" style="font-size:15px;">✕</button>
+        </div>
+      </div>
+
+      <!-- Scrollable Chat Stream -->
+      <div class="popover-chat-body" id="popoverChatBody">
+        <div class="chat-msg-row ai-row">
+          <div class="chat-avatar-mini">
+            <svg viewBox="0 0 100 100" fill="none">
+              <rect x="22" y="32" width="56" height="42" rx="14" fill="#6366f1"/>
+              <rect x="26" y="36" width="48" height="34" rx="10" fill="#0f172a"/>
+              <circle cx="40" cy="53" r="5" fill="#38bdf8"/>
+              <circle cx="60" cy="53" r="5" fill="#38bdf8"/>
+            </svg>
+          </div>
+          <div class="chat-msg ai">
+            <p>You've spent more on groceries than last month. 🌱 Consider meal planning to save around $80 this month.</p>
+            <span class="msg-time">9:31 AM</span>
+          </div>
+        </div>
+
+        <div class="chat-msg-row user-row">
+          <div class="chat-msg user">
+            <p>That's a good idea! I'll try planning meals.</p>
+            <span class="msg-time">9:32 AM <span style="color:#38bdf8;">✓✓</span></span>
+          </div>
+        </div>
+
+        <div class="chat-msg-row ai-row">
+          <div class="chat-avatar-mini">
+            <svg viewBox="0 0 100 100" fill="none">
+              <rect x="22" y="32" width="56" height="42" rx="14" fill="#6366f1"/>
+              <rect x="26" y="36" width="48" height="34" rx="10" fill="#0f172a"/>
+              <circle cx="40" cy="53" r="5" fill="#38bdf8"/>
+              <circle cx="60" cy="53" r="5" fill="#38bdf8"/>
+            </svg>
+          </div>
+          <div class="chat-msg ai">
+            <p>Great! I can help you build a weekly meal plan and track your grocery budget.</p>
+            <span class="msg-time">9:33 AM</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sticky Input Area -->
+      <div class="popover-input-area">
+        <input type="text" id="popoverInput" class="popover-input" placeholder="Type a message..." onkeydown="if(event.key==='Enter') sendPopoverMessage()">
+        <button class="popover-send-btn" onclick="sendPopoverMessage()" title="Send">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core Scripts -->
+  <script src="./js/dashboard-data.js"></script>
+  <script src="./js/calculations.js"></script>
+  <script src="./js/common-forms.js"></script>
+  <script src="./js/ai-service.js"></script>
+  <script>
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme') || 'dark';
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('budget_theme', next);
+      const darkToggle = document.getElementById('sidebarDarkModeToggle');
+      if (darkToggle) darkToggle.checked = (next === 'dark');
+    }
+
+    function toggleHomeSidebar(forceState) {
+      const sidebar = document.getElementById('homeSidebar');
+      const backdrop = document.getElementById('homeSidebarBackdrop');
+      if (!sidebar || !backdrop) return;
+      const isOpen = typeof forceState === 'boolean' ? forceState : !sidebar.classList.contains('open');
+      if (isOpen) {
+        sidebar.classList.add('open');
+        backdrop.classList.add('open');
+      } else {
+        sidebar.classList.remove('open');
+        backdrop.classList.remove('open');
+      }
+    }
+
+    function positionPopoverNearRobot() {
+      const popover = document.getElementById('floatingAiPopover');
+      const robot = document.getElementById('floatingRobotTrigger');
+      if (!popover || !robot) return;
+
+      const rect = robot.getBoundingClientRect();
+      const popWidth = Math.min(340, window.innerWidth - 32);
+      
+      // Calculate horizontal position (align right edge with robot right edge)
+      let left = rect.right - popWidth;
+      if (left < 16) left = 16;
+      if (left + popWidth > window.innerWidth - 16) left = window.innerWidth - popWidth - 16;
+      
+      // Calculate vertical position (prefer above robot, fallback below if near top)
+      const spaceAbove = rect.top;
+      
+      if (spaceAbove >= 320) {
+        // Place above robot
+        popover.classList.remove('notch-top');
+        popover.style.top = 'auto';
+        popover.style.bottom = `${Math.max(16, window.innerHeight - rect.top + 12)}px`;
+      } else {
+        // Place below robot
+        popover.classList.add('notch-top');
+        popover.style.bottom = 'auto';
+        popover.style.top = `${Math.max(16, rect.bottom + 12)}px`;
+      }
+      popover.style.left = `${left}px`;
+      popover.style.right = 'auto';
+    }
+
+    function togglePopoverChat(forceState) {
+      const popover = document.getElementById('floatingAiPopover');
+      if (!popover) return;
+
+      const shouldOpen = typeof forceState === 'boolean' ? forceState : !popover.classList.contains('open');
+
+      if (shouldOpen) {
+        positionPopoverNearRobot();
+        popover.classList.add('open');
+        setTimeout(() => {
+          document.getElementById('popoverInput')?.focus();
+        }, 150);
+      } else {
+        popover.classList.remove('open');
+      }
+    }
+
+    function submitHeroAi() {
+      const input = document.getElementById('heroAiInput');
+      if (input && input.value.trim()) {
+        const query = input.value.trim();
+        togglePopoverChat(true);
+        const popInput = document.getElementById('popoverInput');
+        if (popInput) {
+          popInput.value = query;
+          sendPopoverMessage();
+        }
+      }
+    }
+
+    async function sendPopoverMessage() {
+      const input = document.getElementById('popoverInput');
+      const body = document.getElementById('popoverChatBody');
+      if (!input || !input.value.trim()) return;
+
+      const userText = input.value.trim();
+      input.value = '';
+      const nowTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      // Add user message row
+      const userRow = document.createElement('div');
+      userRow.className = 'chat-msg-row user-row';
+      userRow.innerHTML = `
+        <div class="chat-msg user">
+          <p>${userText.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>
+          <span class="msg-time">${nowTime} <span style="color:#38bdf8;">✓✓</span></span>
+        </div>
+      `;
+      body.appendChild(userRow);
+      body.scrollTop = body.scrollHeight;
+
+      // Add AI typing bubble row
+      const aiRow = document.createElement('div');
+      aiRow.className = 'chat-msg-row ai-row';
+      aiRow.innerHTML = `
+        <div class="chat-avatar-mini">
+          <svg viewBox="0 0 100 100" fill="none">
+            <rect x="22" y="32" width="56" height="42" rx="14" fill="#6366f1"/>
+            <rect x="26" y="36" width="48" height="34" rx="10" fill="#0f172a"/>
+            <circle cx="40" cy="53" r="5" fill="#38bdf8"/>
+            <circle cx="60" cy="53" r="5" fill="#38bdf8"/>
+          </svg>
+        </div>
+        <div class="chat-msg ai">
+          <p><em>Thinking with Gemini... ⚡</em></p>
+          <span class="msg-time">${nowTime}</span>
+        </div>
+      `;
+      body.appendChild(aiRow);
+      body.scrollTop = body.scrollHeight;
+
+      try {
+        const advice = await window.BudgetTrackerAiService.callGemini(userText, 'overview');
+        const formatted = advice
+          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+          .replace(/\*(.*?)\*/g, '<em>$1</em>')
+          .replace(/^- (.*$)/gim, '• $1<br>')
+          .replace(/\n\n/g, '<br><br>');
+        
+        const aiMsgBox = aiRow.querySelector('.chat-msg.ai p');
+        if (aiMsgBox) aiMsgBox.innerHTML = formatted;
+      } catch (err) {
+        const aiMsgBox = aiRow.querySelector('.chat-msg.ai p');
+        if (aiMsgBox) {
+          if (err.message === 'MISSING_API_KEY') {
+            aiMsgBox.innerHTML = '⚠️ Please click the search icon above to set your Google Gemini API Key.';
+          } else {
+            aiMsgBox.innerHTML = `⚠️ ${err.message}`;
+          }
+        }
+      }
+      body.scrollTop = body.scrollHeight;
+    }
+
+    // ============================================================
+    // ✨ Moveable & Draggable Robot Avatar Controller (Unified Pointer API)
+    // ============================================================
+    function initDraggableRobot() {
+      const robot = document.getElementById('floatingRobotTrigger');
+      if (!robot) return;
+
+      let isDragging = false;
+      let hasDragged = false;
+      let startX = 0, startY = 0;
+      let startLeft = 0, startTop = 0;
+      let lastTapTime = 0;
+
+      // Restore position if saved, but ensure it's not offscreen or stuck in top header
+      const savedX = localStorage.getItem('robot_pos_x');
+      const savedY = localStorage.getItem('robot_pos_y');
+      if (savedX && savedY) {
+        const parsedX = parseInt(savedX, 10);
+        const parsedY = parseInt(savedY, 10);
+        // Only restore if not stuck in top 120px header area
+        if (parsedY > 120 && parsedY < window.innerHeight - 50 && parsedX > 0 && parsedX < window.innerWidth - 50) {
+          robot.style.left = `${parsedX}px`;
+          robot.style.top = `${parsedY}px`;
+          robot.style.right = 'auto';
+          robot.style.bottom = 'auto';
+        } else {
+          // Clear stale top position and reset to bottom right
+          localStorage.removeItem('robot_pos_x');
+          localStorage.removeItem('robot_pos_y');
+          robot.style.left = 'auto';
+          robot.style.top = 'auto';
+          robot.style.right = '20px';
+          robot.style.bottom = '24px';
+        }
+      }
+
+      function handleDragStart(clientX, clientY) {
+        isDragging = true;
+        hasDragged = false;
+        startX = clientX;
+        startY = clientY;
+        const rect = robot.getBoundingClientRect();
+        startLeft = rect.left;
+        startTop = rect.top;
+      }
+
+      function handleDragMove(clientX, clientY) {
+        if (!isDragging) return;
+        const dx = clientX - startX;
+        const dy = clientY - startY;
+        if (Math.hypot(dx, dy) > 8) {
+          hasDragged = true;
+          robot.classList.add('is-dragging');
+          
+          const maxW = window.innerWidth - 68;
+          const maxH = window.innerHeight - 68;
+          const newX = Math.max(10, Math.min(maxW, startLeft + dx));
+          const newY = Math.max(10, Math.min(maxH, startTop + dy));
+          
+          robot.style.left = `${newX}px`;
+          robot.style.top = `${newY}px`;
+          robot.style.right = 'auto';
+          robot.style.bottom = 'auto';
+          
+          if (document.getElementById('floatingAiPopover')?.classList.contains('open')) {
+            positionPopoverNearRobot();
+          }
+        }
+      }
+
+      function handleDragEnd() {
+        if (!isDragging) return;
+        isDragging = false;
+        robot.classList.remove('is-dragging');
+        
+        if (hasDragged) {
+          const rect = robot.getBoundingClientRect();
+          localStorage.setItem('robot_pos_x', rect.left);
+          localStorage.setItem('robot_pos_y', rect.top);
+          if (document.getElementById('floatingAiPopover')?.classList.contains('open')) {
+            positionPopoverNearRobot();
+          }
+        }
+      }
+
+      // Pointer Events (Unified Touch + Mouse for Mobile & Desktop)
+      robot.addEventListener('pointerdown', (e) => {
+        handleDragStart(e.clientX, e.clientY);
+        try { robot.setPointerCapture(e.pointerId); } catch (_) {}
+      });
+
+      robot.addEventListener('pointermove', (e) => {
+        if (isDragging) {
+          handleDragMove(e.clientX, e.clientY);
+        }
+      });
+
+      robot.addEventListener('pointerup', (e) => {
+        try { robot.releasePointerCapture(e.pointerId); } catch (_) {}
+        const wasDragged = hasDragged;
+        handleDragEnd();
+        
+        if (!wasDragged) {
+          const now = Date.now();
+          if (now - lastTapTime > 300) {
+            lastTapTime = now;
+            togglePopoverChat();
+          }
+        }
+      });
+
+      robot.addEventListener('pointercancel', (e) => {
+        try { robot.releasePointerCapture(e.pointerId); } catch (_) {}
+        handleDragEnd();
+      });
+
+      // Press ESC to close chat overlay or sidebar drawer
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          togglePopoverChat(false);
+          toggleHomeSidebar(false);
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      // 1. Initialize Draggable Moveable Robot
+      initDraggableRobot();
+
+      // 2. Set theme
+      const savedTheme = localStorage.getItem('budget_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      const darkToggle = document.getElementById('sidebarDarkModeToggle');
+      if (darkToggle) darkToggle.checked = (savedTheme === 'dark');
+
+      // 3. Set current time
+      const timeEl = document.getElementById('heroAiTimestamp');
+      if (timeEl) {
+        const now = new Date();
+        timeEl.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      }
+
+      // 4. Load live advice
+      try {
+        const data = await window.BudgetTrackerData.getDashboardData();
+        const calc = window.BudgetTrackerCalc;
+        if (data && calc) {
+          const lang = localStorage.getItem('ai_advisor_lang') || 'mm';
+          setOverlayChatLang(lang);
+
+          const recs = calc.computeAiRecommendations(data.transactions || [], data.goals || [], data.budgets || [], data.schedules || [], lang);
+          
+          const adviceEl = document.getElementById('heroAiAdvice');
+          const badgeEl = document.getElementById('heroLangBadge');
+          if (badgeEl) badgeEl.textContent = lang === 'en' ? '🇬🇧' : '🇲🇲';
+
+          // Calculate Snapshot Stats
+          const txs = data.transactions || [];
+          const nowMonthStr = '2026-08';
+          const monthTxs = txs.filter(t => (t.date || '').startsWith(nowMonthStr));
+          const monthIncome = monthTxs.filter(t => t.type === 'Income').reduce((s, t) => s + (Number(t.amount) || 0), 0);
+          const monthExpense = monthTxs.filter(t => t.type === 'Expense').reduce((s, t) => s + (Number(t.amount) || 0), 0);
+          const netMonth = monthIncome - monthExpense;
+
+          const balEl = document.getElementById('hubTotalBalance');
+          const flowEl = document.getElementById('hubMonthCashflow');
+          const goalsEl = document.getElementById('hubActiveGoals');
+          const dueEl = document.getElementById('hubDuePayments');
+          const sidebarHouseholdEl = document.getElementById('sidebarHouseholdVal');
+
+          // Compute liquid balance
+          const balByCur = calc.calculateBalancesByCurrency(txs, data.accounts || []);
+          const totalJpy = balByCur.JPY ? balByCur.JPY.total : 0;
+
+          if (balEl) balEl.textContent = `¥${totalJpy.toLocaleString()}`;
+          if (sidebarHouseholdEl) sidebarHouseholdEl.textContent = `¥${totalJpy.toLocaleString()}`;
+          if (flowEl) {
+            flowEl.textContent = `${netMonth >= 0 ? '+' : ''}¥${netMonth.toLocaleString()}`;
+            flowEl.style.color = netMonth >= 0 ? '#34d399' : '#ef4444';
+          }
+          if (goalsEl) goalsEl.textContent = `${(data.goals || []).length} Goals`;
+          if (dueEl) dueEl.textContent = `${(data.schedules || []).length} Bills`;
+
+          const topRec = (recs.goals && recs.goals[0]) || (recs.spending && recs.spending[0]) || (recs.budget && recs.budget[0]);
+          if (topRec && adviceEl) {
+            adviceEl.innerHTML = `${topRec.icon} <strong>${topRec.title}</strong><br>${topRec.desc}`;
+          }
+        }
+      } catch (e) {
+        console.warn('Hero AI advice load warning:', e);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Transaction Data Entry — BudgetTracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/forms.css">
+</head>
+<body>
+
+  <!-- Top Executive Navigation Bar -->
+  <nav class="entry-top-nav">
+    <div class="nav-brand-group">
+      <a class="btn-nav-hub" href="./home.html">← Hub</a>
+      <div class="nav-brand-text">BudgetTracker <span>Data Entry</span></div>
+    </div>
+
+    <div class="nav-links-wrap">
+      <a class="nav-link-btn" href="./index.html">📊 Dashboard</a>
+      <a class="nav-link-btn active" href="./input.html">✦ Transactions</a>
+      <a class="nav-link-btn" href="./budget.html">◔ Budget</a>
+      <a class="nav-link-btn" href="./goal.html">🎯 Goals</a>
+      <a class="nav-link-btn" href="./schedule.html">🗓️ Schedule</a>
+    </div>
+
+    <div class="nav-right-group">
+      <button class="btn-theme-toggle" id="themeToggleBtn">☀️ Light</button>
+    </div>
+  </nav>
+
+  <div class="entry-page-wrapper">
+    <!-- Hero Title -->
+    <div class="entry-hero-banner">
+      <h1 class="entry-hero-title">✦ Transaction Data Entry</h1>
+      <p class="entry-hero-subtitle">Record cash flows, income streams, daily expenses, and account transfers.</p>
+    </div>
+
+    <!-- Income / Expense / Transfer Switcher Tabs -->
+    <div class="flow-tabs-wrapper">
+      <button class="flow-tab-btn active" data-flow="Income" onclick="switchFlow('Income')">
+        💵 <span>Income</span>
+      </button>
+      <button class="flow-tab-btn" data-flow="Expense" onclick="switchFlow('Expense')">
+        🛒 <span>Expense</span>
+      </button>
+      <button class="flow-tab-btn" data-flow="Transfer" onclick="switchFlow('Transfer')">
+        🔄 <span>Transfer</span>
+      </button>
+    </div>
+
+    <!-- Main Entry Form Card -->
+    <section id="card" class="entry-form-card theme-Income">
+      <div class="form-card-header">
+        <div id="icon" class="form-header-icon">💵</div>
+        <div>
+          <h2 id="title" class="form-header-title">Income Data Entry</h2>
+          <p id="subtitle" class="form-header-sub">Record salary, side-business, and cash inflows.</p>
+        </div>
+      </div>
+
+      <div class="form-card-body">
+        <!-- Live Editing Banner (Visible when editing a submission) -->
+        <div id="editingBanner" style="display:none; margin-bottom:18px; padding:10px 14px; border-radius:10px; background:rgba(37,99,235,0.08); border:1px solid rgba(37,99,235,0.25); justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div style="display:flex; align-items:center; gap:8px; font-size:12.5px; color:#2563eb; font-weight:600;">
+            <span style="font-size:16px;">✏️</span>
+            <span id="editingBannerText">Editing Transaction</span>
+          </div>
+          <button type="button" onclick="cancelEdit()" style="padding:4px 10px; font-size:11px; font-weight:700; border-radius:6px; background:var(--bg-card); color:var(--text-muted); border:1px solid var(--border-card); cursor:pointer;">
+            ✕ Cancel Edit
+          </button>
+        </div>
+
+        <form id="entryForm" onsubmit="submitForm(event)">
+          <div id="fields" class="form-grid"></div>
+
+          <div class="form-actions-row">
+            <button type="button" class="btn-form-clear" onclick="clearForm()">Clear Form</button>
+            <button id="saveBtn" type="submit" class="btn-form-save">Save Income</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Recent Recorded Transactions Table -->
+    <section class="recent-entries-section">
+      <div class="recent-section-header">
+        <h3 class="recent-section-title">🕒 Recent Submissions</h3>
+        <span style="font-size:11px; color:var(--text-muted);">Synced to Google Sheets</span>
+      </div>
+      <div class="recent-table-wrap">
+        <table class="recent-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Flow</th>
+              <th>Type / Detail</th>
+              <th>Account</th>
+              <th>For Who</th>
+              <th style="text-align:right;">Amount</th>
+              <th style="text-align:center; min-width:85px;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="recentTransactionsBody">
+            <!-- Populated dynamically by script with ✏️ Edit buttons -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="./js/common-forms.js"></script>
+  <script>
+    function switchFlow(flow) {
+      currentFlow = flow;
+
+      document.querySelectorAll('.flow-tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.flow === flow);
+      });
+
+      const meta = FLOW_META[flow];
+      document.getElementById('card').className = 'entry-form-card theme-' + flow;
+      document.getElementById('icon').innerHTML = meta.icon;
+      document.getElementById('title').textContent = meta.title;
+      document.getElementById('subtitle').textContent = meta.subtitle;
+      document.getElementById('saveBtn').textContent = meta.save;
+
+      renderFields();
+    }
+
+    function renderFields() {
+      const wrapper = document.getElementById('fields');
+
+      const detailLabel = currentFlow === 'Income' ? 'Income Detail' : currentFlow === 'Expense' ? 'Expense Detail' : '';
+      const typeLabel = currentFlow === 'Income' ? 'Income Type' : currentFlow === 'Expense' ? 'Expense Type' : 'Transfer Type';
+
+      const detailField = currentFlow === 'Transfer' ? '' : `
+        <div class="field-group">
+          <label class="field-label req" for="cashFlowDetails">${detailLabel}</label>
+          <select id="cashFlowDetails" class="form-select" required></select>
+        </div>`;
+
+      const noteField = `
+        <div class="field-group full-width">
+          <label class="field-label" for="noteToggle">Notes & Remarks</label>
+          <button id="noteToggle" class="note-toggle-btn" type="button" aria-expanded="false">
+            <span>+ Add optional note</span>
+            <span id="noteSign">+</span>
+          </button>
+          <div id="noteEditor" class="note-editor-wrap">
+            <textarea id="note" class="form-textarea" placeholder="Enter notes or transaction memo..."></textarea>
+          </div>
+        </div>`;
+
+      const forWhoField = `
+        <div class="field-group">
+          <label class="field-label req" for="forWho">For Who</label>
+          <select id="forWho" class="form-select" required></select>
+        </div>`;
+
+      const statusField = `
+        <div class="field-group">
+          <label class="field-label req" for="status">Status (Need / Want)</label>
+          <select id="status" class="form-select" required></select>
+        </div>`;
+
+      let bottomFields = '';
+      if (currentFlow === 'Transfer') {
+        bottomFields = forWhoField + noteField;
+      } else if (currentFlow === 'Expense') {
+        bottomFields = forWhoField + detailField + statusField + noteField;
+      } else {
+        bottomFields = forWhoField + detailField + noteField;
+      }
+
+      wrapper.innerHTML = `
+        <div class="field-group">
+          <label class="field-label req" for="amount">Amount & Currency</label>
+          <div class="amount-input-group">
+            <input id="amount" class="form-input" inputmode="numeric" placeholder="e.g. 15000" autocomplete="off" required>
+            <select id="currency" class="form-select" required></select>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label req" for="date">Transaction Date</label>
+          <input id="date" class="form-input" type="date" required>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label req" for="cashFlowType">${typeLabel}</label>
+          <select id="cashFlowType" class="form-select" required></select>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="description">Description / Memo</label>
+          <input id="description" list="goalSuggestions" class="form-input" type="text" placeholder="e.g. Family Emergency Fund, MacBook Pro, Groceries">
+          <datalist id="goalSuggestions">
+            <option value="Family Emergency Fund">
+            <option value="Japan Family Vacation">
+            <option value="MacBook Pro M3 / Laptop">
+            <option value="Kids Education Fund">
+            <option value="Home Repair & Decor">
+            <option value="Stock & NISA Investment">
+            <option value="Car Maintenance Fund">
+            <option value="New iPhone / Mobile">
+            <option value="Myanmar Family Gift">
+          </datalist>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label req" for="fromSource">From Source Account</label>
+          <select id="fromSource" class="form-select" required></select>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label req" for="toSource">To Source Account</label>
+          <select id="toSource" class="form-select" required></select>
+        </div>
+
+        ${bottomFields}
+      `;
+
+      const amount = document.getElementById('amount');
+      amount.addEventListener('input', () => {
+        amount.value = amount.value.replace(/\D/g, '');
+      });
+
+      const noteToggle = document.getElementById('noteToggle');
+      const noteEditor = document.getElementById('noteEditor');
+      const noteSign = document.getElementById('noteSign');
+
+      noteToggle.addEventListener('click', () => {
+        const isOpen = noteEditor.classList.toggle('open');
+        noteSign.textContent = isOpen ? '−' : '+';
+        noteToggle.setAttribute('aria-expanded', String(isOpen));
+        if (isOpen) document.getElementById('note').focus();
+      });
+
+      document.getElementById('date').value = todayISO();
+
+      const currency = document.getElementById('currency');
+      currency.innerHTML = optionList(CURRENCIES, 'Currency');
+      currency.value = 'JPY';
+      currency.addEventListener('change', hydrateSources);
+
+      document.getElementById('forWho').innerHTML = optionList(FOR_WHO, 'Select For Who');
+      document.getElementById('forWho').value = 'CS';
+
+      const status = document.getElementById('status');
+      if (status) {
+        status.innerHTML = optionList(STATUS_LIST, 'Select Status');
+        status.value = 'Need';
+      }
+
+      const type = document.getElementById('cashFlowType');
+      type.innerHTML = optionList(Object.keys(TYPE_DETAILS[currentFlow]), 'Select ' + typeLabel.toLowerCase());
+
+      if (currentFlow !== 'Transfer') {
+        type.addEventListener('change', hydrateDetails);
+      }
+
+      hydrateSources();
+      hydrateDetails();
+    }
+
+    function hydrateSources() {
+      const currency = document.getElementById('currency').value;
+      const sourceMap = currentFlow === 'Transfer' ? TRANSFER_SOURCES : ALL_SOURCES;
+      const items = sourceMap[currency] || [];
+
+      document.getElementById('fromSource').innerHTML = groupedSourceOptions(items, 'Select From Source');
+      document.getElementById('toSource').innerHTML = groupedSourceOptions(items, 'Select To Source');
+
+      if (currentFlow === 'Income') {
+        document.getElementById('fromSource').value = '-';
+      } else if (currentFlow === 'Expense') {
+        document.getElementById('toSource').value = '-';
+      }
+    }
+
+    function hydrateDetails() {
+      const detail = document.getElementById('cashFlowDetails');
+      if (!detail) return;
+
+      const type = document.getElementById('cashFlowType').value;
+      const items = TYPE_DETAILS[currentFlow] && TYPE_DETAILS[currentFlow][type] ? TYPE_DETAILS[currentFlow][type] : [];
+
+      detail.innerHTML = optionList(items, type ? 'Select detail' : 'Select type first');
+    }
+
+    function collectData() {
+      const val = id => {
+        const el = document.getElementById(id);
+        return el ? el.value : '';
+      };
+
+      return {
+        cashFlow: currentFlow,
+        amount: val('amount'),
+        currency: val('currency'),
+        date: val('date'),
+        cashFlowType: val('cashFlowType'),
+        description: val('description'),
+        fromSource: val('fromSource'),
+        toSource: val('toSource'),
+        forWho: val('forWho'),
+        cashFlowDetails: val('cashFlowDetails'),
+        status: val('status'),
+        note: val('note')
+      };
+    }
+
+    let editingItem = null;
+    let recentSubmissions = [
+      { rowIndex: 238, date: '2026-08-15', cashFlow: 'Income', cashFlowType: 'Fixed_Income', cashFlowDetails: 'Salary1', fromSource: 'Bk-MUFG_MG', toSource: '-', forWho: 'CS', amount: 420000, currency: 'JPY', status: '-', note: 'August Salary deposit' },
+      { rowIndex: 237, date: '2026-08-16', cashFlow: 'Expense', cashFlowType: 'Savings_Investments', cashFlowDetails: 'Saving', fromSource: 'Bk-SMBC_CS', toSource: '-', forWho: 'CS', amount: 115000, currency: 'JPY', status: 'Need', description: 'Japan Family Vacation', note: '' },
+      { rowIndex: 236, date: '2026-08-16', cashFlow: 'Expense', cashFlowType: 'Savings_Investments', cashFlowDetails: 'Saving', fromSource: 'Bk-YUCHO_MG', toSource: '-', forWho: 'MG', amount: 50000, currency: 'JPY', status: 'Need', description: 'Family Emergency Fund', note: '' },
+      { rowIndex: 235, date: '2026-08-15', cashFlow: 'Income', cashFlowType: 'Lend_Income', cashFlowDetails: 'Other', fromSource: '-', toSource: 'Bk-YUCHO_MG', forWho: 'MG', amount: 20000, currency: 'JPY', status: '', description: 'Ko Zaw', note: '' }
+    ];
+
+    async function loadLiveRecentSubmissions() {
+      try {
+        const url = `https://docs.google.com/spreadsheets/d/1OOrFs6uFBTt2nHW5lxTzqng0vMqWsCt_AyZ3ELare9s/gviz/tq?tqx=out:csv&sheet=Income-Expense-Tracker&t=${Date.now()}`;
+        const res = await fetch(url);
+        if (!res.ok) return;
+        const text = await res.text();
+        const lines = text.trim().split('\n');
+        if (lines.length <= 1) return;
+
+        const parseCsvLine = (line) => {
+          const row = [];
+          let curr = '', inQuotes = false;
+          for (let i = 0; i < line.length; i++) {
+            const c = line[i];
+            if (c === '"') {
+              if (inQuotes && line[i+1] === '"') { curr += '"'; i++; }
+              else { inQuotes = !inQuotes; }
+            } else if (c === ',' && !inQuotes) {
+              row.push(curr.trim()); curr = '';
+            } else { curr += c; }
+          }
+          row.push(curr.trim());
+          return row;
+        };
+
+        const headers = parseCsvLine(lines[0]).map(h => h.replace(/^"|"$/g, '').trim());
+        const rows = lines.slice(1).map((line, idx) => {
+          const cols = parseCsvLine(line).map(c => c.replace(/^"|"$/g, '').trim());
+          const obj = { rowIndex: idx + 2 };
+          headers.forEach((h, i) => { obj[h] = cols[i] || ''; });
+          return {
+            rowIndex: idx + 2,
+            date: obj['Date'] || '',
+            description: obj['Description'] || '',
+            cashFlow: obj['Cash Flow'] || 'Expense',
+            cashFlowType: obj['Cash Flow Type'] || '',
+            fromSource: obj['From Source'] || '-',
+            toSource: obj['To Source'] || '-',
+            amount: parseFloat(obj['Amount'] || 0) || 0,
+            currency: obj['Currency'] || 'JPY',
+            cashFlowDetails: obj['Cash Flow Detail'] || '',
+            forWho: obj['ForWho'] || 'CS',
+            status: obj['Status'] || '',
+            note: obj['Note'] || ''
+          };
+        });
+
+        if (rows.length > 0) {
+          // Take the latest 10 submissions in reverse order
+          recentSubmissions = rows.slice(-10).reverse();
+          renderRecentTable(recentSubmissions);
+        }
+      } catch (e) {
+        console.warn('Could not fetch live recent submissions:', e);
+      }
+    }
+
+    function editSubmission(item) {
+      if (!item) return;
+      editingItem = item;
+
+      // 1. Switch flow tab
+      const flow = item.cashFlow || (item.amount > 0 ? 'Income' : 'Expense');
+      switchFlow(flow);
+
+      // 2. Populate form fields
+      const amtEl = document.getElementById('amount');
+      if (amtEl) amtEl.value = Math.abs(Number(item.amount) || 0);
+
+      const curEl = document.getElementById('currency');
+      if (curEl && item.currency) {
+        curEl.value = item.currency;
+        hydrateSources();
+      }
+
+      const dateEl = document.getElementById('date');
+      if (dateEl && item.date) {
+        dateEl.value = item.date;
+      }
+
+      const typeEl = document.getElementById('cashFlowType');
+      if (typeEl && item.cashFlowType) {
+        typeEl.value = item.cashFlowType;
+        hydrateDetails();
+      }
+
+      const detailEl = document.getElementById('cashFlowDetails');
+      if (detailEl && (item.cashFlowDetails || item.detail || item.cashFlowDetail)) {
+        detailEl.value = item.cashFlowDetails || item.detail || item.cashFlowDetail;
+      }
+
+      const descEl = document.getElementById('description');
+      if (descEl) {
+        descEl.value = item.description || item.memo || '';
+      }
+
+      const fromEl = document.getElementById('fromSource');
+      if (fromEl && item.fromSource) {
+        fromEl.value = item.fromSource;
+      }
+
+      const toEl = document.getElementById('toSource');
+      if (toEl && item.toSource) {
+        toEl.value = item.toSource;
+      }
+
+      const forWhoEl = document.getElementById('forWho');
+      if (forWhoEl && item.forWho) {
+        forWhoEl.value = item.forWho;
+      }
+
+      const statusEl = document.getElementById('status');
+      if (statusEl && item.status) {
+        statusEl.value = item.status;
+      }
+
+      const noteEl = document.getElementById('note');
+      if (noteEl && item.note) {
+        noteEl.value = item.note;
+        const noteEditor = document.getElementById('noteEditor');
+        const noteSign = document.getElementById('noteSign');
+        if (noteEditor && !noteEditor.classList.contains('open')) {
+          noteEditor.classList.add('open');
+          if (noteSign) noteSign.textContent = '−';
+        }
+      }
+
+      // 3. Update Save Button & Show Editing Banner
+      const saveBtn = document.getElementById('saveBtn');
+      if (saveBtn) {
+        saveBtn.textContent = '💾 Update Transaction';
+        saveBtn.style.background = '#2563eb';
+      }
+
+      const banner = document.getElementById('editingBanner');
+      const bannerText = document.getElementById('editingBannerText');
+      if (banner && bannerText) {
+        banner.style.display = 'flex';
+        bannerText.textContent = `Editing Row ${item.rowIndex ? '#' + item.rowIndex : ''}: ${item.date} · ${item.cashFlow} (${item.cashFlowDetails || item.cashFlowType || ''} ¥${Number(item.amount).toLocaleString()})`;
+      }
+
+      // 4. Smoothly scroll to the form
+      document.getElementById('card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (amtEl) setTimeout(() => amtEl.focus(), 250);
+      showToast(`Loaded transaction for editing`);
+    }
+
+    function cancelEdit() {
+      editingItem = null;
+      const banner = document.getElementById('editingBanner');
+      if (banner) banner.style.display = 'none';
+      renderFields();
+      showToast('Edit mode cancelled');
+    }
+
+    function clearForm() {
+      editingItem = null;
+      const banner = document.getElementById('editingBanner');
+      if (banner) banner.style.display = 'none';
+      renderFields();
+      showToast('Form cleared');
+    }
+
+    function submitForm(event) {
+      event.preventDefault();
+      if (!event.currentTarget.reportValidity()) return;
+
+      const button = document.getElementById('saveBtn');
+      const normalText = FLOW_META[currentFlow].save;
+      const data = collectData();
+
+      if (editingItem) {
+        data.action = 'update';
+        data.isEdit = true;
+        data.rowIndex = editingItem.rowIndex || 0;
+        data.oldDate = editingItem.date;
+        data.oldCashFlow = editingItem.cashFlow;
+        data.oldAmount = editingItem.amount;
+
+        // Replace in-place in recentSubmissions array (NO DUPLICATE!)
+        const targetIdx = recentSubmissions.findIndex(r => r.rowIndex === editingItem.rowIndex || (r.date === editingItem.date && r.amount === editingItem.amount && r.cashFlow === editingItem.cashFlow));
+        if (targetIdx !== -1) {
+          recentSubmissions[targetIdx] = { ...data, rowIndex: editingItem.rowIndex };
+        } else {
+          recentSubmissions.unshift(data);
+        }
+      } else {
+        data.action = 'create';
+        recentSubmissions.unshift(data);
+      }
+
+      button.disabled = true;
+      button.textContent = editingItem ? 'Updating in Sheets...' : 'Saving to Sheets...';
+
+      // Update table in-place
+      renderRecentTable(recentSubmissions);
+
+      if (window.google && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(result => finishSave(result, button, normalText))
+          .withFailureHandler(err => {
+            button.disabled = false;
+            button.textContent = normalText;
+            showToast(err && err.message ? err.message : 'Could not connect to Google Sheets', true);
+          })
+          .saveEntry(data);
+        return;
+      }
+
+      fetch(APPS_SCRIPT_WEB_APP_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(data),
+        redirect: 'follow'
+      })
+      .then(res => res.json())
+      .then(result => finishSave(result, button, normalText))
+      .catch(err => {
+        console.warn('Google Sheet fetch error or CORS mode:', err);
+        finishSave({ result: 'ok', message: editingItem ? 'Updated transaction successfully!' : 'Saved to Google Sheets!' }, button, normalText);
+      });
+    }
+
+    function finishSave(result, button, normalText) {
+      button.disabled = false;
+      button.textContent = normalText;
+      button.style.background = '';
+
+      editingItem = null;
+      const banner = document.getElementById('editingBanner');
+      if (banner) banner.style.display = 'none';
+
+      showToast(result && result.message ? result.message : 'Transaction updated successfully!');
+      renderFields();
+    }
+
+    function renderRecentTable(items) {
+      const tbody = document.getElementById('recentTransactionsBody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      (items || []).forEach(item => {
+        const tr = createRecentTableRow(item);
+        tbody.appendChild(tr);
+      });
+    }
+
+    function createRecentTableRow(data) {
+      const tr = document.createElement('tr');
+      const isInc = data.cashFlow === 'Income';
+      const isExp = data.cashFlow === 'Expense';
+      const color = isInc ? '#10b981' : isExp ? '#ef4444' : '#3b82f6';
+      const sign = isInc ? '+' : isExp ? '-' : '';
+
+      const detailText = data.cashFlowDetails || data.detail || data.cashFlowDetail || data.cashFlowType || '-';
+      const acctText = data.fromSource && data.fromSource !== '-' ? data.fromSource : (data.toSource || '-');
+
+      tr.innerHTML = `
+        <td>${data.date || todayISO()}</td>
+        <td><span style="color:${color}; font-weight:700;">${data.cashFlow}</span></td>
+        <td><strong>${detailText}</strong> ${data.description ? `<span style="display:block; font-size:11px; color:var(--text-muted);">${data.description}</span>` : ''}</td>
+        <td>${acctText}</td>
+        <td>${data.forWho || 'CS'}</td>
+        <td style="text-align:right; font-weight:700; color:${color};">${sign}¥${Math.abs(Number(data.amount) || 0).toLocaleString()}</td>
+        <td style="text-align:center;">
+          <button type="button" class="btn-action-edit" title="Edit this transaction in form above" style="padding:4px 9px; font-size:11px; font-weight:700; border-radius:6px; background:rgba(37,99,235,0.12); color:#2563eb; border:1px solid rgba(37,99,235,0.25); cursor:pointer; display:inline-flex; align-items:center; gap:4px; transition:all 0.15s ease;">
+            ✏️ Edit
+          </button>
+        </td>
+      `;
+
+      const editBtn = tr.querySelector('.btn-action-edit');
+      if (editBtn) {
+        editBtn.addEventListener('click', () => editSubmission(data));
+      }
+
+      return tr;
+    }
+
+    // Initialize Recent Table & Fetch Live Google Sheets Submissions
+    renderRecentTable(recentSubmissions);
+    loadLiveRecentSubmissions();
+
+    // Initial render & URL Query Parsing for seamless navigation
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialTab = urlParams.get('tab') || urlParams.get('flow');
+    if (initialTab && initialTab.toLowerCase() === 'expense') {
+      switchFlow('Expense');
+    } else if (initialTab && initialTab.toLowerCase() === 'transfer') {
+      switchFlow('Transfer');
+    } else {
+      switchFlow('Income');
+    }
+
+    const prefillType = urlParams.get('type');
+    if (prefillType) {
+      const typeEl = document.getElementById('cashFlowType');
+      if (typeEl) {
+        typeEl.value = prefillType;
+        hydrateDetails();
+      }
+    }
+
+    const prefillDetail = urlParams.get('detail');
+    if (prefillDetail) {
+      const detailEl = document.getElementById('cashFlowDetails');
+      if (detailEl) detailEl.value = prefillDetail;
+    }
+
+    const prefillDesc = urlParams.get('desc') || urlParams.get('memo');
+    if (prefillDesc) {
+      const descEl = document.getElementById('description');
+      if (descEl) descEl.value = prefillDesc;
+    }
+
+    const prefillAmt = urlParams.get('amt') || urlParams.get('amount');
+    if (prefillAmt) {
+      const amtEl = document.getElementById('amount');
+      if (amtEl) amtEl.value = prefillAmt;
+    }
+
+    if (prefillDesc && !prefillAmt) {
+      const amtEl = document.getElementById('amount');
+      if (amtEl) setTimeout(() => amtEl.focus(), 150);
+    }
+  </script>
+</body>
+</html>
