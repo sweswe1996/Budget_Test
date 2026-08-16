@@ -1,1303 +1,1981 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Financial Planning — Family Finance Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Financial Planning — Family Finance Hub</title>
+  
+  <!-- Modern Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./css/variables.css">
-  <link rel="stylesheet" href="./css/layout.css">
-  <link rel="stylesheet" href="./css/components.css">
+  
   <style>
     :root {
-      --bg-space: #060919;
-      --bg-gradient: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.18) 0%, transparent 60%),
-                          radial-gradient(circle at 100% 30%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
-                          radial-gradient(circle at 0% 70%, rgba(14, 165, 233, 0.12) 0%, transparent 50%),
-                          #060919;
-      --card-glass: rgba(18, 26, 54, 0.65);
-      --card-border: rgba(99, 102, 241, 0.22);
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --accent-cyan: #38bdf8;
-      --accent-purple: #a855f7;
-      --accent-indigo: #6366f1;
-      --accent-green: #10b981;
-      --accent-orange: #f97316;
-      --shadow-glow: 0 12px 35px rgba(99, 102, 241, 0.2);
-    }
-
-    [data-theme="light"] {
-      --bg-space: #f1f5f9;
-      --bg-gradient: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.1) 0%, transparent 60%),
-                          radial-gradient(circle at 100% 30%, rgba(168, 85, 247, 0.08) 0%, transparent 50%),
-                          #f8fafc;
-      --card-glass: rgba(255, 255, 255, 0.85);
-      --card-border: rgba(99, 102, 241, 0.15);
+      --bg-page: #f8fafc;
+      --bg-card: #ffffff;
+      --border-subtle: #f1f5f9;
+      --border-card: #e2e8f0;
+      
       --text-main: #0f172a;
       --text-muted: #64748b;
-      --shadow-glow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      --text-light: #94a3b8;
+      
+      --primary-indigo: #4f46e5;
+      --primary-purple: #7c3aed;
+      --accent-green: #10b981;
+      --accent-red: #ef4444;
+      --accent-blue: #3b82f6;
+      --accent-orange: #f97316;
+      --accent-pink: #f43f5e;
+      
+      --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 2px 6px -1px rgba(15, 23, 42, 0.02);
+      --card-radius: 20px;
+      --pill-radius: 9999px;
+      
+      --font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
-      font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg-gradient);
-      background-attachment: fixed;
+      font-family: var(--font-family);
+      background-color: var(--bg-page);
       color: var(--text-main);
       min-height: 100vh;
-      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
-      padding-bottom: 40px;
+      overflow-x: hidden;
     }
 
-    .app-screen {
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button {
+      font-family: inherit;
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+
+    /* ============================================================
+       APP LAYOUT SHELL (Desktop & Mobile Adaptive)
+       ============================================================ */
+    .app-layout {
+      display: flex;
+      min-height: 100vh;
       width: 100%;
-      max-width: 600px;
-      padding: 16px 18px 32px 18px;
-      position: relative;
     }
 
-    @media (min-width: 920px) {
-      .app-screen {
-        max-width: 1140px;
-        padding: 28px 32px 50px 32px;
+    /* ------------------------------------------------------------
+       LEFT SIDEBAR (Desktop ≥ 1024px)
+       ------------------------------------------------------------ */
+    .app-sidebar {
+      display: none;
+      width: 260px;
+      flex-shrink: 0;
+      background: #ffffff;
+      border-right: 1px solid var(--border-card);
+      padding: 24px 18px;
+      flex-direction: column;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 100;
+    }
+
+    @media (min-width: 1024px) {
+      .app-sidebar {
+        display: flex;
       }
     }
 
-    /* Top Nav Bar */
-    .top-nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 18px;
-      padding: 4px 0;
-    }
-
-    .nav-left {
+    .sidebar-brand {
       display: flex;
       align-items: center;
       gap: 12px;
+      padding: 0 6px 20px 6px;
     }
 
-    .nav-btn-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      background: var(--card-glass);
-      border: 1px solid var(--card-border);
-      backdrop-filter: blur(12px);
-      color: var(--text-main);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 16px;
-      transition: all 0.2s ease;
-    }
-
-    .nav-btn-icon:hover {
-      background: rgba(99, 102, 241, 0.2);
-      border-color: #6366f1;
-      transform: translateY(-1px);
-    }
-
-    .app-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .app-logo {
-      width: 36px;
-      height: 36px;
+    .brand-logo-box {
+      width: 38px;
+      height: 38px;
       border-radius: 12px;
-      background: linear-gradient(135deg, #38bdf8 0%, #6366f1 50%, #a855f7 100%);
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+      color: #ffffff;
+      box-shadow: 0 6px 14px rgba(79, 70, 229, 0.35);
       flex-shrink: 0;
     }
 
-    .app-logo svg {
-      width: 22px;
-      height: 22px;
-      fill: #ffffff;
-    }
-
-    .brand-text h1 {
-      font-size: 17px;
+    .brand-text h2 {
+      font-size: 15px;
       font-weight: 800;
-      letter-spacing: -0.3px;
       color: var(--text-main);
       line-height: 1.2;
     }
 
     .brand-text p {
       font-size: 11px;
+      color: var(--primary-indigo);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .sidebar-section-title {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      color: var(--text-light);
+      text-transform: uppercase;
+      margin: 16px 8px 8px 8px;
+    }
+
+    .sidebar-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-size: 13.5px;
+      font-weight: 600;
       color: var(--text-muted);
-      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .sidebar-item svg {
+      width: 19px;
+      height: 19px;
+      stroke-width: 2.1;
+      flex-shrink: 0;
+    }
+
+    .sidebar-item:hover {
+      background: #f8fafc;
+      color: var(--text-main);
+      transform: translateX(2px);
+    }
+
+    .sidebar-item.active {
+      background: #eef2ff;
+      color: var(--primary-indigo);
+      font-weight: 700;
+    }
+
+    .sidebar-item.active svg {
+      color: var(--primary-indigo);
+    }
+
+    /* Sidebar AI Advisor Card */
+    .sidebar-ai-card {
+      background: linear-gradient(145deg, #f8fafc 0%, #eef2ff 100%);
+      border: 1px solid #e0e7ff;
+      border-radius: 18px;
+      padding: 14px;
+      margin-top: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sidebar-ai-header {
       display: flex;
       align-items: center;
-      gap: 4px;
+      justify-content: space-between;
+      margin-bottom: 6px;
     }
 
-    .brand-text p span {
-      color: var(--accent-cyan);
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .notification-badge {
-      position: absolute;
-      top: -3px;
-      right: -3px;
-      background: #ef4444;
-      color: #ffffff;
-      font-size: 10px;
+    .sidebar-ai-title {
+      font-size: 13px;
       font-weight: 800;
-      width: 17px;
-      height: 17px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-new {
+      background: #ffedd5;
+      color: #ea580c;
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 6px;
+      text-transform: uppercase;
+    }
+
+    .sidebar-ai-desc {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+
+    .sidebar-ai-orb-wrap {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .sidebar-ai-orb-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #38bdf8 0%, #6366f1 50%, #1e1b4b 100%);
+      padding: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .sidebar-ai-orb-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.55);
+    }
+
+    .sidebar-ai-orb-inner {
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
     }
 
-    /* Hero AI Advisor Card */
-    .ai-hero-card {
-      background: linear-gradient(145deg, rgba(26, 36, 74, 0.75) 0%, rgba(15, 23, 49, 0.85) 100%);
-      border: 1px solid rgba(139, 92, 246, 0.35);
-      border-radius: 24px;
-      padding: 18px;
-      margin-bottom: 22px;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(99, 102, 241, 0.15);
-      backdrop-filter: blur(16px);
+    .sidebar-ai-orb-inner svg {
+      width: 24px;
+      height: 24px;
     }
 
-    .ai-hero-card::before {
-      content: '';
+    .sidebar-ai-status-dot {
       position: absolute;
-      top: -50px;
-      right: -50px;
-      width: 140px;
-      height: 140px;
-      background: radial-gradient(circle, rgba(168, 85, 247, 0.35) 0%, transparent 70%);
-      pointer-events: none;
+      bottom: 1px;
+      right: 1px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #10b981;
+      border: 2px solid #ffffff;
     }
 
-    .ai-hero-header {
+    /* ------------------------------------------------------------
+       MAIN CONTENT CONTAINER
+       ------------------------------------------------------------ */
+    .app-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      padding: 14px 14px 90px 14px;
+      max-width: 1360px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    @media (min-width: 768px) {
+      .app-main {
+        padding: 20px 24px 80px 24px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .app-main {
+        padding: 24px 32px 40px 32px;
+      }
+    }
+
+    /* ------------------------------------------------------------
+       TOP ADAPTIVE HEADER
+       ------------------------------------------------------------ */
+    .top-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 14px;
+      gap: 10px;
     }
 
-    .ai-avatar-group {
+    .header-left {
       display: flex;
       align-items: center;
-      gap: 12px;
-    }
-
-    .ai-robot-avatar {
-      width: 52px;
-      height: 52px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
-      border: 1.5px solid rgba(168, 85, 247, 0.4);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      box-shadow: 0 6px 18px rgba(99, 102, 241, 0.35);
-      flex-shrink: 0;
-    }
-
-    .ai-robot-avatar svg {
-      width: 34px;
-      height: 34px;
-    }
-
-    .online-indicator {
-      width: 10px;
-      height: 10px;
-      background: #10b981;
-      border-radius: 50%;
-      position: absolute;
-      bottom: 2px;
-      right: 2px;
-      border: 2px solid #0f172a;
-      box-shadow: 0 0 8px #10b981;
-    }
-
-    .ai-info h3 {
-      font-size: 15px;
-      font-weight: 800;
-      color: #ffffff;
-      margin-bottom: 3px;
-    }
-
-    .ai-status-pills {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .status-pill-online {
-      font-size: 11px;
-      font-weight: 600;
-      color: #34d399;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .status-pill-tips {
-      font-size: 11px;
-      font-weight: 600;
-      color: #c084fc;
-    }
-
-    .ai-header-pin {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #94a3b8;
-      cursor: pointer;
-      font-size: 13px;
-      transition: all 0.2s;
-    }
-
-    .ai-header-pin:hover {
-      color: #ffffff;
-      background: rgba(99, 102, 241, 0.2);
-    }
-
-    .ai-chat-bubble {
-      background: rgba(15, 23, 42, 0.75);
-      border: 1px solid rgba(99, 102, 241, 0.25);
-      border-radius: 16px;
-      padding: 13px 15px;
-      margin-bottom: 14px;
-      position: relative;
-    }
-
-    .ai-chat-text {
-      font-size: 12.5px;
-      line-height: 1.5;
-      color: #e2e8f0;
-      margin-bottom: 6px;
-    }
-
-    .ai-chat-time {
-      font-size: 10px;
-      color: #64748b;
-      text-align: right;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 4px;
-    }
-
-    .ai-typing-dots {
-      display: flex;
-      gap: 4px;
-      margin-bottom: 12px;
-      padding-left: 6px;
-    }
-
-    .dot {
-      width: 5px;
-      height: 5px;
-      background: #6366f1;
-      border-radius: 50%;
-      animation: blinkDot 1.4s infinite ease-in-out both;
-    }
-    .dot:nth-child(1) { animation-delay: -0.32s; }
-    .dot:nth-child(2) { animation-delay: -0.16s; }
-    @keyframes blinkDot {
-      0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
-      40% { opacity: 1; transform: scale(1.2); }
-    }
-
-    .ai-input-bar {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(10, 15, 30, 0.85);
-      border: 1px solid rgba(139, 92, 246, 0.3);
-      border-radius: 16px;
-      padding: 4px 6px 4px 14px;
-    }
-
-    .ai-input-field {
-      flex: 1;
-      background: transparent;
-      border: none;
-      outline: none;
-      color: #ffffff;
-      font-size: 12.5px;
-      font-family: inherit;
-    }
-
-    .ai-input-field::placeholder {
-      color: #64748b;
-      font-size: 12px;
-    }
-
-    .btn-ask-ai {
-      background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-      color: #ffffff;
-      border: none;
-      border-radius: 12px;
-      padding: 8px 14px;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
-      transition: all 0.2s ease;
-      white-space: nowrap;
-    }
-
-    .btn-ask-ai:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 16px rgba(168, 85, 247, 0.45);
-    }
-
-    /* Main Menu Section */
-    .section-title {
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--text-main);
-      margin-bottom: 12px;
-      letter-spacing: -0.2px;
-    }
-
-    .menu-cards-list {
-      display: flex;
-      flex-direction: column;
-      gap: 11px;
-      margin-bottom: 20px;
-    }
-
-    .menu-card {
-      background: var(--card-glass);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 13px 15px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      text-decoration: none;
-      color: var(--text-main);
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
-      backdrop-filter: blur(12px);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .menu-card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(99, 102, 241, 0.5);
-      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.2);
-    }
-
-    .menu-icon-box {
-      width: 48px;
-      height: 48px;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-    }
-
-    .menu-icon-box.icon-blue {
-      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-      color: #ffffff;
-    }
-    .menu-icon-box.icon-green {
-      background: linear-gradient(135deg, #065f46 0%, #10b981 100%);
-      color: #ffffff;
-    }
-    .menu-icon-box.icon-teal {
-      background: linear-gradient(135deg, #0e7490 0%, #06b6d4 100%);
-      color: #ffffff;
-    }
-    .menu-icon-box.icon-purple {
-      background: linear-gradient(135deg, #6b21a8 0%, #a855f7 100%);
-      color: #ffffff;
-    }
-    .menu-icon-box.icon-orange {
-      background: linear-gradient(135deg, #c2410c 0%, #f97316 100%);
-      color: #ffffff;
-    }
-
-    .menu-icon-box svg {
-      width: 24px;
-      height: 24px;
-      stroke: currentColor;
-    }
-
-    .menu-text {
-      flex: 1;
+      gap: 10px;
       min-width: 0;
     }
 
-    .menu-title {
-      font-size: 14.5px;
-      font-weight: 700;
+    .btn-icon-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 1px solid var(--border-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       color: var(--text-main);
-      margin-bottom: 2px;
+      box-shadow: var(--card-shadow);
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
     }
 
-    .menu-desc {
-      font-size: 11.5px;
-      color: var(--text-muted);
+    .btn-icon-circle:hover {
+      background: #f1f5f9;
+      transform: scale(1.04);
+    }
+
+    .greeting-box {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .greeting-title {
+      font-size: 14.5px;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.01em;
+      line-height: 1.2;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .menu-arrow {
-      color: #64748b;
-      font-size: 16px;
-      transition: transform 0.2s;
+    @media (max-width: 380px) {
+      .greeting-title {
+        font-size: 13px;
+      }
+      .greeting-sub {
+        font-size: 10.5px;
+      }
     }
 
-    .menu-card:hover .menu-arrow {
-      transform: translateX(3px);
-      color: #38bdf8;
-    }
-
-    /* Hub Bento Responsive Layout Grid (Mobile 1-Col & Desktop Wide 2-Col) */
-    .hub-layout-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
-
-    .hub-col-left,
-    .hub-col-right {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-
-    .section-title-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      margin-bottom: 2px;
-    }
-
-    .section-subtitle {
+    .greeting-sub {
       font-size: 11.5px;
       color: var(--text-muted);
+      font-weight: 500;
+      margin-top: 1px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    /* Executive Quick Financial Snapshot Card */
-    .quick-summary-card {
-      background: var(--card-glass);
-      border: 1px solid var(--card-border);
-      border-radius: 22px;
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    /* Global 2-Month Selector Pill */
+    .header-month-select {
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: var(--pill-radius);
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--primary-indigo);
+      cursor: pointer;
+      outline: none;
+      box-shadow: var(--card-shadow);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .header-month-select:focus,
+    .header-month-select:hover {
+      border-color: var(--primary-indigo);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+    }
+
+    /* Currency Select */
+    .header-currency-select {
+      display: none;
+      background: #ffffff;
+      border: 1px solid var(--border-card);
+      border-radius: var(--pill-radius);
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-main);
+      box-shadow: var(--card-shadow);
+      cursor: pointer;
+      outline: none;
+    }
+
+    .user-avatar-btn {
+      display: none;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    @media (min-width: 768px) {
+      .header-currency-select,
+      .user-avatar-btn {
+        display: flex;
+      }
+      .greeting-title {
+        font-size: 18px;
+      }
+      .greeting-sub {
+        font-size: 12.5px;
+      }
+      .top-header {
+        margin-bottom: 18px;
+      }
+    }
+
+    /* ------------------------------------------------------------
+       DASHBOARD GRID CONTAINER
+       ------------------------------------------------------------ */
+    .dashboard-content-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      width: 100%;
+    }
+
+    @media (min-width: 1024px) {
+      .dashboard-content-grid {
+        gap: 18px;
+      }
+    }
+
+    /* Common Card Styling */
+    .dash-card {
+      background: var(--bg-card);
+      border-radius: var(--card-radius);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--card-shadow);
       padding: 16px 18px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      backdrop-filter: blur(14px);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
-    .summary-header {
+    .dash-card-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 12px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      margin-bottom: 10px;
     }
 
-    .summary-title {
-      font-size: 12.5px;
-      font-weight: 700;
+    .dash-card-title {
+      font-size: 13.5px;
+      font-weight: 800;
       color: var(--text-main);
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
-    .summary-badge {
-      font-size: 10px;
+    .dash-card-badge-month {
+      font-size: 11px;
       font-weight: 700;
-      color: #34d399;
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      padding: 2px 7px;
-      border-radius: 20px;
+      color: var(--primary-indigo);
+      background: #eef2ff;
+      padding: 2px 8px;
+      border-radius: var(--pill-radius);
     }
 
-    .summary-kpi-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
+    .dash-card-link {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--primary-indigo);
+      transition: opacity 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 3px;
     }
 
-    .summary-kpi-item {
-      background: rgba(10, 15, 32, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 14px;
-      padding: 10px 12px;
+    .dash-card-link:hover {
+      opacity: 0.8;
+    }
+
+
+    /* Total Balance Card (Luxurious Dark Gradient) */
+    .net-worth-card {
+      background: linear-gradient(135deg, #262262 0%, #151336 100%);
+      color: #ffffff;
+      border-radius: var(--card-radius);
+      padding: 18px 20px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(38, 34, 98, 0.25);
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      justify-content: space-between;
     }
 
-    .summary-kpi-label {
+    .net-worth-card::after {
+      content: '';
+      position: absolute;
+      top: -30%;
+      right: -10%;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .net-worth-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      z-index: 2;
+    }
+
+    .net-worth-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .btn-eye-toggle {
+      color: rgba(255, 255, 255, 0.7);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      transition: color 0.2s;
+    }
+
+    .btn-eye-toggle:hover {
+      color: #ffffff;
+    }
+
+    .net-worth-period-badge {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: var(--pill-radius);
+      padding: 3px 9px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .net-worth-body {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 12px;
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .net-worth-amount-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .net-worth-val {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+      line-height: 1.1;
+      font-feature-settings: "tnum";
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .net-worth-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(16, 185, 129, 0.22);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
       font-size: 10.5px;
-      color: var(--text-muted);
-      font-weight: 600;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: var(--pill-radius);
+      width: fit-content;
     }
 
-    .summary-kpi-val {
-      font-size: 15px;
+    .net-worth-badge-sub {
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: 500;
+      margin-left: 2px;
+    }
+
+    .net-worth-chart-container {
+      width: 110px;
+      height: 50px;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    @media (min-width: 480px) {
+      .net-worth-chart-container {
+        width: 150px;
+        height: 60px;
+      }
+      .net-worth-val {
+        font-size: 32px;
+      }
+    }
+
+    /* Budget vs Actual Card */
+    .budget-actual-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 16px 18px;
+    }
+
+    .budget-actual-metrics {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 8px 0 12px 0;
+    }
+
+    .budget-col {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .budget-col.left { text-align: left; }
+    .budget-col.right { text-align: right; }
+
+    .budget-val {
+      font-size: 16px;
       font-weight: 800;
       color: var(--text-main);
       font-feature-settings: "tnum";
     }
 
-    /* Desktop Wide Screen (>= 920px) Media Queries */
-    @media (min-width: 920px) {
-      body {
-        padding-bottom: 40px;
-      }
-      .app-screen {
-        max-width: 1140px;
-        padding: 28px 32px 50px 32px;
-      }
-      .hub-layout-grid {
-        grid-template-columns: 1.15fr 1fr;
-        gap: 32px;
-        align-items: start;
-      }
-      .ai-hero-card {
-        margin-bottom: 0;
-      }
-      .menu-cards-list {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 12px;
-      }
+    .budget-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-light);
+      margin-top: 1px;
     }
 
-    @media (min-width: 1200px) {
-      .app-screen {
-        max-width: 1240px;
-      }
-      .hub-layout-grid {
-        grid-template-columns: 1.2fr 1fr;
-        gap: 36px;
-      }
-      .menu-cards-list {
-        gap: 14px;
-      }
+    .budget-progress-wrap {
+      flex: 1;
+      position: relative;
+      padding: 0 4px;
     }
 
-    /* Floating & Draggable Robot AI Avatar Trigger */
-    @keyframes floatBreathing {
-      0% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-6px) rotate(1.5deg); }
-      100% { transform: translateY(0px) rotate(0deg); }
+    .budget-progress-bar-bg {
+      height: 16px;
+      background: #f1f5f9;
+      border-radius: var(--pill-radius);
+      overflow: hidden;
+      position: relative;
     }
 
-    .floating-robot-trigger {
-      position: fixed;
-      bottom: 24px;
-      right: 20px;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #38bdf8 0%, #6366f1 50%, #a855f7 100%);
-      padding: 2.5px;
-      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.55), 0 0 0 2px rgba(168, 85, 247, 0.3);
-      cursor: grab;
-      z-index: 100000;
+    .budget-progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #6366f1 0%, #4f46e5 100%);
+      border-radius: var(--pill-radius);
+      width: 76%;
       display: flex;
       align-items: center;
       justify-content: center;
-      touch-action: none;
-      user-select: none;
-      -webkit-user-select: none;
-      animation: floatBreathing 3.5s ease-in-out infinite;
-      transition: box-shadow 0.2s, transform 0.2s;
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 800;
+      transition: width 0.6s ease;
     }
 
-    .floating-robot-trigger:active,
-    .floating-robot-trigger.is-dragging {
-      cursor: grabbing;
-      animation: none !important;
-      transform: scale(1.1);
-      box-shadow: 0 16px 36px rgba(168, 85, 247, 0.8), 0 0 0 4px rgba(56, 189, 248, 0.4);
+    .budget-left-pill {
+      text-align: center;
+      font-size: 12.5px;
+      font-weight: 800;
+      color: var(--primary-indigo);
     }
 
-    .floating-robot-trigger:hover:not(.is-dragging) {
-      box-shadow: 0 12px 30px rgba(168, 85, 247, 0.7);
+    /* ------------------------------------------------------------
+       ROW 1: TOTAL BALANCE + OVERVIEW
+       ------------------------------------------------------------ */
+    .grid-row-1 {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 12px;
+      width: 100%;
+      min-width: 0;
     }
 
-    .robot-inner-avatar {
+    @media (min-width: 1024px) {
+      .grid-row-1 {
+        grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+        gap: 18px;
+      }
+    }
+
+    .overview-metrics-card {
+      padding: 14px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 2px;
+      align-items: center;
+      margin-top: 4px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .overview-metric-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 3px;
+      position: relative;
+      min-width: 0;
+      overflow: hidden;
+      padding: 0 2px;
+    }
+
+    .overview-metric-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 15%;
+      height: 70%;
+      width: 1px;
+      background: var(--border-subtle);
+    }
+
+    .metric-icon-box {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .metric-icon-box.income { background: #ecfdf5; color: #10b981; }
+    .metric-icon-box.expense { background: #fef2f2; color: #ef4444; }
+    .metric-icon-box.savings { background: #eff6ff; color: #3b82f6; }
+    .metric-icon-box.transactions { background: #f5f3ff; color: #8b5cf6; }
+
+    .metric-name {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+
+    .metric-val {
+      font-size: 11.5px;
+      font-weight: 800;
+      font-feature-settings: "tnum";
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+
+    .metric-val.income { color: #10b981; }
+    .metric-val.expense { color: #ef4444; }
+    .metric-val.savings { color: #3b82f6; }
+    .metric-val.transactions { color: var(--text-main); }
+
+    /* ------------------------------------------------------------
+       ROW 2: BUDGET VS ACTUAL + TOP SPENDING + NEED VS WANT (Responsive)
+       ------------------------------------------------------------ */
+    .grid-row-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .budget-actual-card {
+      grid-column: 1 / -1; /* Spans full width on mobile */
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 100%;
+      min-width: 0;
+    }
+
+    @media (min-width: 1024px) {
+      .grid-row-2 {
+        grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) minmax(0, 1fr);
+        gap: 18px;
+      }
+      .budget-actual-card {
+        grid-column: auto;
+      }
+    }
+
+    /* Compact Side Cards (Top Spending & Need vs Want) */
+    .compact-side-card {
+      padding: 12px 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 100%;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .compact-side-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      min-width: 0;
+    }
+
+    .compact-side-title {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Top Spending Compact */
+    .cat-compact-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 2px 0 6px 0;
+      min-width: 0;
+    }
+
+    .cat-compact-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #f3e8ff;
+      color: #8b5cf6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .cat-compact-icon svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .cat-compact-info {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .cat-compact-name {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .cat-compact-amount {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: var(--text-main);
+      font-feature-settings: "tnum";
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .cat-compact-pct {
+      font-size: 9.5px;
+      color: var(--text-muted);
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Need vs Want Compact (Super Clean & Crisp Donut) */
+    .donut-compact-layout {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin: 2px 0 4px 0;
+      min-width: 0;
+      width: 100%;
+    }
+
+    .donut-chart-box {
+      width: 46px;
+      height: 46px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .donut-chart-box svg {
       width: 100%;
       height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .donut-center-text {
+      position: absolute;
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1;
+    }
+
+    .donut-legend-col {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 4px;
+      border-radius: 5px;
+      min-width: 0;
+      gap: 2px;
+    }
+
+    .legend-item.need {
+      background: #eef2ff;
+      color: #4f46e5;
+    }
+
+    .legend-item.want {
+      background: #fff1f2;
+      color: #e11d48;
+    }
+
+    .legend-label-wrap {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .legend-dot {
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
-      background: #0f172a;
+      flex-shrink: 0;
+    }
+
+    .legend-dot.need { background: #4f46e5; }
+    .legend-dot.want { background: #e11d48; }
+
+    .pagination-dots {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      margin-top: 2px;
+    }
+
+    .pag-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .pag-dot.active {
+      width: 14px;
+      border-radius: var(--pill-radius);
+      background: var(--primary-indigo);
+    }
+
+    /* ------------------------------------------------------------
+       ROW 3: UPCOMING PAYMENTS + EXPENSE BREAKDOWN + ACCOUNTS (Responsive)
+       ------------------------------------------------------------ */
+    .grid-row-bottom {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .desktop-accounts-card {
+      display: none;
+    }
+
+    @media (min-width: 1024px) {
+      .grid-row-bottom {
+        grid-template-columns: 1fr 1.35fr 1fr;
+        gap: 18px;
+      }
+      .desktop-accounts-card {
+        display: flex;
+      }
+    }
+
+    .dash-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .dash-list-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .dash-list-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .dash-item-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .item-icon-box {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .item-info {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .item-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .item-sub {
+      font-size: 10.5px;
+      color: var(--text-muted);
+    }
+
+    .dash-item-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+      flex-shrink: 0;
+    }
+
+    .item-amount {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--text-main);
+      font-feature-settings: "tnum";
+    }
+
+    .countdown-pill {
+      font-size: 9.5px;
+      font-weight: 800;
+      color: #ef4444;
+      background: #fef2f2;
+      border: 1px solid #fee2e2;
+      padding: 1px 6px;
+      border-radius: var(--pill-radius);
+    }
+
+    /* Category Expense Breakdown Progress Bar Items */
+    .expense-cat-item {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .expense-cat-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .expense-cat-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+    }
+
+    .expense-cat-title-group {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      min-width: 0;
+    }
+
+    .expense-cat-icon {
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .expense-cat-name {
+      font-weight: 700;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .expense-cat-subitems {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      margin-left: 4px;
+    }
+
+    .expense-cat-amount-group {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .expense-cat-amount {
+      font-weight: 800;
+      color: var(--text-main);
+      font-feature-settings: "tnum";
+    }
+
+    .expense-cat-pct {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .expense-cat-progress-bg {
+      height: 7px;
+      background: #f1f5f9;
+      border-radius: var(--pill-radius);
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .expense-cat-progress-fill {
+      height: 100%;
+      border-radius: var(--pill-radius);
+      transition: width 0.5s ease;
+    }
+
+    /* ------------------------------------------------------------
+       MOBILE FLOATING BOTTOM NAVIGATION (< 1024px)
+       ------------------------------------------------------------ */
+    .mobile-bottom-nav {
+      display: flex;
+      position: fixed;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 24px);
+      max-width: 440px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: var(--pill-radius);
+      box-shadow: 0 12px 36px rgba(15, 23, 42, 0.16);
+      padding: 6px 6px;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 99999 !important;
+      pointer-events: auto;
+    }
+
+    @media (min-width: 1024px) {
+      .mobile-bottom-nav {
+        display: none !important;
+      }
+    }
+
+    .bottom-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      padding: 4px 6px;
+      border-radius: 12px;
+      color: var(--text-muted);
+      font-size: 10px;
+      font-weight: 700;
+      transition: all 0.2s ease;
+      position: relative;
+      flex: 1;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .bottom-nav-item svg {
+      width: 19px;
+      height: 19px;
+      stroke-width: 2.1;
+      flex-shrink: 0;
+    }
+
+    .bottom-nav-item.active {
+      color: var(--primary-indigo);
+    }
+
+    .bottom-nav-item span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .nav-indicator-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--primary-indigo);
+      position: absolute;
+      bottom: 1px;
+    }
+
+    /* Floating AI Advisor Bot Orb */
+    .floating-ai-advisor {
+      position: fixed;
+      bottom: 74px;
+      right: 14px;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #38bdf8 0%, #6366f1 50%, #1e1b4b 100%);
+      box-shadow: 0 8px 24px rgba(79, 70, 229, 0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 999;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .floating-ai-advisor:hover {
+      transform: scale(1.08);
+      box-shadow: 0 10px 28px rgba(79, 70, 229, 0.6);
+    }
+
+    .floating-ai-inner {
+      width: 100%;
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
     }
 
-    .robot-inner-avatar svg {
-      width: 35px;
-      height: 35px;
-      transition: all 0.3s;
+    .floating-ai-inner svg {
+      width: 32px;
+      height: 32px;
     }
 
-    .robot-online-dot {
-      width: 12px;
-      height: 12px;
+    .floating-ai-status {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 11px;
+      height: 11px;
       border-radius: 50%;
       background: #10b981;
-      border: 2px solid #0f172a;
-      position: absolute;
-      bottom: 1px;
-      right: 1px;
-      box-shadow: 0 0 8px #10b981;
+      border: 2px solid #ffffff;
     }
 
-    /* ✨ Compact Floating AI Chat Popover (Speech-Bubble Floating Card) */
-    .floating-ai-chat-popover {
+    @media (min-width: 1024px) {
+      .floating-ai-advisor {
+        display: none;
+      }
+    }
+
+    /* AI Advisor Popover Dialog */
+    .ai-chat-popover {
+      display: none;
       position: fixed;
-      bottom: 96px;
-      right: 20px;
+      bottom: 84px;
+      right: 16px;
       width: 340px;
       max-width: calc(100vw - 32px);
-      background: rgba(13, 20, 48, 0.96);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1.5px solid rgba(139, 92, 246, 0.45);
-      border-radius: 26px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.65), 0 0 25px rgba(99, 102, 241, 0.3);
-      z-index: 99999;
-      display: none;
+      background: #ffffff;
+      border-radius: 20px;
+      border: 1px solid var(--border-card);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+      z-index: 1050;
       flex-direction: column;
-      overflow: visible;
-      opacity: 0;
-      transform: translateY(14px) scale(0.95);
-      transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .floating-ai-chat-popover.open {
-      display: flex;
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-
-    /* Downward Speech Bubble Notch pointing to Floating Robot Avatar */
-    .floating-ai-chat-popover::after {
-      content: '';
-      position: absolute;
-      bottom: -8px;
-      right: 24px;
-      width: 14px;
-      height: 14px;
-      background: rgba(13, 20, 48, 0.98);
-      border-right: 1.5px solid rgba(139, 92, 246, 0.45);
-      border-bottom: 1.5px solid rgba(139, 92, 246, 0.45);
-      transform: rotate(45deg);
-      z-index: 1;
-    }
-
-    /* Upward Speech Bubble Notch when popover is placed below robot */
-    .floating-ai-chat-popover.notch-top::after {
-      bottom: auto;
-      top: -8px;
-      border-right: none;
-      border-bottom: none;
-      border-left: 1.5px solid rgba(139, 92, 246, 0.45);
-      border-top: 1.5px solid rgba(139, 92, 246, 0.45);
-    }
-
-    .popover-dialog-inner {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      border-radius: 26px;
       overflow: hidden;
+      animation: popIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .popover-header {
-      padding: 14px 16px;
-      background: rgba(22, 33, 72, 0.7);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    .ai-chat-popover.open {
+      display: flex;
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: translateY(12px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .ai-popover-header {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      color: #ffffff;
+      padding: 12px 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
-    .popover-header-info {
+    .ai-popover-title-box {
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    .popover-robot-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
-      border: 1px solid rgba(168, 85, 247, 0.5);
+    .ai-popover-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
-      flex-shrink: 0;
     }
 
-    .popover-robot-icon svg {
-      width: 24px;
-      height: 24px;
-    }
-
-    .popover-header-actions {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .popover-btn {
-      background: transparent;
-      border: none;
-      color: #94a3b8;
-      cursor: pointer;
-      font-size: 15px;
-      width: 28px;
-      height: 28px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-    }
-
-    .popover-btn:hover {
-      color: #ffffff;
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    .popover-chat-body {
+    .ai-popover-body {
       padding: 14px;
-      max-height: 290px;
+      max-height: 260px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 12px;
-    }
-
-    .chat-msg-row {
-      display: flex;
-      align-items: flex-end;
-      gap: 8px;
-      width: 100%;
-    }
-
-    .chat-msg-row.ai-row {
-      justify-content: flex-start;
-    }
-
-    .chat-msg-row.user-row {
-      justify-content: flex-end;
-    }
-
-    .chat-avatar-mini {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
-      border: 1px solid rgba(168, 85, 247, 0.4);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      margin-bottom: 2px;
-    }
-
-    .chat-avatar-mini svg {
-      width: 18px;
-      height: 18px;
-    }
-
-    .chat-msg {
-      padding: 10px 14px;
-      border-radius: 18px;
+      gap: 10px;
+      background: #f8fafc;
       font-size: 12.5px;
-      line-height: 1.45;
-      max-width: 82%;
-      position: relative;
     }
 
-    .chat-msg.ai {
-      background: rgba(26, 36, 78, 0.85);
-      border: 1px solid rgba(99, 102, 241, 0.25);
-      border-top-left-radius: 4px;
-      color: #f1f5f9;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    .ai-msg-bubble {
+      padding: 10px 12px;
+      border-radius: 14px;
+      line-height: 1.4;
+      max-width: 88%;
     }
 
-    .chat-msg.user {
-      background: linear-gradient(135deg, #2563eb 0%, #6366f1 100%);
-      border-bottom-right-radius: 4px;
+    .ai-msg-bubble.bot {
+      background: #ffffff;
+      color: var(--text-main);
+      border: 1px solid var(--border-card);
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+    }
+
+    .ai-msg-bubble.user {
+      background: var(--primary-indigo);
       color: #ffffff;
-      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
     }
 
-    .msg-time {
-      display: block;
-      font-size: 9.5px;
-      color: rgba(255, 255, 255, 0.6);
-      text-align: right;
-      margin-top: 3px;
-      font-feature-settings: "tnum";
-    }
-
-    .popover-input-area {
-      padding: 10px 12px 14px 12px;
-      background: rgba(10, 15, 36, 0.8);
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    .ai-popover-footer {
+      padding: 10px 12px;
+      background: #ffffff;
+      border-top: 1px solid var(--border-card);
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    .popover-input {
+    .ai-input-box {
       flex: 1;
-      background: rgba(6, 9, 22, 0.85);
-      border: 1px solid rgba(99, 102, 241, 0.3);
-      border-radius: 24px;
-      padding: 9px 15px;
-      font-size: 12px;
-      color: #ffffff;
+      background: #f8fafc;
+      border: 1px solid var(--border-card);
+      border-radius: var(--pill-radius);
+      padding: 8px 14px;
+      font-size: 12.5px;
       font-family: inherit;
       outline: none;
-      transition: border-color 0.2s;
     }
 
-    .popover-input:focus {
-      border-color: #38bdf8;
+    .ai-input-box:focus {
+      border-color: var(--primary-indigo);
     }
 
-    .popover-input::placeholder {
-      color: #64748b;
-    }
-
-    .popover-send-btn {
-      width: 36px;
-      height: 36px;
+    .ai-send-btn {
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
-      border: none;
+      background: var(--primary-indigo);
       color: #ffffff;
-      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 14px;
-      flex-shrink: 0;
-      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
-      transition: transform 0.2s;
-    }
-
-    .popover-send-btn:hover {
-      transform: scale(1.06);
-    }
-
-    /* Slide-in Dashboard Sidebar on Hub Page */
-    #homeSidebar {
-      position: fixed !important;
-      top: 0 !important;
-      left: 0 !important;
-      bottom: 0 !important;
-      width: 280px !important;
-      max-width: 85vw !important;
-      height: 100vh !important;
-      height: 100dvh !important;
-      background-color: var(--bg-surface, #0f172a) !important;
-      border-right: 1px solid var(--border-color, rgba(139, 92, 246, 0.25)) !important;
-      box-shadow: 12px 0 45px rgba(0, 0, 0, 0.75) !important;
-      z-index: 100002 !important;
-      transform: translateX(-100%) !important;
-      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
-      overflow-y: auto !important;
-      display: flex !important;
-      flex-direction: column !important;
-      margin-left: 0 !important;
-    }
-
-    #homeSidebar.open {
-      transform: translateX(0) !important;
-    }
-
-    #homeSidebarBackdrop {
-      position: fixed !important;
-      inset: 0 !important;
-      background: rgba(0, 0, 0, 0.6) !important;
-      backdrop-filter: blur(4px) !important;
-      -webkit-backdrop-filter: blur(4px) !important;
-      z-index: 100001 !important;
-      display: none !important;
-      opacity: 0 !important;
-      transition: opacity 0.25s ease !important;
-      pointer-events: none;
-    }
-
-    #homeSidebarBackdrop.open {
-      display: block !important;
-      opacity: 1 !important;
-      pointer-events: auto !important;
-    }
-
-    #aiCornerWidget,
-    #aiCornerDrawer {
-      display: none !important;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <div class="app-screen">
-    <!-- Top Header -->
-    <header class="top-nav">
-      <div class="nav-left">
-        <button class="nav-btn-icon" id="homeSidebarMenuBtn" onclick="toggleHomeSidebar()" title="Open Navigation Menu">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
-        </button>
-        <div class="app-brand">
-          <div class="app-logo">
-            <svg viewBox="0 0 24 24"><path d="M12 2L2 19.5h20L12 2zm0 4.5l6.5 11.5h-13L12 6.5z"/></svg>
+
+  <div class="app-layout">
+    <!-- ============================================================
+         DESKTOP SIDEBAR (≥ 1024px)
+         ============================================================ -->
+    <aside class="app-sidebar">
+      <div>
+        <!-- Brand Header -->
+        <div class="sidebar-brand">
+          <div class="brand-logo-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2L2 19.5h20L12 2zm0 4.5l6.5 11.5h-13L12 6.5z"/>
+            </svg>
           </div>
           <div class="brand-text">
-            <h1>Financial Planning</h1>
-            <p><span>Plan</span> • <span>Track</span> • <span>Achieve</span></p>
+            <h2>Financial Planning</h2>
+            <p>Plan • Track • Achieve</p>
           </div>
         </div>
+
+        <!-- MAIN Navigation -->
+        <div class="sidebar-section-title">MAIN</div>
+        <nav class="sidebar-menu">
+          <a class="sidebar-item active" href="./home.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+            <span>Dashboard</span>
+          </a>
+          <a class="sidebar-item" href="./input.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="16" y2="11"/><line x1="8" y1="15" x2="13" y2="15"/></svg>
+            <span>Transactions</span>
+          </a>
+          <a class="sidebar-item" href="./budget.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span>Budget</span>
+          </a>
+          <a class="sidebar-item" href="./goal.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m12 2 3 7h7l-5.5 4.5 2 7.5L12 17l-6.5 4 2-7.5L2 9h7z"/></svg>
+            <span>Goal</span>
+          </a>
+          <a class="sidebar-item" href="./schedule.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span>Payment Schedule</span>
+          </a>
+        </nav>
+
+        <!-- ANALYTICS Navigation -->
+        <div class="sidebar-section-title">ANALYTICS</div>
+        <nav class="sidebar-menu">
+          <a class="sidebar-item" href="./index.html#accounts">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+            <span>Accounts</span>
+          </a>
+          <a class="sidebar-item" href="./index.html#debt">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+            <span>Debt</span>
+          </a>
+          <a class="sidebar-item" href="./index.html#reports">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <span>Reports</span>
+          </a>
+        </nav>
+
+        <!-- MORE Navigation -->
+        <div class="sidebar-section-title">MORE</div>
+        <nav class="sidebar-menu">
+          <a class="sidebar-item" href="./index.html#settings">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span>Settings</span>
+          </a>
+          <a class="sidebar-item" href="javascript:void(0)" onclick="toggleAiPopover(true)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span>Help &amp; Support</span>
+          </a>
+        </nav>
       </div>
 
-    </header>
-
-    <!-- Slide-in Sidebar Navigation Drawer (Full Rich Dashboard Sidebar) -->
-    <div class="sidebar-backdrop" id="homeSidebarBackdrop" onclick="toggleHomeSidebar(false)"></div>
-    <aside class="sidebar" id="homeSidebar">
-      <!-- Brand Header -->
-      <div class="brand">
-        <div class="brand-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
-            <polyline points="16 7 22 7 22 13"></polyline>
-          </svg>
-        </div>
-        <div class="brand-text">
-          <h1>BudgetTracker</h1>
-          <span>Family Finance</span>
-        </div>
-        <button class="sidebar-close-btn" onclick="toggleHomeSidebar(false)" title="Close Menu">✕</button>
-      </div>
-
-      <!-- Main Navigation Menu -->
-      <nav class="sidebar-nav">
-        <a class="nav-item active" href="./home.html">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          <span>Home</span>
-        </a>
-        <a class="nav-item" href="./index.html#overview">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          <span>Overview</span>
-        </a>
-        <a class="nav-item" href="./index.html#accounts">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
-          <span>Accounts</span>
-        </a>
-        <a class="nav-item" href="./index.html#budget">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>
-          <span>Budget</span>
-        </a>
-        <a class="nav-item" href="./index.html#debt">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v4M12 14v4M16 14v4"/></svg>
-          <span>Debt &amp; Lend</span>
-        </a>
-        <a class="nav-item" href="./index.html#spending">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
-          <span>Spending</span>
-        </a>
-        <a class="nav-item" href="./index.html#goals">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
-          <span>Goals</span>
-        </a>
-        <a class="nav-item" href="./index.html#transactions">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="10" y1="3" y2="21"/><line x1="16" x2="16" y1="3" y2="21"/></svg>
-          <span>Transactions</span>
-        </a>
-        <a class="nav-item" href="./index.html#reports">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-          <span>Reports</span>
-        </a>
-        <a class="nav-item" href="./index.html#settings">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-          <span>Settings</span>
-        </a>
-      </nav>
-
-      <!-- Sidebar Bottom: Household Balance & Actions -->
-      <div class="sidebar-footer">
-        <div class="household-card">
-          <div class="household-card-title">HOUSEHOLD BALANCE</div>
-          <div class="household-card-value" id="sidebarHouseholdVal">¥842,150</div>
-          <div class="household-card-sub"><span style="color:#10b981; font-weight:700;">▲ +12.4%</span> vs last month</div>
-          <svg class="household-sparkline" viewBox="0 0 100 24" preserveAspectRatio="none">
-            <path d="M0,18 Q25,10 50,14 T100,4" fill="none" stroke="#8b5cf6" stroke-width="2.5" stroke-linecap="round" />
-          </svg>
-        </div>
-
-        <!-- Dynamic Contextual Motivational Card -->
-        <div class="sidebar-motivation-box">
-          <div class="motivation-box-img">🏆</div>
-          <div class="motivation-box-title">You're doing Amazing!</div>
-          <div class="motivation-box-sub">Keep going, your future self will thank you. 💜</div>
-        </div>
-
-        <!-- Quick Action Buttons (2x2 Grid) -->
-        <div class="sidebar-actions">
-          <div class="sidebar-actions-title">DATA ENTRY &amp; ACTIONS</div>
-          <div class="quick-actions-grid">
-            <a class="sidebar-action-btn" href="./input.html" title="Record Transaction Cash Flow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              <span>+ Transaction</span>
-            </a>
-            <a class="sidebar-action-btn" href="./budget.html" title="Set Monthly Budget Limit">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-              <span>+ Budget</span>
-            </a>
-            <a class="sidebar-action-btn" href="./goal.html" title="Create Savings Goal">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
-              <span>+ Goal</span>
-            </a>
-            <a class="sidebar-action-btn" href="./schedule.html" title="Schedule Payment / Bill">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" x2="16" y2="6"/><line x1="8" x2="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-              <span>+ Schedule</span>
-            </a>
+      <!-- AI Advisor Sidebar Box -->
+      <div class="sidebar-ai-card">
+        <div class="sidebar-ai-header">
+          <div class="sidebar-ai-title">
+            <span>AI Advisor</span>
+            <span class="badge-new">New</span>
           </div>
+          <button onclick="this.closest('.sidebar-ai-card').style.display='none'" style="color:#94a3b8; font-size:14px;">✕</button>
         </div>
-
-        <!-- Controls: Dark Mode & Sync -->
-        <div class="sidebar-controls">
-          <div class="dark-mode-row">
-            <span style="display:flex; align-items:center; gap:6px;">🌙 Dark Mode</span>
-            <input type="checkbox" id="sidebarDarkModeToggle" style="cursor:pointer;" onchange="toggleTheme()">
+        <p class="sidebar-ai-desc">Get smart insights for your financial decisions.</p>
+        <div class="sidebar-ai-orb-wrap">
+          <div class="sidebar-ai-orb-btn" onclick="toggleAiPopover()" title="Chat with AI Advisor">
+            <div class="sidebar-ai-orb-inner">
+              <svg viewBox="0 0 100 100" fill="none">
+                <rect x="22" y="32" width="56" height="42" rx="14" fill="#6366f1"/>
+                <rect x="26" y="36" width="48" height="34" rx="10" fill="#0f172a"/>
+                <circle cx="40" cy="53" r="5" fill="#38bdf8"/>
+                <circle cx="60" cy="53" r="5" fill="#38bdf8"/>
+                <path d="M44 63c2 2 10 2 12 0" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+                <rect x="46" y="18" width="8" height="14" rx="4" fill="#a855f7"/>
+                <circle cx="50" cy="15" r="5" fill="#38bdf8"/>
+              </svg>
+            </div>
+            <div class="sidebar-ai-status-dot"></div>
           </div>
-          <div class="sync-status-row">
-            <span class="sync-indicator">
-              <span class="sync-dot"></span> Last synced: <span id="sidebarLastSynced">Just now (Live Sheet)</span>
-            </span>
-          </div>
-          <button class="sync-btn" onclick="window.location.reload()">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
-            <span>Sync Now</span>
-          </button>
         </div>
       </div>
     </aside>
 
-    <!-- Master Hub Bento Grid (Responsive 2-Col on Wide Screen, 1-Col on Mobile) -->
-    <div class="hub-layout-grid">
-      <!-- Left Column: Hero AI Advisor Card + Live Financial Snapshot -->
-      <div class="hub-col-left">
-        <!-- Hero AI Financial Advisor Card -->
-        <section class="ai-hero-card">
-          <div class="ai-hero-header">
-            <div class="ai-avatar-group">
-              <div class="ai-robot-avatar">
-                <!-- 3D Robot Avatar SVG -->
-                <svg viewBox="0 0 100 100" fill="none">
-                  <rect x="22" y="32" width="56" height="42" rx="14" fill="#6366f1" opacity="0.9"/>
-                  <rect x="26" y="36" width="48" height="34" rx="10" fill="#0f172a"/>
-                  <circle cx="40" cy="53" r="5" fill="#38bdf8"/>
-                  <circle cx="60" cy="53" r="5" fill="#38bdf8"/>
-                  <path d="M44 63c2 2 10 2 12 0" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
-                  <rect x="46" y="18" width="8" height="14" rx="4" fill="#a855f7"/>
-                  <circle cx="50" cy="15" r="5" fill="#38bdf8"/>
-                  <rect x="14" y="44" width="8" height="18" rx="4" fill="#a855f7"/>
-                  <rect x="78" y="44" width="8" height="18" rx="4" fill="#a855f7"/>
-                </svg>
-                <div class="online-indicator"></div>
+    <!-- ============================================================
+         MAIN CONTENT AREA
+         ============================================================ -->
+    <main class="app-main">
+      <!-- TOP ADAPTIVE HEADER -->
+      <header class="top-header">
+        <div class="header-left">
+          <div class="greeting-box">
+            <h1 class="greeting-title" id="greetingUserTitle">
+              Good Evening 👋
+            </h1>
+            <p class="greeting-sub">Let's build your financial freedom</p>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <!-- Global 2-Month Selector (Concise Clean) -->
+          <select class="header-month-select" id="globalMonthSelect" onchange="handleMonthChange(this.value)" title="Select Month Period">
+            <option value="2026-08" selected>Aug 2026</option>
+            <option value="2026-07">Jul 2026</option>
+          </select>
+
+          <!-- Currency Selector (Desktop) -->
+          <select class="header-currency-select" id="currencySelect" onchange="handleCurrencyChange(this.value)">
+            <option value="JPY" selected>JPY</option>
+            <option value="MMK">MMK</option>
+            <option value="USD">USD</option>
+          </select>
+
+          <!-- User Avatar (Desktop) -->
+          <div class="user-avatar-btn" onclick="window.location.href='./index.html#settings'" title="User Profile">
+            <div style="width:100%; height:100%; background:linear-gradient(135deg, #6366f1, #a855f7); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:13px;">
+              KW
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- DASHBOARD CARDS GRID -->
+      <div class="dashboard-content-grid">
+        
+        <!-- ROW 1: TOTAL BALANCE + OVERVIEW -->
+        <div class="grid-row-1">
+          <!-- 1. Total Balance Card -->
+          <div class="net-worth-card">
+            <div class="net-worth-header">
+              <div class="net-worth-title-wrap">
+                <span>Total Balance</span>
+                <button class="btn-eye-toggle" id="eyeToggleBtn" onclick="toggleBalanceVisibility()" title="Hide / Show Balance">
+                  <svg id="eyeIcon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
               </div>
-              <div class="ai-info">
-                <h3 id="heroAiTitle">AI Financial Advisor</h3>
-                <div class="ai-status-pills">
-                  <span class="status-pill-online">● Online</span>
-                  <span style="color:#64748b; font-size:10px;">•</span>
-                  <span class="status-pill-tips">Smart Tips</span>
+              <span class="net-worth-period-badge" id="netWorthPeriodLabel">This Month</span>
+            </div>
+
+            <div class="net-worth-body">
+              <div class="net-worth-amount-wrap">
+                <div class="net-worth-val" id="netWorthValue">¥1,985,450</div>
+                <div class="net-worth-badge" id="netWorthBadgeWrap">
+                  <span id="netWorthTrendVal">▲ 8.45%</span>
+                  <span class="net-worth-badge-sub" id="netWorthTrendSub">vs last month</span>
+                </div>
+              </div>
+
+              <!-- Sparkline Trend Chart SVG -->
+              <div class="net-worth-chart-container">
+                <svg viewBox="0 0 180 65" width="100%" height="100%" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="sparkGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.35"/>
+                      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+                  <path d="M 5,52 Q 25,58 45,42 T 85,48 T 125,24 T 165,12 T 175,8 L 175,65 L 5,65 Z" fill="url(#sparkGradient)" />
+                  <path d="M 5,52 Q 25,58 45,42 T 85,48 T 125,24 T 165,12 T 175,8" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+                  <circle cx="5" cy="52" r="3.5" fill="#ffffff"/>
+                  <circle cx="45" cy="42" r="3.5" fill="#ffffff"/>
+                  <circle cx="85" cy="48" r="3.5" fill="#ffffff"/>
+                  <circle cx="125" cy="24" r="3.5" fill="#ffffff"/>
+                  <circle cx="165" cy="12" r="3.5" fill="#ffffff"/>
+                  <circle cx="175" cy="8" r="4.5" fill="#ffffff" stroke="#262262" stroke-width="2"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Overview 4 Metrics Card (Placed in Row 1) -->
+          <div class="dash-card overview-metrics-card">
+            <div class="dash-card-header">
+              <span class="dash-card-title">Overview</span>
+              <span class="dash-card-badge-month" id="overviewCardMonth">This Month</span>
+            </div>
+            <div class="overview-grid">
+              <!-- Income -->
+              <div class="overview-metric-item">
+                <div class="metric-icon-box income">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+                </div>
+                <span class="metric-name">Income</span>
+                <span class="metric-val income" id="overviewIncomeVal">¥623,800</span>
+              </div>
+              <!-- Expense -->
+              <div class="overview-metric-item">
+                <div class="metric-icon-box expense">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+                </div>
+                <span class="metric-name">Expense</span>
+                <span class="metric-val expense" id="overviewExpenseVal">¥428,350</span>
+              </div>
+              <!-- Savings -->
+              <div class="overview-metric-item">
+                <div class="metric-icon-box savings">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                </div>
+                <span class="metric-name">Savings</span>
+                <span class="metric-val savings" id="overviewSavingsVal">¥195,450</span>
+              </div>
+              <!-- Transactions -->
+              <div class="overview-metric-item">
+                <div class="metric-icon-box transactions">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="16" y2="11"/><line x1="8" y1="15" x2="13" y2="15"/></svg>
+                </div>
+                <span class="metric-name">Transactions</span>
+                <span class="metric-val transactions" id="overviewTxsCount">46</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ROW 2: BUDGET VS ACTUAL + TOP SPENDING + NEED VS WANT -->
+        <div class="grid-row-2">
+          <!-- 1. Budget vs Actual Card (Placed in Row 2) -->
+          <div class="dash-card budget-actual-card">
+            <div class="dash-card-header">
+              <span class="dash-card-title">Budget vs Actual</span>
+              <span class="dash-card-badge-month" id="budgetCardMonth">This Month</span>
+            </div>
+
+            <div class="budget-actual-metrics">
+              <div class="budget-col left">
+                <span class="budget-val" id="budgetLimitVal">¥480,000</span>
+                <span class="budget-label">Budget</span>
+              </div>
+              <div class="budget-progress-wrap">
+                <div class="budget-progress-bar-bg">
+                  <div class="budget-progress-bar-fill" id="budgetProgressBar" style="width: 76%;">
+                    <span id="budgetProgressPct">76%</span>
+                  </div>
+                </div>
+              </div>
+              <div class="budget-col right">
+                <span class="budget-val" id="budgetActualVal">¥363,950</span>
+                <span class="budget-label">Actual</span>
+              </div>
+            </div>
+
+            <div class="budget-left-pill" id="budgetRemainingVal">
+              ¥116,050 left
+            </div>
+          </div>
+
+          <!-- 2. Top Spending Category Compact Card -->
+          <div class="dash-card compact-side-card">
+            <div class="compact-side-header">
+              <span class="compact-side-title">Top Spending</span>
+              <span class="dash-card-badge-month" id="topCatMonthBadge">Aug</span>
+            </div>
+            
+            <div class="cat-compact-row">
+              <div class="cat-compact-icon" id="topCatIcon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" x2="21" y1="6" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+              </div>
+              <div class="cat-compact-info">
+                <span class="cat-compact-name" id="topCatName">Shopping</span>
+                <span class="cat-compact-amount" id="topCatAmount">¥98,450</span>
+                <span class="cat-compact-pct" id="topCatPercent">22.8% of total</span>
+              </div>
+            </div>
+
+            <div class="pagination-dots" id="topCatDots">
+              <span class="pag-dot active" onclick="switchTopCat(0)"></span>
+              <span class="pag-dot" onclick="switchTopCat(1)"></span>
+              <span class="pag-dot" onclick="switchTopCat(2)"></span>
+            </div>
+          </div>
+
+          <!-- 3. Need vs Want Compact Card (Super Neat Donut) -->
+          <div class="dash-card compact-side-card">
+            <div class="compact-side-header">
+              <span class="compact-side-title">Need vs Want</span>
+              <span class="dash-card-badge-month" id="needWantMonthBadge">Aug</span>
+            </div>
+
+            <div class="donut-compact-layout">
+              <!-- Donut SVG -->
+              <div class="donut-chart-box">
+                <svg viewBox="0 0 42 42">
+                  <circle cx="21" cy="21" r="15.9155" fill="none" stroke="#f1f5f9" stroke-width="4.5" />
+                  <circle id="donutNeedCircle" cx="21" cy="21" r="15.9155" fill="none" stroke="#4f46e5" stroke-width="4.5" stroke-dasharray="72 100" stroke-dashoffset="0" stroke-linecap="round" />
+                  <circle id="donutWantCircle" cx="21" cy="21" r="15.9155" fill="none" stroke="#f43f5e" stroke-width="4.5" stroke-dasharray="28 100" stroke-dashoffset="-72" stroke-linecap="round" />
+                </svg>
+                <div class="donut-center-text" id="donutCenterPct">72%</div>
+              </div>
+
+              <div class="donut-legend-col">
+                <div class="legend-item need">
+                  <div class="legend-label-wrap">
+                    <span class="legend-dot need"></span>
+                    <span>Need</span>
+                  </div>
+                  <span id="needPctVal">72%</span>
+                </div>
+                <div class="legend-item want">
+                  <div class="legend-label-wrap">
+                    <span class="legend-dot want"></span>
+                    <span>Want</span>
+                  </div>
+                  <span id="wantPctVal">28%</span>
                 </div>
               </div>
             </div>
 
-            <button class="ai-header-pin" onclick="window.setAiAdvisorLang ? window.setAiAdvisorLang(localStorage.getItem('ai_advisor_lang') === 'en' ? 'mm' : 'en') : null" title="Toggle Language (MM / EN)">
-              <span style="font-size:11px; font-weight:800;" id="heroLangBadge">🇲🇲</span>
-            </button>
-          </div>
-
-          <div class="ai-chat-bubble">
-            <p class="ai-chat-text" id="heroAiAdvice">
-              Loading live financial insights from your Google Sheets...
-            </p>
-            <div class="ai-chat-time">
-              <span id="heroAiTimestamp">9:30 AM</span>
-              <span style="color:#38bdf8;">✓✓</span>
+            <div class="pagination-dots">
+              <span class="pag-dot active"></span>
+              <span class="pag-dot"></span>
             </div>
           </div>
-
-          <div class="ai-typing-dots">
-            <span class="dot"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-          </div>
-
-          <div class="ai-input-bar">
-            <input type="text" id="heroAiInput" class="ai-input-field" placeholder="Ask me anything about your finances..." onkeydown="if(event.key==='Enter') submitHeroAi()">
-            <button class="btn-ask-ai" onclick="submitHeroAi()">
-              <span>Ask AI</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-            </button>
-          </div>
-        </section>
-
-        <!-- Executive Quick Financial Snapshot Bento -->
-        <section class="quick-summary-card">
-          <div class="summary-header">
-            <span class="summary-title">📊 Live Financial Snapshot</span>
-            <span class="summary-badge" id="hubLiveBadge">● Live Sheet</span>
-          </div>
-          <div class="summary-kpi-grid">
-            <div class="summary-kpi-item">
-              <span class="summary-kpi-label">Total Balance (JPY)</span>
-              <span class="summary-kpi-val" id="hubTotalBalance">¥0</span>
-            </div>
-            <div class="summary-kpi-item">
-              <span class="summary-kpi-label">Month Cashflow</span>
-              <span class="summary-kpi-val" id="hubMonthCashflow">¥0</span>
-            </div>
-            <div class="summary-kpi-item">
-              <span class="summary-kpi-label">Savings Goals</span>
-              <span class="summary-kpi-val" id="hubActiveGoals">0</span>
-            </div>
-            <div class="summary-kpi-item">
-              <span class="summary-kpi-label">Upcoming Bills</span>
-              <span class="summary-kpi-val" id="hubDuePayments">0</span>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <!-- Right Column: 5 Master Financial Planning Modules -->
-      <div class="hub-col-right">
-        <div class="section-title-wrap">
-          <div class="section-title" style="margin-bottom:0;">Financial Planning Modules</div>
-          <div class="section-subtitle">Select a module to manage, track, and budget</div>
         </div>
 
-        <main class="menu-cards-list">
-          <!-- 1. Dashboard -->
-          <a class="menu-card" href="./index.html">
-            <div class="menu-icon-box icon-blue">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="13" width="4" height="8" rx="1"/><rect x="10" y="8" width="4" height="13" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg>
+        <!-- ROW 3: UPCOMING PAYMENTS + EXPENSE BY CATEGORY + ACCOUNTS & WALLETS (Responsive) -->
+        <div class="grid-row-bottom">
+          <!-- 1. Upcoming Payments Card -->
+          <div class="dash-card">
+            <div class="dash-card-header">
+              <span class="dash-card-title">💳 Upcoming Payments</span>
+              <a class="dash-card-link" href="./schedule.html">View All ›</a>
             </div>
-            <div class="menu-text">
-              <div class="menu-title">Dashboard</div>
-              <div class="menu-desc">View your financial overview and key insights.</div>
-            </div>
-            <div class="menu-arrow">›</div>
-          </a>
+            <div class="dash-list" id="upcomingPaymentsList">
+              <div class="dash-list-item">
+                <div class="dash-item-left">
+                  <div class="item-icon-box" style="background:#dc2626; color:#ffffff; font-weight:900; font-size:16px;">
+                    R
+                  </div>
+                  <div class="item-info">
+                    <span class="item-title">Rakuten Card</span>
+                    <span class="item-sub" style="color:#ef4444; font-weight:600;">Payment Due</span>
+                  </div>
+                </div>
+                <div class="dash-item-right">
+                  <span class="item-amount">¥10,000</span>
+                  <span class="countdown-pill">In 3 days</span>
+                </div>
+              </div>
 
-          <!-- 2. Data Entry -->
-          <a class="menu-card" href="./input.html">
-            <div class="menu-icon-box icon-green">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-            </div>
-            <div class="menu-text">
-              <div class="menu-title">Data Entry</div>
-              <div class="menu-desc">Record income, expense or transfer.</div>
-            </div>
-            <div class="menu-arrow">›</div>
-          </a>
+              <div class="dash-list-item">
+                <div class="dash-item-left">
+                  <div class="item-icon-box" style="background:#047857; color:#ffffff; font-weight:900; font-size:11px; text-align:center;">
+                    SMBC
+                  </div>
+                  <div class="item-info">
+                    <span class="item-title">SMBC Credit Card</span>
+                    <span class="item-sub" style="color:#ef4444; font-weight:600;">Payment Due</span>
+                  </div>
+                </div>
+                <div class="dash-item-right">
+                  <span class="item-amount">¥15,000</span>
+                  <span class="countdown-pill">In 8 days</span>
+                </div>
+              </div>
 
-          <!-- 3. Budget Entry -->
-          <a class="menu-card" href="./budget.html">
-            <div class="menu-icon-box icon-teal">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+              <div class="dash-list-item" id="desktopThirdUpcoming" style="display:none;">
+                <div class="dash-item-left">
+                  <div class="item-icon-box" style="background:#2563eb; color:#ffffff; font-size:16px;">
+                    🏦
+                  </div>
+                  <div class="item-info">
+                    <span class="item-title">Personal Loan</span>
+                    <span class="item-sub" style="color:#ef4444; font-weight:600;">Payment Due</span>
+                  </div>
+                </div>
+                <div class="dash-item-right">
+                  <span class="item-amount">¥25,000</span>
+                  <span class="countdown-pill">In 15 days</span>
+                </div>
+              </div>
             </div>
-            <div class="menu-text">
-              <div class="menu-title">Budget Entry</div>
-              <div class="menu-desc">Plan and set your monthly budget.</div>
-            </div>
-            <div class="menu-arrow">›</div>
-          </a>
+          </div>
 
-          <!-- 4. Goal Entry -->
-          <a class="menu-card" href="./goal.html">
-            <div class="menu-icon-box icon-purple">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          <!-- 2. Category-wise Expense Breakdown -->
+          <div class="dash-card">
+            <div class="dash-card-header">
+              <span class="dash-card-title">📊 Expense by Category</span>
+              <a class="dash-card-link" href="./input.html">+ Record ›</a>
             </div>
-            <div class="menu-text">
-              <div class="menu-title">Goal Entry</div>
-              <div class="menu-desc">Track your savings goals and progress.</div>
+            <div class="dash-list" id="categoryExpenseList">
+              <!-- Dynamically populated category progress bars -->
             </div>
-            <div class="menu-arrow">›</div>
-          </a>
+          </div>
 
-          <!-- 5. Payment Schedule -->
-          <a class="menu-card" href="./schedule.html">
-            <div class="menu-icon-box icon-orange">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <!-- 3. Accounts & Wallets Card (Desktop Only) -->
+          <div class="dash-card desktop-accounts-card">
+            <div class="dash-card-header">
+              <span class="dash-card-title">🏦 Accounts &amp; Wallets</span>
+              <a class="dash-card-link" href="./index.html#accounts">View All ›</a>
             </div>
-            <div class="menu-text">
-              <div class="menu-title">Payment Schedule</div>
-              <div class="menu-desc">Manage and track your upcoming payments.</div>
+            <div class="dash-list" id="accountsList">
+              <a class="dash-list-item" href="./index.html#accounts">
+                <div class="dash-item-left">
+                  <div class="item-icon-box" style="background:#ecfdf5; color:#10b981;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v4M12 14v4M16 14v4"/></svg>
+                  </div>
+                  <div class="item-info">
+                    <span class="item-title">Bank Accounts</span>
+                  </div>
+                </div>
+                <div class="dash-item-right">
+                  <span class="item-amount">¥1,245,600 ›</span>
+                </div>
+              </a>
+
+              <a class="dash-list-item" href="./index.html#accounts">
+                <div class="dash-item-left">
+                  <div class="item-icon-box" style="background:#f5f3ff; color:#8b5cf6;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                  </div>
+                  <div class="item-info">
+                    <span class="item-title">Credit Cards</span>
+                  </div>
+                </div>
+                <div class="dash-item-right">
+                  <span class="item-amount" style="color:#ef4444;">-¥251,300 ›</span>
+                </div>
+              </a>
+
+              <a class="dash-list-item" href="./index.html#accounts">
+                <div class="dash-item-left">
+                  <div class="item-icon-box" style="background:#eff6ff; color:#3b82f6;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>
+                  </div>
+                  <div class="item-info">
+                    <span class="item-title">e-Wallets</span>
+                  </div>
+                </div>
+                <div class="dash-item-right">
+                  <span class="item-amount">¥48,750 ›</span>
+                </div>
+              </a>
             </div>
-            <div class="menu-arrow">›</div>
-          </a>
-        </main>
+          </div>
+
+        </div>
       </div>
-    </div>
+    </main>
   </div>
 
-  <!-- Floating Robot AI Avatar Trigger (Moveable & Draggable) -->
-  <div class="floating-robot-trigger" id="floatingRobotTrigger" title="Drag to move • Tap to chat with AI Advisor">
-    <div class="robot-inner-avatar">
+  <!-- ============================================================
+       MOBILE FLOATING BOTTOM NAVIGATION (< 1024px)
+       ============================================================ -->
+  <nav class="mobile-bottom-nav">
+    <a class="bottom-nav-item active" href="./input.html" title="Transaction Data Entry">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="16" y2="11"/><line x1="8" y1="15" x2="13" y2="15"/></svg>
+      <span>Transactions</span>
+      <span class="nav-indicator-dot"></span>
+    </a>
+    <a class="bottom-nav-item" href="./budget.html" title="Budget Entry">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+      <span>Budget</span>
+    </a>
+    <a class="bottom-nav-item" href="./goal.html" title="Goal Entry">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+      <span>Goal</span>
+    </a>
+    <a class="bottom-nav-item" href="./schedule.html" title="Payment Schedule Entry">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <span>Payment</span>
+    </a>
+    <a class="bottom-nav-item" href="./index.html#settings" title="Settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <span>Setting</span>
+    </a>
+  </nav>
+
+  <!-- ============================================================
+       FLOATING AI ADVISOR BUTTON (< 1024px)
+       ============================================================ -->
+  <div class="floating-ai-advisor" id="floatingAiBtn" onclick="toggleAiPopover()" title="Chat with AI Financial Advisor">
+    <div class="floating-ai-inner">
       <svg viewBox="0 0 100 100" fill="none">
-        <rect x="22" y="32" width="56" height="42" rx="14" fill="#6366f1" opacity="0.9"/>
+        <rect x="22" y="32" width="56" height="42" rx="14" fill="#6366f1"/>
         <rect x="26" y="36" width="48" height="34" rx="10" fill="#0f172a"/>
         <circle cx="40" cy="53" r="5" fill="#38bdf8"/>
         <circle cx="60" cy="53" r="5" fill="#38bdf8"/>
@@ -1305,207 +1983,17 @@
         <rect x="46" y="18" width="8" height="14" rx="4" fill="#a855f7"/>
         <circle cx="50" cy="15" r="5" fill="#38bdf8"/>
       </svg>
-      <div class="robot-online-dot"></div>
+      <div class="floating-ai-status"></div>
     </div>
   </div>
 
-  <!-- Compact Floating AI Chat Popover (Speech-Bubble Floating Card) -->
-  <div class="floating-ai-chat-popover" id="floatingAiPopover">
-    <div class="popover-dialog-inner">
-      <!-- Header -->
-      <div class="popover-header">
-        <div class="popover-header-info">
-          <div class="popover-robot-icon">
-            <svg viewBox="0 0 100 100" fill="none">
-              <rect x="22" y="32" width="56" height="42" rx="14" fill="#6366f1" opacity="0.9"/>
-              <rect x="26" y="36" width="48" height="34" rx="10" fill="#0f172a"/>
-              <circle cx="40" cy="53" r="5" fill="#38bdf8"/>
-              <circle cx="60" cy="53" r="5" fill="#38bdf8"/>
-              <path d="M44 63c2 2 10 2 12 0" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
-              <rect x="46" y="18" width="8" height="14" rx="4" fill="#a855f7"/>
-              <circle cx="50" cy="15" r="5" fill="#38bdf8"/>
-            </svg>
-            <div class="robot-online-dot" style="width:10px; height:10px; bottom:0; right:0;"></div>
-          </div>
-          <div>
-            <h4 style="font-size:14.5px; font-weight:800; color:#ffffff; margin:0; line-height:1.2;">AI Advisor</h4>
-            <span style="font-size:11px; color:#10b981; font-weight:600; display:flex; align-items:center; gap:4px; margin-top:2px;">
-              <span>● Online</span>
-            </span>
-          </div>
-        </div>
-        <div class="popover-header-actions">
-          <button class="popover-btn" onclick="togglePopoverChat(false)" title="Minimize" style="font-size:18px; line-height:1;">−</button>
-          <button class="popover-btn" onclick="togglePopoverChat(false)" title="Close" style="font-size:15px;">✕</button>
-        </div>
-      </div>
-
-      <!-- Scrollable Chat Stream -->
-      <div class="popover-chat-body" id="popoverChatBody">
-        <div class="chat-msg-row ai-row">
-          <div class="chat-avatar-mini">
-            <svg viewBox="0 0 100 100" fill="none">
-              <rect x="22" y="32" width="56" height="42" rx="14" fill="#6366f1"/>
-              <rect x="26" y="36" width="48" height="34" rx="10" fill="#0f172a"/>
-              <circle cx="40" cy="53" r="5" fill="#38bdf8"/>
-              <circle cx="60" cy="53" r="5" fill="#38bdf8"/>
-            </svg>
-          </div>
-          <div class="chat-msg ai">
-            <p>You've spent more on groceries than last month. 🌱 Consider meal planning to save around $80 this month.</p>
-            <span class="msg-time">9:31 AM</span>
-          </div>
-        </div>
-
-        <div class="chat-msg-row user-row">
-          <div class="chat-msg user">
-            <p>That's a good idea! I'll try planning meals.</p>
-            <span class="msg-time">9:32 AM <span style="color:#38bdf8;">✓✓</span></span>
-          </div>
-        </div>
-
-        <div class="chat-msg-row ai-row">
-          <div class="chat-avatar-mini">
-            <svg viewBox="0 0 100 100" fill="none">
-              <rect x="22" y="32" width="56" height="42" rx="14" fill="#6366f1"/>
-              <rect x="26" y="36" width="48" height="34" rx="10" fill="#0f172a"/>
-              <circle cx="40" cy="53" r="5" fill="#38bdf8"/>
-              <circle cx="60" cy="53" r="5" fill="#38bdf8"/>
-            </svg>
-          </div>
-          <div class="chat-msg ai">
-            <p>Great! I can help you build a weekly meal plan and track your grocery budget.</p>
-            <span class="msg-time">9:33 AM</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sticky Input Area -->
-      <div class="popover-input-area">
-        <input type="text" id="popoverInput" class="popover-input" placeholder="Type a message..." onkeydown="if(event.key==='Enter') sendPopoverMessage()">
-        <button class="popover-send-btn" onclick="sendPopoverMessage()" title="Send">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Core Scripts -->
-  <script src="./js/dashboard-data.js"></script>
-  <script src="./js/calculations.js"></script>
-  <script src="./js/common-forms.js"></script>
-  <script src="./js/ai-service.js"></script>
-  <script>
-    function toggleTheme() {
-      const current = document.documentElement.getAttribute('data-theme') || 'dark';
-      const next = current === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('budget_theme', next);
-      const darkToggle = document.getElementById('sidebarDarkModeToggle');
-      if (darkToggle) darkToggle.checked = (next === 'dark');
-    }
-
-    function toggleHomeSidebar(forceState) {
-      const sidebar = document.getElementById('homeSidebar');
-      const backdrop = document.getElementById('homeSidebarBackdrop');
-      if (!sidebar || !backdrop) return;
-      const isOpen = typeof forceState === 'boolean' ? forceState : !sidebar.classList.contains('open');
-      if (isOpen) {
-        sidebar.classList.add('open');
-        backdrop.classList.add('open');
-      } else {
-        sidebar.classList.remove('open');
-        backdrop.classList.remove('open');
-      }
-    }
-
-    function positionPopoverNearRobot() {
-      const popover = document.getElementById('floatingAiPopover');
-      const robot = document.getElementById('floatingRobotTrigger');
-      if (!popover || !robot) return;
-
-      const rect = robot.getBoundingClientRect();
-      const popWidth = Math.min(340, window.innerWidth - 32);
-      
-      // Calculate horizontal position (align right edge with robot right edge)
-      let left = rect.right - popWidth;
-      if (left < 16) left = 16;
-      if (left + popWidth > window.innerWidth - 16) left = window.innerWidth - popWidth - 16;
-      
-      // Calculate vertical position (prefer above robot, fallback below if near top)
-      const spaceAbove = rect.top;
-      
-      if (spaceAbove >= 320) {
-        // Place above robot
-        popover.classList.remove('notch-top');
-        popover.style.top = 'auto';
-        popover.style.bottom = `${Math.max(16, window.innerHeight - rect.top + 12)}px`;
-      } else {
-        // Place below robot
-        popover.classList.add('notch-top');
-        popover.style.bottom = 'auto';
-        popover.style.top = `${Math.max(16, rect.bottom + 12)}px`;
-      }
-      popover.style.left = `${left}px`;
-      popover.style.right = 'auto';
-    }
-
-    function togglePopoverChat(forceState) {
-      const popover = document.getElementById('floatingAiPopover');
-      if (!popover) return;
-
-      const shouldOpen = typeof forceState === 'boolean' ? forceState : !popover.classList.contains('open');
-
-      if (shouldOpen) {
-        positionPopoverNearRobot();
-        popover.classList.add('open');
-        setTimeout(() => {
-          document.getElementById('popoverInput')?.focus();
-        }, 150);
-      } else {
-        popover.classList.remove('open');
-      }
-    }
-
-    function submitHeroAi() {
-      const input = document.getElementById('heroAiInput');
-      if (input && input.value.trim()) {
-        const query = input.value.trim();
-        togglePopoverChat(true);
-        const popInput = document.getElementById('popoverInput');
-        if (popInput) {
-          popInput.value = query;
-          sendPopoverMessage();
-        }
-      }
-    }
-
-    async function sendPopoverMessage() {
-      const input = document.getElementById('popoverInput');
-      const body = document.getElementById('popoverChatBody');
-      if (!input || !input.value.trim()) return;
-
-      const userText = input.value.trim();
-      input.value = '';
-      const nowTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-      // Add user message row
-      const userRow = document.createElement('div');
-      userRow.className = 'chat-msg-row user-row';
-      userRow.innerHTML = `
-        <div class="chat-msg user">
-          <p>${userText.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>
-          <span class="msg-time">${nowTime} <span style="color:#38bdf8;">✓✓</span></span>
-        </div>
-      `;
-      body.appendChild(userRow);
-      body.scrollTop = body.scrollHeight;
-
-      // Add AI typing bubble row
-      const aiRow = document.createElement('div');
-      aiRow.className = 'chat-msg-row ai-row';
-      aiRow.innerHTML = `
-        <div class="chat-avatar-mini">
+  <!-- ============================================================
+       AI ADVISOR CHAT DIALOG POPOVER
+       ============================================================ -->
+  <div class="ai-chat-popover" id="aiChatPopover">
+    <div class="ai-popover-header">
+      <div class="ai-popover-title-box">
+        <div class="ai-popover-avatar">
           <svg viewBox="0 0 100 100" fill="none">
             <rect x="22" y="32" width="56" height="42" rx="14" fill="#6366f1"/>
             <rect x="26" y="36" width="48" height="34" rx="10" fill="#0f172a"/>
@@ -1513,228 +2001,337 @@
             <circle cx="60" cy="53" r="5" fill="#38bdf8"/>
           </svg>
         </div>
-        <div class="chat-msg ai">
-          <p><em>Thinking with Gemini... ⚡</em></p>
-          <span class="msg-time">${nowTime}</span>
+        <div>
+          <h4 style="font-size:13.5px; font-weight:800; color:#ffffff; margin:0;">AI Financial Advisor</h4>
+          <span style="font-size:11px; color:#34d399; font-weight:600;">● Online • Gemini AI</span>
         </div>
-      `;
-      body.appendChild(aiRow);
+      </div>
+      <button onclick="toggleAiPopover(false)" style="color:#ffffff; font-size:16px; font-weight:bold; cursor:pointer;">✕</button>
+    </div>
+
+    <div class="ai-popover-body" id="aiChatBody">
+      <div class="ai-msg-bubble bot">
+        👋 Hello Kyaw Wai Lwin! I'm your AI Financial Advisor. You've saved <strong id="aiSavedPrompt">¥195,450</strong> this month. How can I help optimize your budget today?
+      </div>
+    </div>
+
+    <div class="ai-popover-footer">
+      <input type="text" class="ai-input-box" id="aiMsgInput" placeholder="Ask financial question..." onkeydown="if(event.key==='Enter') sendAiMessage()">
+      <button class="ai-send-btn" onclick="sendAiMessage()" title="Send">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Core Scripts -->
+  <script src="./js/dashboard-data.js"></script>
+  <script src="./js/calculations.js"></script>
+  <script src="./js/ai-service.js"></script>
+  <script>
+    // ============================================================
+    // DYNAMIC 2-MONTH DATA STORE (August 2026 vs July 2026)
+    // ============================================================
+    const dashboardMonthsData = {
+      '2026-08': {
+        monthKey: '2026-08',
+        shortMonth: 'Aug',
+        fullLabel: 'Aug 2026',
+        overviewBadge: 'This Month',
+        totalBalance: 1985450,
+        trendVal: '▲ 8.45%',
+        trendSub: 'vs last month',
+        budgetLimit: 480000,
+        budgetActual: 363950,
+        budgetPct: 76,
+        budgetLeft: 116050,
+        income: 623800,
+        expense: 428350,
+        savings: 195450,
+        txCount: 46,
+        topCats: [
+          { name: 'Shopping', amount: 98450, pct: '22.8% of total', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" x2="21" y1="6" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>' },
+          { name: 'Food & Dining', amount: 85200, pct: '19.7% of total', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>' },
+          { name: 'Fixed Housing', amount: 52500, pct: '12.2% of total', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>' }
+        ],
+        needPct: 72,
+        wantPct: 28,
+        expenseCats: [
+          { name: 'Food & Dining', sub: 'Snack, Drinks, Groceries', amount: 128450, pct: 30, color: '#10b981', icon: '🍔' },
+          { name: 'Shopping & Style', sub: 'Clothes, Tech, Cosmetics', amount: 98450, pct: 23, color: '#8b5cf6', icon: '🛍️' },
+          { name: 'Living & Housing', sub: 'Rent, Home Supplies', amount: 82500, pct: 19, color: '#ea580c', icon: '🏠' },
+          { name: 'Utilities & Bills', sub: 'Electricity, Water, WiFi, Gas', amount: 45000, pct: 10, color: '#3b82f6', icon: '💡' },
+          { name: 'Entertainment & Fun', sub: 'Dining Out, Cinema, Cafe', amount: 45950, pct: 11, color: '#ec4899', icon: '🍿' },
+          { name: 'Transport & Commute', sub: 'Suica, Train, Taxi, Fuel', amount: 28000, pct: 7, color: '#06b6d4', icon: '🚆' }
+        ]
+      },
+      '2026-07': {
+        monthKey: '2026-07',
+        shortMonth: 'Jul',
+        fullLabel: 'Jul 2026',
+        overviewBadge: 'Jul 2026',
+        totalBalance: 1830750,
+        trendVal: '▲ 5.12%',
+        trendSub: 'vs June',
+        budgetLimit: 460000,
+        budgetActual: 412000,
+        budgetPct: 89.5,
+        budgetLeft: 48000,
+        income: 590000,
+        expense: 412000,
+        savings: 178000,
+        txCount: 52,
+        topCats: [
+          { name: 'Food & Dining', amount: 112600, pct: '27.3% of total', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>' },
+          { name: 'Shopping', amount: 84200, pct: '20.4% of total', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" x2="21" y1="6" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>' },
+          { name: 'Utilities & Bills', amount: 52000, pct: '12.6% of total', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>' }
+        ],
+        needPct: 78,
+        wantPct: 22,
+        expenseCats: [
+          { name: 'Food & Dining', sub: 'Snack, Drinks, Groceries', amount: 112600, pct: 27, color: '#10b981', icon: '🍔' },
+          { name: 'Shopping & Style', sub: 'Summer Clothes, Gadgets', amount: 84200, pct: 20, color: '#8b5cf6', icon: '🛍️' },
+          { name: 'Living & Housing', sub: 'Rent, Home Supplies', amount: 82500, pct: 20, color: '#ea580c', icon: '🏠' },
+          { name: 'Utilities & Bills', sub: 'Air Con, Water, Gas, WiFi', amount: 52000, pct: 13, color: '#3b82f6', icon: '💡' },
+          { name: 'Entertainment & Fun', sub: 'Travel, Dining Out, Movies', amount: 49700, pct: 12, color: '#ec4899', icon: '🍿' },
+          { name: 'Transport & Commute', sub: 'Shinkansen, Suica, Taxi', amount: 31000, pct: 8, color: '#06b6d4', icon: '🚆' }
+        ]
+      }
+    };
+
+    // App State
+    let currentMonth = '2026-08';
+    let isHidden = localStorage.getItem('balance_privacy') === '1';
+    let selectedCurrency = 'JPY';
+    let currentTopCatIdx = 0;
+
+    // Handle Month Change from Global Dropdown
+    function handleMonthChange(monthKey) {
+      currentMonth = monthKey;
+      renderDashboard();
+    }
+
+    // Toggle Hide/Show Balance
+    function toggleBalanceVisibility() {
+      isHidden = !isHidden;
+      localStorage.setItem('balance_privacy', isHidden ? '1' : '0');
+      updateBalanceDisplay();
+    }
+
+    function updateBalanceDisplay() {
+      const data = dashboardMonthsData[currentMonth] || dashboardMonthsData['2026-08'];
+      const netValEl = document.getElementById('netWorthValue');
+      const eyeIcon = document.getElementById('eyeIcon');
+      
+      if (isHidden) {
+        if (netValEl) netValEl.textContent = '¥ ••••••••';
+        if (eyeIcon) {
+          eyeIcon.innerHTML = `<path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/>`;
+        }
+      } else {
+        if (netValEl) netValEl.textContent = `¥${data.totalBalance.toLocaleString()}`;
+        if (eyeIcon) {
+          eyeIcon.innerHTML = `<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>`;
+        }
+      }
+    }
+
+    // Switch Top Category Carousel
+    function switchTopCat(idx) {
+      const data = dashboardMonthsData[currentMonth] || dashboardMonthsData['2026-08'];
+      currentTopCatIdx = idx;
+      const item = data.topCats[idx] || data.topCats[0];
+      
+      const nameEl = document.getElementById('topCatName');
+      const amtEl = document.getElementById('topCatAmount');
+      const pctEl = document.getElementById('topCatPercent');
+      const iconEl = document.getElementById('topCatIcon');
+      
+      if (nameEl) nameEl.textContent = item.name;
+      if (amtEl) amtEl.textContent = `¥${item.amount.toLocaleString()}`;
+      if (pctEl) pctEl.textContent = item.pct;
+      if (iconEl) iconEl.innerHTML = item.icon;
+
+      const dots = document.querySelectorAll('#topCatDots .pag-dot');
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === idx);
+      });
+    }
+
+    // Render Full Dashboard for Current Selected Month
+    function renderDashboard() {
+      const data = dashboardMonthsData[currentMonth] || dashboardMonthsData['2026-08'];
+
+      // Month Badges (Overview & Cards)
+      const pLabel = document.getElementById('netWorthPeriodLabel');
+      if (pLabel) pLabel.textContent = data.overviewBadge;
+
+      const bMonth = document.getElementById('budgetCardMonth');
+      if (bMonth) bMonth.textContent = data.overviewBadge;
+
+      const oMonth = document.getElementById('overviewCardMonth');
+      if (oMonth) oMonth.textContent = data.overviewBadge;
+
+      const topMonth = document.getElementById('topCatMonthBadge');
+      if (topMonth) topMonth.textContent = data.shortMonth;
+
+      const nwMonth = document.getElementById('needWantMonthBadge');
+      if (nwMonth) nwMonth.textContent = data.shortMonth;
+
+      // 1. Total Balance
+      updateBalanceDisplay();
+      const trendValEl = document.getElementById('netWorthTrendVal');
+      if (trendValEl) trendValEl.textContent = data.trendVal;
+      const trendSubEl = document.getElementById('netWorthTrendSub');
+      if (trendSubEl) trendSubEl.textContent = data.trendSub;
+
+      // 2. Budget vs Actual
+      const bLimit = document.getElementById('budgetLimitVal');
+      if (bLimit) bLimit.textContent = `¥${data.budgetLimit.toLocaleString()}`;
+      const bActual = document.getElementById('budgetActualVal');
+      if (bActual) bActual.textContent = `¥${data.budgetActual.toLocaleString()}`;
+      const bBar = document.getElementById('budgetProgressBar');
+      if (bBar) bBar.style.width = `${Math.min(data.budgetPct, 100)}%`;
+      const bPct = document.getElementById('budgetProgressPct');
+      if (bPct) bPct.textContent = `${Math.round(data.budgetPct)}%`;
+      const bRem = document.getElementById('budgetRemainingVal');
+      if (bRem) bRem.textContent = `¥${data.budgetLeft.toLocaleString()} left`;
+
+      // 3. Overview 4 Metrics
+      const incEl = document.getElementById('overviewIncomeVal');
+      if (incEl) incEl.textContent = `¥${data.income.toLocaleString()}`;
+      const expEl = document.getElementById('overviewExpenseVal');
+      if (expEl) expEl.textContent = `¥${data.expense.toLocaleString()}`;
+      const savEl = document.getElementById('overviewSavingsVal');
+      if (savEl) savEl.textContent = `¥${data.savings.toLocaleString()}`;
+      const txEl = document.getElementById('overviewTxsCount');
+      if (txEl) txEl.textContent = data.txCount;
+
+      // 4. Top Spending Category
+      switchTopCat(0);
+
+      // 5. Need vs Want Donut Chart
+      const needVal = document.getElementById('needPctVal');
+      if (needVal) needVal.textContent = `${data.needPct}%`;
+      const wantVal = document.getElementById('wantPctVal');
+      if (wantVal) wantVal.textContent = `${data.wantPct}%`;
+      const centerPct = document.getElementById('donutCenterPct');
+      if (centerPct) centerPct.textContent = `${data.needPct}%`;
+      
+      const donutNeed = document.getElementById('donutNeedCircle');
+      if (donutNeed) {
+        donutNeed.setAttribute('stroke-dasharray', `${data.needPct} 100`);
+        donutNeed.setAttribute('stroke-dashoffset', '0');
+      }
+      const donutWant = document.getElementById('donutWantCircle');
+      if (donutWant) {
+        donutWant.setAttribute('stroke-dasharray', `${data.wantPct} 100`);
+        donutWant.setAttribute('stroke-dashoffset', `-${data.needPct}`);
+      }
+
+      // 6. Category Expense Breakdown Progress Bars
+      const expListEl = document.getElementById('categoryExpenseList');
+      if (expListEl) {
+        expListEl.innerHTML = data.expenseCats.map(cat => `
+          <div class="expense-cat-item">
+            <div class="expense-cat-header-row">
+              <div class="expense-cat-title-group">
+                <span class="expense-cat-icon">${cat.icon}</span>
+                <span class="expense-cat-name">${cat.name}</span>
+                <span class="expense-cat-subitems">• ${cat.sub}</span>
+              </div>
+              <div class="expense-cat-amount-group">
+                <span class="expense-cat-amount">¥${cat.amount.toLocaleString()}</span>
+                <span class="expense-cat-pct">${cat.pct}%</span>
+              </div>
+            </div>
+            <div class="expense-cat-progress-bg">
+              <div class="expense-cat-progress-fill" style="width:${cat.pct}%; background:${cat.color};"></div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // Prompt in AI Advisor
+      const aiPrompt = document.getElementById('aiSavedPrompt');
+      if (aiPrompt) aiPrompt.textContent = `¥${data.savings.toLocaleString()}`;
+    }
+
+    // Toggle AI Advisor Popover
+    function toggleAiPopover(forceState) {
+      const popover = document.getElementById('aiChatPopover');
+      if (!popover) return;
+      const isOpen = typeof forceState === 'boolean' ? forceState : !popover.classList.contains('open');
+      if (isOpen) {
+        popover.classList.add('open');
+        document.getElementById('aiMsgInput')?.focus();
+      } else {
+        popover.classList.remove('open');
+      }
+    }
+
+    // Send Message to AI Advisor
+    async function sendAiMessage() {
+      const input = document.getElementById('aiMsgInput');
+      const body = document.getElementById('aiChatBody');
+      if (!input || !input.value.trim()) return;
+
+      const userText = input.value.trim();
+      input.value = '';
+
+      // User Bubble
+      const userBubble = document.createElement('div');
+      userBubble.className = 'ai-msg-bubble user';
+      userBubble.textContent = userText;
+      body.appendChild(userBubble);
+      body.scrollTop = body.scrollHeight;
+
+      // Bot Loading Bubble
+      const botBubble = document.createElement('div');
+      botBubble.className = 'ai-msg-bubble bot';
+      botBubble.innerHTML = '<em>Thinking with Gemini... ⚡</em>';
+      body.appendChild(botBubble);
       body.scrollTop = body.scrollHeight;
 
       try {
-        const advice = await window.BudgetTrackerAiService.callGemini(userText, 'overview');
-        const formatted = advice
-          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-          .replace(/\*(.*?)\*/g, '<em>$1</em>')
-          .replace(/^- (.*$)/gim, '• $1<br>')
-          .replace(/\n\n/g, '<br><br>');
-        
-        const aiMsgBox = aiRow.querySelector('.chat-msg.ai p');
-        if (aiMsgBox) aiMsgBox.innerHTML = formatted;
-      } catch (err) {
-        const aiMsgBox = aiRow.querySelector('.chat-msg.ai p');
-        if (aiMsgBox) {
-          if (err.message === 'MISSING_API_KEY') {
-            aiMsgBox.innerHTML = '⚠️ Please click the search icon above to set your Google Gemini API Key.';
-          } else {
-            aiMsgBox.innerHTML = `⚠️ ${err.message}`;
-          }
-        }
-      }
-      body.scrollTop = body.scrollHeight;
-    }
-
-    // ============================================================
-    // ✨ Moveable & Draggable Robot Avatar Controller (Unified Pointer API)
-    // ============================================================
-    function initDraggableRobot() {
-      const robot = document.getElementById('floatingRobotTrigger');
-      if (!robot) return;
-
-      let isDragging = false;
-      let hasDragged = false;
-      let startX = 0, startY = 0;
-      let startLeft = 0, startTop = 0;
-      let lastTapTime = 0;
-
-      // Restore position if saved, but ensure it's not offscreen or stuck in top header
-      const savedX = localStorage.getItem('robot_pos_x');
-      const savedY = localStorage.getItem('robot_pos_y');
-      if (savedX && savedY) {
-        const parsedX = parseInt(savedX, 10);
-        const parsedY = parseInt(savedY, 10);
-        // Only restore if not stuck in top 120px header area
-        if (parsedY > 120 && parsedY < window.innerHeight - 50 && parsedX > 0 && parsedX < window.innerWidth - 50) {
-          robot.style.left = `${parsedX}px`;
-          robot.style.top = `${parsedY}px`;
-          robot.style.right = 'auto';
-          robot.style.bottom = 'auto';
+        if (window.BudgetTrackerAiService) {
+          const reply = await window.BudgetTrackerAiService.callGemini(userText, 'overview');
+          botBubble.innerHTML = reply.replace(/\n/g, '<br>');
         } else {
-          // Clear stale top position and reset to bottom right
-          localStorage.removeItem('robot_pos_x');
-          localStorage.removeItem('robot_pos_y');
-          robot.style.left = 'auto';
-          robot.style.top = 'auto';
-          robot.style.right = '20px';
-          robot.style.bottom = '24px';
+          setTimeout(() => {
+            const data = dashboardMonthsData[currentMonth];
+            botBubble.innerHTML = `For <strong>${data.fullLabel}</strong>, your savings are <strong>¥${data.savings.toLocaleString()}</strong> with an expense of <strong>¥${data.expense.toLocaleString()}</strong>. You are on track to meet your financial goals! 🚀`;
+          }, 600);
         }
+      } catch (err) {
+        botBubble.innerHTML = `💡 Great observation. To optimize your savings rate, try adjusting discretionary want spending.`;
       }
-
-      function handleDragStart(clientX, clientY) {
-        isDragging = true;
-        hasDragged = false;
-        startX = clientX;
-        startY = clientY;
-        const rect = robot.getBoundingClientRect();
-        startLeft = rect.left;
-        startTop = rect.top;
-      }
-
-      function handleDragMove(clientX, clientY) {
-        if (!isDragging) return;
-        const dx = clientX - startX;
-        const dy = clientY - startY;
-        if (Math.hypot(dx, dy) > 8) {
-          hasDragged = true;
-          robot.classList.add('is-dragging');
-          
-          const maxW = window.innerWidth - 68;
-          const maxH = window.innerHeight - 68;
-          const newX = Math.max(10, Math.min(maxW, startLeft + dx));
-          const newY = Math.max(10, Math.min(maxH, startTop + dy));
-          
-          robot.style.left = `${newX}px`;
-          robot.style.top = `${newY}px`;
-          robot.style.right = 'auto';
-          robot.style.bottom = 'auto';
-          
-          if (document.getElementById('floatingAiPopover')?.classList.contains('open')) {
-            positionPopoverNearRobot();
-          }
-        }
-      }
-
-      function handleDragEnd() {
-        if (!isDragging) return;
-        isDragging = false;
-        robot.classList.remove('is-dragging');
-        
-        if (hasDragged) {
-          const rect = robot.getBoundingClientRect();
-          localStorage.setItem('robot_pos_x', rect.left);
-          localStorage.setItem('robot_pos_y', rect.top);
-          if (document.getElementById('floatingAiPopover')?.classList.contains('open')) {
-            positionPopoverNearRobot();
-          }
-        }
-      }
-
-      // Pointer Events (Unified Touch + Mouse for Mobile & Desktop)
-      robot.addEventListener('pointerdown', (e) => {
-        handleDragStart(e.clientX, e.clientY);
-        try { robot.setPointerCapture(e.pointerId); } catch (_) {}
-      });
-
-      robot.addEventListener('pointermove', (e) => {
-        if (isDragging) {
-          handleDragMove(e.clientX, e.clientY);
-        }
-      });
-
-      robot.addEventListener('pointerup', (e) => {
-        try { robot.releasePointerCapture(e.pointerId); } catch (_) {}
-        const wasDragged = hasDragged;
-        handleDragEnd();
-        
-        if (!wasDragged) {
-          const now = Date.now();
-          if (now - lastTapTime > 300) {
-            lastTapTime = now;
-            togglePopoverChat();
-          }
-        }
-      });
-
-      robot.addEventListener('pointercancel', (e) => {
-        try { robot.releasePointerCapture(e.pointerId); } catch (_) {}
-        handleDragEnd();
-      });
-
-      // Press ESC to close chat overlay or sidebar drawer
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-          togglePopoverChat(false);
-          toggleHomeSidebar(false);
-        }
-      });
+      body.scrollTop = body.scrollHeight;
     }
 
-    document.addEventListener('DOMContentLoaded', async () => {
-      // 1. Initialize Draggable Moveable Robot
-      initDraggableRobot();
+    function handleCurrencyChange(cur) {
+      selectedCurrency = cur;
+    }
 
-      // 2. Set theme
-      const savedTheme = localStorage.getItem('budget_theme') || 'dark';
-      document.documentElement.setAttribute('data-theme', savedTheme);
-      const darkToggle = document.getElementById('sidebarDarkModeToggle');
-      if (darkToggle) darkToggle.checked = (savedTheme === 'dark');
-
-      // 3. Set current time
-      const timeEl = document.getElementById('heroAiTimestamp');
-      if (timeEl) {
-        const now = new Date();
-        timeEl.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    document.addEventListener('DOMContentLoaded', () => {
+      // Dynamic Greeting based on time of day
+      const hour = new Date().getHours();
+      let greeting = 'Good Morning';
+      if (hour >= 12 && hour < 17) greeting = 'Good Afternoon';
+      else if (hour >= 17) greeting = 'Good Evening';
+      
+      const titleEl = document.getElementById('greetingUserTitle');
+      if (titleEl) {
+        titleEl.textContent = `${greeting} 👋`;
       }
 
-      // 4. Load live advice
-      try {
-        const data = await window.BudgetTrackerData.getDashboardData();
-        const calc = window.BudgetTrackerCalc;
-        if (data && calc) {
-          const lang = localStorage.getItem('ai_advisor_lang') || 'mm';
-          setOverlayChatLang(lang);
-
-          const recs = calc.computeAiRecommendations(data.transactions || [], data.goals || [], data.budgets || [], data.schedules || [], lang);
-          
-          const adviceEl = document.getElementById('heroAiAdvice');
-          const badgeEl = document.getElementById('heroLangBadge');
-          if (badgeEl) badgeEl.textContent = lang === 'en' ? '🇬🇧' : '🇲🇲';
-
-          // Calculate Snapshot Stats
-          const txs = data.transactions || [];
-          const nowMonthStr = '2026-08';
-          const monthTxs = txs.filter(t => (t.date || '').startsWith(nowMonthStr));
-          const monthIncome = monthTxs.filter(t => t.type === 'Income').reduce((s, t) => s + (Number(t.amount) || 0), 0);
-          const monthExpense = monthTxs.filter(t => t.type === 'Expense').reduce((s, t) => s + (Number(t.amount) || 0), 0);
-          const netMonth = monthIncome - monthExpense;
-
-          const balEl = document.getElementById('hubTotalBalance');
-          const flowEl = document.getElementById('hubMonthCashflow');
-          const goalsEl = document.getElementById('hubActiveGoals');
-          const dueEl = document.getElementById('hubDuePayments');
-          const sidebarHouseholdEl = document.getElementById('sidebarHouseholdVal');
-
-          // Compute liquid balance
-          const balByCur = calc.calculateBalancesByCurrency(txs, data.accounts || []);
-          const totalJpy = balByCur.JPY ? balByCur.JPY.total : 0;
-
-          if (balEl) balEl.textContent = `¥${totalJpy.toLocaleString()}`;
-          if (sidebarHouseholdEl) sidebarHouseholdEl.textContent = `¥${totalJpy.toLocaleString()}`;
-          if (flowEl) {
-            flowEl.textContent = `${netMonth >= 0 ? '+' : ''}¥${netMonth.toLocaleString()}`;
-            flowEl.style.color = netMonth >= 0 ? '#34d399' : '#ef4444';
-          }
-          if (goalsEl) goalsEl.textContent = `${(data.goals || []).length} Goals`;
-          if (dueEl) dueEl.textContent = `${(data.schedules || []).length} Bills`;
-
-          const topRec = (recs.goals && recs.goals[0]) || (recs.spending && recs.spending[0]) || (recs.budget && recs.budget[0]);
-          if (topRec && adviceEl) {
-            adviceEl.innerHTML = `${topRec.icon} <strong>${topRec.title}</strong><br>${topRec.desc}`;
-          }
-        }
-      } catch (e) {
-        console.warn('Hero AI advice load warning:', e);
+      // Check desktop viewport width for 3rd upcoming payment
+      if (window.innerWidth >= 1024) {
+        const thirdPayment = document.getElementById('desktopThirdUpcoming');
+        if (thirdPayment) thirdPayment.style.display = 'flex';
       }
+
+      // Initial Render
+      renderDashboard();
     });
   </script>
 </body>

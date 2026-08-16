@@ -18,12 +18,9 @@
       <div class="nav-brand-text">BudgetTracker <span>Data Entry</span></div>
     </div>
 
-    <div class="nav-links-wrap">
-      <a class="nav-link-btn" href="./index.html">📊 Dashboard</a>
-      <a class="nav-link-btn active" href="./input.html">✦ Transactions</a>
-      <a class="nav-link-btn" href="./budget.html">◔ Budget</a>
-      <a class="nav-link-btn" href="./goal.html">🎯 Goals</a>
-      <a class="nav-link-btn" href="./schedule.html">🗓️ Schedule</a>
+    <!-- Center Title Group in Nav -->
+    <div class="nav-center-title-group">
+      <div class="nav-header-main-title">✦ Transaction Data Entry</div>
     </div>
 
     <div class="nav-right-group">
@@ -32,12 +29,6 @@
   </nav>
 
   <div class="entry-page-wrapper">
-    <!-- Hero Title -->
-    <div class="entry-hero-banner">
-      <h1 class="entry-hero-title">✦ Transaction Data Entry</h1>
-      <p class="entry-hero-subtitle">Record cash flows, income streams, daily expenses, and account transfers.</p>
-    </div>
-
     <!-- Income / Expense / Transfer Switcher Tabs -->
     <div class="flow-tabs-wrapper">
       <button class="flow-tab-btn active" data-flow="Income" onclick="switchFlow('Income')">
@@ -84,29 +75,24 @@
       </div>
     </section>
 
-    <!-- Recent Recorded Transactions Table -->
-    <section class="recent-entries-section">
-      <div class="recent-section-header">
-        <h3 class="recent-section-title">🕒 Recent Submissions</h3>
-        <span style="font-size:11px; color:var(--text-muted);">Synced to Google Sheets</span>
+    <!-- Recent Recorded Transactions Section (Collapsible by Default with Modern Icon) -->
+    <section class="recent-entries-section" id="recentEntriesSection">
+      <div class="recent-section-header" onclick="toggleRecentVisibility()" title="Click to view recent submissions">
+        <div class="recent-section-title-wrap">
+          <div class="recent-section-icon-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <h3 class="recent-section-title">Recent Submissions</h3>
+          <span class="recent-count-pill" id="recentCountBadge">4</span>
+        </div>
+        <div class="recent-toggle-chevron" id="recentChevronIcon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
       </div>
-      <div class="recent-table-wrap">
-        <table class="recent-table">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Flow</th>
-              <th>Type / Detail</th>
-              <th>Account</th>
-              <th>For Who</th>
-              <th style="text-align:right;">Amount</th>
-              <th style="text-align:center; min-width:85px;">Action</th>
-            </tr>
-          </thead>
-          <tbody id="recentTransactionsBody">
-            <!-- Populated dynamically by script with ✏️ Edit buttons -->
-          </tbody>
-        </table>
+
+      <!-- Mobile Card List Container (Default Collapsed) -->
+      <div id="recentCardsList" class="recent-cards-list">
+        <!-- Populated dynamically by script with 3-dot action menu [Edit, Delete] -->
       </div>
     </section>
   </div>
@@ -315,12 +301,18 @@
       };
     }
 
+    const todayDateObj = new Date();
+    const todayStr = todayDateObj.toISOString().split('T')[0];
+    const yesterdayDateObj = new Date();
+    yesterdayDateObj.setDate(yesterdayDateObj.getDate() - 1);
+    const yesterdayStr = yesterdayDateObj.toISOString().split('T')[0];
+
     let editingItem = null;
     let recentSubmissions = [
-      { rowIndex: 238, date: '2026-08-15', cashFlow: 'Income', cashFlowType: 'Fixed_Income', cashFlowDetails: 'Salary1', fromSource: 'Bk-MUFG_MG', toSource: '-', forWho: 'CS', amount: 420000, currency: 'JPY', status: '-', note: 'August Salary deposit' },
-      { rowIndex: 237, date: '2026-08-16', cashFlow: 'Expense', cashFlowType: 'Savings_Investments', cashFlowDetails: 'Saving', fromSource: 'Bk-SMBC_CS', toSource: '-', forWho: 'CS', amount: 115000, currency: 'JPY', status: 'Need', description: 'Japan Family Vacation', note: '' },
-      { rowIndex: 236, date: '2026-08-16', cashFlow: 'Expense', cashFlowType: 'Savings_Investments', cashFlowDetails: 'Saving', fromSource: 'Bk-YUCHO_MG', toSource: '-', forWho: 'MG', amount: 50000, currency: 'JPY', status: 'Need', description: 'Family Emergency Fund', note: '' },
-      { rowIndex: 235, date: '2026-08-15', cashFlow: 'Income', cashFlowType: 'Lend_Income', cashFlowDetails: 'Other', fromSource: '-', toSource: 'Bk-YUCHO_MG', forWho: 'MG', amount: 20000, currency: 'JPY', status: '', description: 'Ko Zaw', note: '' }
+      { rowIndex: 238, date: todayStr, cashFlow: 'Expense', cashFlowType: 'Savings_Investments', cashFlowDetails: 'Vacation', description: 'Saving – Japan Family Vacation', fromSource: 'Bk-SMBC_CS', toSource: '-', forWho: 'CS', amount: 30000, currency: 'JPY', status: 'Want', note: '' },
+      { rowIndex: 237, date: todayStr, cashFlow: 'Expense', cashFlowType: 'Emergency', cashFlowDetails: 'Family', description: 'Family Emergency', fromSource: 'Bk-YUCHO_MG', toSource: '-', forWho: 'MG', amount: 10000, currency: 'JPY', status: 'Need', note: '' },
+      { rowIndex: 236, date: yesterdayStr, cashFlow: 'Income', cashFlowType: 'Salary', cashFlowDetails: 'Salary1', description: 'Salary1', fromSource: 'Bk-MUFG_MG', toSource: '-', forWho: 'CS', amount: 220000, currency: 'JPY', status: 'Need', note: 'Monthly salary' },
+      { rowIndex: 235, date: yesterdayStr, cashFlow: 'Income', cashFlowType: 'Lend_Income', cashFlowDetails: 'Other', description: 'Ko Zaw (Loan Repayment)', fromSource: '-', toSource: 'Bk-YUCHO_MG', forWho: 'MG', amount: 20000, currency: 'JPY', status: 'Need', note: '' }
     ];
 
     async function loadLiveRecentSubmissions() {
@@ -373,7 +365,7 @@
         if (rows.length > 0) {
           // Take the latest 10 submissions in reverse order
           recentSubmissions = rows.slice(-10).reverse();
-          renderRecentTable(recentSubmissions);
+          renderRecentCards(recentSubmissions);
         }
       } catch (e) {
         console.warn('Could not fetch live recent submissions:', e);
@@ -461,21 +453,92 @@
       const bannerText = document.getElementById('editingBannerText');
       if (banner && bannerText) {
         banner.style.display = 'flex';
-        bannerText.textContent = `Editing Row ${item.rowIndex ? '#' + item.rowIndex : ''}: ${item.date} · ${item.cashFlow} (${item.cashFlowDetails || item.cashFlowType || ''} ¥${Number(item.amount).toLocaleString()})`;
+        bannerText.textContent = `Editing: ${item.date} · ${item.cashFlow} (${item.description || item.cashFlowDetails || ''} ¥${Number(item.amount).toLocaleString()})`;
       }
 
       // 4. Smoothly scroll to the form
       document.getElementById('card').scrollIntoView({ behavior: 'smooth', block: 'center' });
       if (amtEl) setTimeout(() => amtEl.focus(), 250);
-      showToast(`Loaded transaction for editing`);
+    }
+
+    function duplicateSubmission(item) {
+      if (!item) return;
+      editingItem = null; // Fresh submission
+
+      // 1. Switch flow
+      const flow = item.cashFlow || (item.amount > 0 ? 'Income' : 'Expense');
+      switchFlow(flow);
+
+      // 2. Set Today's date and clone values
+      setTimeout(() => {
+        const amtEl = document.getElementById('amount');
+        if (amtEl) amtEl.value = Math.abs(Number(item.amount) || 0);
+
+        const curEl = document.getElementById('currency');
+        if (curEl && item.currency) {
+          curEl.value = item.currency;
+          hydrateSources();
+        }
+
+        const dateEl = document.getElementById('date');
+        if (dateEl) dateEl.value = todayISO();
+
+        const typeEl = document.getElementById('cashFlowType');
+        if (typeEl && item.cashFlowType) {
+          typeEl.value = item.cashFlowType;
+          hydrateDetails();
+        }
+
+        const detailEl = document.getElementById('cashFlowDetails');
+        if (detailEl && (item.cashFlowDetails || item.detail)) {
+          detailEl.value = item.cashFlowDetails || item.detail;
+        }
+
+        const descEl = document.getElementById('description');
+        if (descEl) descEl.value = item.description || item.memo || '';
+
+        const fromEl = document.getElementById('fromSource');
+        if (fromEl && item.fromSource) fromEl.value = item.fromSource;
+
+        const toEl = document.getElementById('toSource');
+        if (toEl && item.toSource) toEl.value = item.toSource;
+
+        const forWhoEl = document.getElementById('forWho');
+        if (forWhoEl && item.forWho) forWhoEl.value = item.forWho;
+
+        const statusEl = document.getElementById('status');
+        if (statusEl && item.status) statusEl.value = item.status;
+
+        const noteEl = document.getElementById('note');
+        if (noteEl && item.note) {
+          noteEl.value = item.note;
+          const noteEditor = document.getElementById('noteEditor');
+          const noteSign = document.getElementById('noteSign');
+          if (noteEditor && !noteEditor.classList.contains('open')) {
+            noteEditor.classList.add('open');
+            if (noteSign) noteSign.textContent = '−';
+          }
+        }
+
+        // 3. Scroll to form and toast
+        document.getElementById('card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        showToast(`Duplicated into form with today's date!`);
+        if (amtEl) setTimeout(() => amtEl.focus(), 250);
+      }, 100);
     }
 
     function cancelEdit() {
       editingItem = null;
       const banner = document.getElementById('editingBanner');
       if (banner) banner.style.display = 'none';
-      renderFields();
-      showToast('Edit mode cancelled');
+
+      const meta = FLOW_META[currentFlow];
+      const saveBtn = document.getElementById('saveBtn');
+      if (saveBtn) {
+        saveBtn.textContent = meta.save;
+        saveBtn.style.background = '';
+      }
+      clearForm();
     }
 
     function clearForm() {
@@ -488,21 +551,17 @@
 
     function submitForm(event) {
       event.preventDefault();
-      if (!event.currentTarget.reportValidity()) return;
+      const form = document.getElementById('entryForm');
+      if (!form.reportValidity()) return;
 
       const button = document.getElementById('saveBtn');
-      const normalText = FLOW_META[currentFlow].save;
-      const data = collectData();
+      const normalText = button.textContent;
+      const data = formValues();
 
       if (editingItem) {
         data.action = 'update';
-        data.isEdit = true;
-        data.rowIndex = editingItem.rowIndex || 0;
-        data.oldDate = editingItem.date;
-        data.oldCashFlow = editingItem.cashFlow;
-        data.oldAmount = editingItem.amount;
+        data.rowIndex = editingItem.rowIndex || null;
 
-        // Replace in-place in recentSubmissions array (NO DUPLICATE!)
         const targetIdx = recentSubmissions.findIndex(r => r.rowIndex === editingItem.rowIndex || (r.date === editingItem.date && r.amount === editingItem.amount && r.cashFlow === editingItem.cashFlow));
         if (targetIdx !== -1) {
           recentSubmissions[targetIdx] = { ...data, rowIndex: editingItem.rowIndex };
@@ -517,8 +576,8 @@
       button.disabled = true;
       button.textContent = editingItem ? 'Updating in Sheets...' : 'Saving to Sheets...';
 
-      // Update table in-place
-      renderRecentTable(recentSubmissions);
+      // Update card list in-place
+      renderRecentCards(recentSubmissions);
 
       if (window.google && google.script && google.script.run) {
         google.script.run
@@ -559,50 +618,183 @@
       renderFields();
     }
 
-    function renderRecentTable(items) {
-      const tbody = document.getElementById('recentTransactionsBody');
-      if (!tbody) return;
-      tbody.innerHTML = '';
-      (items || []).forEach(item => {
-        const tr = createRecentTableRow(item);
-        tbody.appendChild(tr);
+    // Render Recent Card Items (Limited to 4 items, sorted by Date Desc, with Edit & Delete only)
+    function renderRecentCards(items) {
+      const container = document.getElementById('recentCardsList');
+      if (!container) return;
+      container.innerHTML = '';
+
+      // Sort Date Descending (Newest date first)
+      const sorted = [...(items || [])].sort((a, b) => {
+        const tA = new Date(a.date || '1970-01-01').getTime();
+        const tB = new Date(b.date || '1970-01-01').getTime();
+        return tB - tA;
+      });
+
+      const displayItems = sorted.slice(0, 4);
+
+      const countBadge = document.getElementById('recentCountBadge');
+      if (countBadge) countBadge.textContent = displayItems.length;
+
+      if (displayItems.length === 0) {
+        container.innerHTML = `
+          <div style="text-align:center; padding:20px 12px; color:var(--text-muted); font-size:12.5px;">
+            No recent submissions found.
+          </div>
+        `;
+        return;
+      }
+
+      displayItems.forEach((item, index) => {
+        const card = createRecentCardElement(item, index);
+        container.appendChild(card);
       });
     }
 
-    function createRecentTableRow(data) {
-      const tr = document.createElement('tr');
-      const isInc = data.cashFlow === 'Income';
-      const isExp = data.cashFlow === 'Expense';
-      const color = isInc ? '#10b981' : isExp ? '#ef4444' : '#3b82f6';
+    function createRecentCardElement(data, index) {
+      const card = document.createElement('div');
+      card.className = 'recent-card-item';
+      card.dataset.index = index;
+
+      const flow = data.cashFlow || 'Expense';
+      const flowLower = flow.toLowerCase();
+      const isInc = flow === 'Income';
+      const isExp = flow === 'Expense';
       const sign = isInc ? '+' : isExp ? '-' : '';
 
-      const detailText = data.cashFlowDetails || data.detail || data.cashFlowDetail || data.cashFlowType || '-';
-      const acctText = data.fromSource && data.fromSource !== '-' ? data.fromSource : (data.toSource || '-');
+      // Title text
+      const titleText = data.description || data.cashFlowDetails || data.cashFlowType || 'Transaction';
+      
+      // Account & ForWho subtitle
+      const acctText = (data.fromSource && data.fromSource !== '-') ? data.fromSource : (data.toSource || 'Cash');
+      const forWhoText = data.forWho || 'CS';
 
-      tr.innerHTML = `
-        <td>${data.date || todayISO()}</td>
-        <td><span style="color:${color}; font-weight:700;">${data.cashFlow}</span></td>
-        <td><strong>${detailText}</strong> ${data.description ? `<span style="display:block; font-size:11px; color:var(--text-muted);">${data.description}</span>` : ''}</td>
-        <td>${acctText}</td>
-        <td>${data.forWho || 'CS'}</td>
-        <td style="text-align:right; font-weight:700; color:${color};">${sign}¥${Math.abs(Number(data.amount) || 0).toLocaleString()}</td>
-        <td style="text-align:center;">
-          <button type="button" class="btn-action-edit" title="Edit this transaction in form above" style="padding:4px 9px; font-size:11px; font-weight:700; border-radius:6px; background:rgba(37,99,235,0.12); color:#2563eb; border:1px solid rgba(37,99,235,0.25); cursor:pointer; display:inline-flex; align-items:center; gap:4px; transition:all 0.15s ease;">
-            ✏️ Edit
-          </button>
-        </td>
+      // Date format (e.g. Aug 16, 2026 / Aug 15, 2026)
+      let formattedDate = data.date || todayISO();
+      try {
+        const parts = formattedDate.split('-');
+        if (parts.length === 3) {
+          const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+          const mIdx = parseInt(parts[1], 10) - 1;
+          formattedDate = `${months[mIdx] || parts[1]} ${parseInt(parts[2], 10)}, ${parts[0]}`;
+        }
+      } catch (e) {}
+
+      card.innerHTML = `
+        <div class="recent-card-content">
+          <div class="recent-card-top-row">
+            <span class="recent-flow-badge ${flowLower}">${flow}</span>
+            <span class="recent-card-title">${titleText}</span>
+          </div>
+          <div class="recent-card-sub">
+            <span>${acctText}</span>
+            <span class="recent-card-bullet">•</span>
+            <span>${forWhoText}</span>
+          </div>
+        </div>
+
+        <div class="recent-card-right">
+          <div class="recent-amount-group">
+            <span class="recent-card-amount ${flowLower}">${sign}¥${Math.abs(Number(data.amount) || 0).toLocaleString()}</span>
+            <span class="recent-card-date">${formattedDate}</span>
+          </div>
+          
+          <div class="recent-menu-anchor">
+            <button type="button" class="btn-item-more" onclick="toggleItemMenu(event, ${index})" title="More Actions">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <circle cx="12" cy="5" r="2.2"/>
+                <circle cx="12" cy="12" r="2.2"/>
+                <circle cx="12" cy="19" r="2.2"/>
+              </svg>
+            </button>
+            
+            <div class="mobile-action-menu" id="actionMenu-${index}">
+              <button type="button" class="action-menu-item" onclick="handleMenuEdit(event, ${index})">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                <span>Edit</span>
+              </button>
+              <div class="action-menu-divider"></div>
+              <button type="button" class="action-menu-item text-danger" onclick="handleMenuDelete(event, ${index})">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                <span>Delete</span>
+              </button>
+            </div>
+          </div>
+        </div>
       `;
 
-      const editBtn = tr.querySelector('.btn-action-edit');
-      if (editBtn) {
-        editBtn.addEventListener('click', () => editSubmission(data));
-      }
-
-      return tr;
+      return card;
     }
 
-    // Initialize Recent Table & Fetch Live Google Sheets Submissions
-    renderRecentTable(recentSubmissions);
+    // 3-Dots Menu Control
+    let activeOpenMenu = null;
+
+    function toggleItemMenu(event, index) {
+      event.stopPropagation();
+      const menu = document.getElementById(`actionMenu-${index}`);
+      if (!menu) return;
+
+      const card = menu.closest('.recent-card-item');
+      const wasOpen = menu.classList.contains('open');
+      closeAllMenus();
+
+      if (!wasOpen) {
+        menu.classList.add('open');
+        if (card) card.classList.add('menu-active');
+        activeOpenMenu = menu;
+      }
+    }
+
+    function closeAllMenus() {
+      document.querySelectorAll('.mobile-action-menu.open').forEach(m => m.classList.remove('open'));
+      document.querySelectorAll('.recent-card-item.menu-active').forEach(c => c.classList.remove('menu-active'));
+      activeOpenMenu = null;
+    }
+
+    document.addEventListener('click', (e) => {
+      if (activeOpenMenu && !activeOpenMenu.contains(e.target)) {
+        closeAllMenus();
+      }
+    });
+
+    function handleMenuEdit(event, index) {
+      event.stopPropagation();
+      closeAllMenus();
+      const item = recentSubmissions[index];
+      if (item) editSubmission(item);
+    }
+
+    function handleMenuDelete(event, index) {
+      event.stopPropagation();
+      closeAllMenus();
+      const item = recentSubmissions[index];
+      if (!item) return;
+
+      const name = item.description || item.cashFlowDetails || item.cashFlowType || 'this transaction';
+      if (confirm(`Delete transaction "${name}" (¥${Number(item.amount).toLocaleString()})?`)) {
+        recentSubmissions.splice(index, 1);
+        renderRecentCards(recentSubmissions);
+        showToast('Transaction deleted successfully!');
+      }
+    }
+
+    // Toggle Hide/Show Recent Submissions (Default Collapsed)
+    let isRecentOpen = false;
+    function toggleRecentVisibility() {
+      isRecentOpen = !isRecentOpen;
+      const listEl = document.getElementById('recentCardsList');
+      const chevronEl = document.getElementById('recentChevronIcon');
+      
+      if (listEl) {
+        listEl.classList.toggle('open', isRecentOpen);
+      }
+      if (chevronEl) {
+        chevronEl.classList.toggle('open', isRecentOpen);
+      }
+    }
+
+    // Initialize Recent Card List & Fetch Live Google Sheets Submissions
+    renderRecentCards(recentSubmissions);
     loadLiveRecentSubmissions();
 
     // Initial render & URL Query Parsing for seamless navigation

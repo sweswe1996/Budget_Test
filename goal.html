@@ -18,12 +18,9 @@
       <div class="nav-brand-text">BudgetTracker <span>Goal Planning</span></div>
     </div>
 
-    <div class="nav-links-wrap">
-      <a class="nav-link-btn" href="./index.html">📊 Dashboard</a>
-      <a class="nav-link-btn" href="./input.html">✦ Transactions</a>
-      <a class="nav-link-btn" href="./budget.html">◔ Budget</a>
-      <a class="nav-link-btn active" href="./goal.html">🎯 Goals</a>
-      <a class="nav-link-btn" href="./schedule.html">🗓️ Schedule</a>
+    <!-- Center Title Group in Nav -->
+    <div class="nav-center-title-group">
+      <div class="nav-header-main-title">🎯 Savings Goal Entry</div>
     </div>
 
     <div class="nav-right-group">
@@ -32,11 +29,6 @@
   </nav>
 
   <div class="entry-page-wrapper">
-    <div class="entry-hero-banner">
-      <h1 class="entry-hero-title">🎯 Savings Goal & Milestone Planning</h1>
-      <p class="entry-hero-subtitle">Establish target milestone funds, emergency cushions, and major future investments.</p>
-    </div>
-
     <!-- Main Goal Entry Form Card -->
     <section class="entry-form-card theme-Goal">
       <div class="form-card-header">
@@ -107,74 +99,42 @@
           </div>
 
           <div class="form-actions-row">
-            <button type="button" class="btn-form-clear" onclick="document.getElementById('goalForm').reset()">Clear Form</button>
+            <button type="button" class="btn-form-clear" onclick="resetGoalForm()">Clear Form</button>
             <button id="saveBtn" type="submit" class="btn-form-save">Create Savings Goal</button>
           </div>
         </form>
       </div>
     </section>
 
-    <!-- Active Savings Goals List -->
-    <section class="recent-entries-section">
-      <div class="recent-section-header">
-        <h3 class="recent-section-title">🏔️ Active Goals Journey (5 Goals · ¥859,000 Saved)</h3>
-        <span style="font-size:11px; color:var(--text-muted);">Overall Progress: 43.1%</span>
+    <!-- Active Savings Goals Journey Section (Default Collapsed with Show/Hide Header) -->
+    <section class="recent-entries-section" id="goalEntriesSection">
+      <div class="recent-section-header" onclick="toggleGoalVisibility()" title="Click to view Active Savings Goals">
+        <div class="recent-section-title-wrap">
+          <div class="recent-section-icon-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg>
+          </div>
+          <h3 class="recent-section-title">Active Goals Journey</h3>
+          <span class="recent-count-pill" id="goalCountBadge">5</span>
+        </div>
+        <div class="recent-toggle-chevron" id="goalChevronIcon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
       </div>
-      <div class="recent-table-wrap">
-        <table class="recent-table">
-          <thead>
-            <tr>
-              <th>Goal Name</th>
-              <th>Category</th>
-              <th>Target Date</th>
-              <th style="text-align:right;">Target</th>
-              <th style="text-align:right;">Saved</th>
-              <th style="text-align:right;">Progress</th>
-            </tr>
-          </thead>
-          <tbody id="goalsTableBody">
-            <tr>
-              <td><strong>🛡️ Family Emergency Fund</strong></td>
-              <td>Emergency</td>
-              <td>2026-12-31</td>
-              <td style="text-align:right;">¥500,000</td>
-              <td style="text-align:right; color:#10b981; font-weight:700;">¥380,000</td>
-              <td style="text-align:right;"><strong style="color:#10b981;">76.0% (On Track)</strong></td>
-            </tr>
-            <tr>
-              <td><strong>✈️ Japan Family Vacation</strong></td>
-              <td>Travel</td>
-              <td>2026-10-15</td>
-              <td style="text-align:right;">¥300,000</td>
-              <td style="text-align:right; color:#10b981; font-weight:700;">¥195,000</td>
-              <td style="text-align:right;"><strong style="color:#10b981;">65.0% (On Track)</strong></td>
-            </tr>
-            <tr>
-              <td><strong>💻 MacBook Pro M3 Workstation</strong></td>
-              <td>Electronics</td>
-              <td>2026-09-30</td>
-              <td style="text-align:right;">¥280,000</td>
-              <td style="text-align:right; color:#8b5cf6; font-weight:700;">¥140,000</td>
-              <td style="text-align:right;"><strong style="color:#8b5cf6;">50.0% (Midway)</strong></td>
-            </tr>
-            <tr>
-              <td><strong>🎓 Kids Education Fund</strong></td>
-              <td>Education</td>
-              <td>2027-04-01</td>
-              <td style="text-align:right;">¥400,000</td>
-              <td style="text-align:right; color:#8b5cf6; font-weight:700;">¥110,000</td>
-              <td style="text-align:right;"><strong style="color:#8b5cf6;">27.5% (Keep Going)</strong></td>
-            </tr>
-            <tr>
-              <td><strong>🏡 Home Renovation Fund</strong></td>
-              <td>House & Land</td>
-              <td>2027-08-31</td>
-              <td style="text-align:right;">¥500,000</td>
-              <td style="text-align:right; color:#64748b; font-weight:700;">¥34,000</td>
-              <td style="text-align:right;"><strong style="color:#f59e0b;">6.8% (Starting)</strong></td>
-            </tr>
-          </tbody>
-        </table>
+
+      <!-- Collapsible Container (Default Hidden) -->
+      <div id="goalCollapsibleContent" class="recent-cards-list">
+        <!-- Goal Filter Tabs (All Goals, On Track, At Risk, Behind) -->
+        <div class="goal-tabs-nav">
+          <button type="button" class="goal-tab-btn active" data-filter="all" onclick="filterGoalStatus('all')">All Goals</button>
+          <button type="button" class="goal-tab-btn" data-filter="On Track" onclick="filterGoalStatus('On Track')">On Track</button>
+          <button type="button" class="goal-tab-btn" data-filter="At Risk" onclick="filterGoalStatus('At Risk')">At Risk</button>
+          <button type="button" class="goal-tab-btn" data-filter="Behind" onclick="filterGoalStatus('Behind')">Behind</button>
+        </div>
+
+        <!-- Modern Goal Cards List Grid -->
+        <div class="goal-cards-grid" id="goalCardsGrid">
+          <!-- Populated dynamically -->
+        </div>
       </div>
     </section>
   </div>
@@ -183,13 +143,388 @@
 
   <script src="./js/common-forms.js"></script>
   <script>
+    const GOAL_CATEGORY_ICONS = {
+      'Emergency Fund': '🛡️',
+      'Marry Fund': '💍',
+      'Wedding Fund': '💒',
+      'Business Fund': '💼',
+      'Travel & Leisure': '✈️',
+      'Electronics & Work': '💻',
+      'Education Fund': '🎓',
+      'House & Land': '🏠',
+      'Investments': '📈',
+      'Healthcare': '🏥',
+      'Personal / Life': '🌟',
+      'General': '🎯'
+    };
+
+    const GOOGLE_SPREADSHEET_ID = '1OOrFs6uFBTt2nHW5lxTzqng0vMqWsCt_AyZ3ELare9s';
+
+    let savingsGoals = [
+      {
+        id: 'goal_1',
+        name: 'Emergency Fund',
+        category: 'Emergency Fund',
+        displayCategory: 'Emergency',
+        icon: '🛡️',
+        saved: 0,
+        target: 100000,
+        currency: 'JPY',
+        date: '2028-12-31',
+        priority: 'High',
+        status: 'Behind',
+        notes: ''
+      },
+      {
+        id: 'goal_2',
+        name: 'Marry Fund',
+        category: 'Personal / Life',
+        displayCategory: 'Personal',
+        icon: '💍',
+        saved: 0,
+        target: 800000,
+        currency: 'JPY',
+        date: '2027-04-30',
+        priority: 'High',
+        status: 'Behind',
+        notes: ''
+      },
+      {
+        id: 'goal_3',
+        name: 'Wedding Fund',
+        category: 'Personal / Life',
+        displayCategory: 'Personal',
+        icon: '💒',
+        saved: 0,
+        target: 1000000,
+        currency: 'JPY',
+        date: '2027-12-31',
+        priority: 'High',
+        status: 'Behind',
+        notes: ''
+      },
+      {
+        id: 'goal_4',
+        name: 'Business Fund',
+        category: 'Investments',
+        displayCategory: 'Business',
+        icon: '💼',
+        saved: 0,
+        target: 300000,
+        currency: 'JPY',
+        date: '2030-12-31',
+        priority: 'Medium',
+        status: 'Behind',
+        notes: ''
+      }
+    ];
+
+    let currentGoalFilter = 'all';
+    let editingGoalId = null;
+
     document.addEventListener('DOMContentLoaded', () => {
       // Default deadline: 6 months from today
       const d = new Date();
       d.setMonth(d.getMonth() + 6);
       const pad = n => String(n).padStart(2, '0');
       document.getElementById('goalDate').value = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+
+      renderGoalsList();
+
+      // Fetch live data directly from Google Sheets Savings_Goals tab
+      loadLiveGoalsFromGoogleSheet();
     });
+
+    async function loadLiveGoalsFromGoogleSheet() {
+      try {
+        const url = `https://docs.google.com/spreadsheets/d/${GOOGLE_SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=Savings_Goals&t=${Date.now()}`;
+        const res = await fetch(url);
+        if (!res.ok) return;
+        const csvText = await res.text();
+        const lines = csvText.trim().split(/\r?\n/);
+        if (lines.length <= 1) return;
+
+        const parseRow = (line) => {
+          const row = [];
+          let inQuotes = false;
+          let curr = '';
+          for (let i = 0; i < line.length; i++) {
+            const c = line[i];
+            if (c === '"') {
+              if (inQuotes && line[i+1] === '"') { curr += '"'; i++; }
+              else inQuotes = !inQuotes;
+            } else if (c === ',' && !inQuotes) {
+              row.push(curr.trim());
+              curr = '';
+            } else {
+              curr += c;
+            }
+          }
+          row.push(curr.trim());
+          return row;
+        };
+
+        const headers = parseRow(lines[0]).map(h => h.replace(/^"|"$/g, '').trim());
+        const rows = lines.slice(1).map(line => {
+          const cols = parseRow(line);
+          const obj = {};
+          headers.forEach((h, i) => {
+            obj[h] = (cols[i] || '').replace(/^"|"$/g, '').trim();
+          });
+          return obj;
+        });
+
+        if (rows && rows.length > 0) {
+          const fetchedGoals = rows.map((g, idx) => {
+            const goalName = g['Goal'] || g['goal'] || g['Goal Name'] || '';
+            const targetAmt = parseFloat(g['Target'] || g['target'] || 0) || 0;
+            const currentAmt = parseFloat(g['Current'] || g['current'] || 0) || 0;
+            const currency = g['Currency'] || g['currency'] || 'JPY';
+            const targetDate = g['Target Date'] || g['targetDate'] || g['Date'] || '2027-12-31';
+            const pct = targetAmt > 0 ? (currentAmt / targetAmt) * 100 : 0;
+            const status = pct >= 60 ? 'On Track' : (pct >= 25 ? 'At Risk' : 'Behind');
+
+            return {
+              id: 'goal_' + (idx + 1),
+              name: goalName,
+              category: g['Category'] || (goalName.includes('Business') ? 'Investments' : (goalName.includes('Emergency') ? 'Emergency Fund' : 'Personal / Life')),
+              displayCategory: (g['Category'] || goalName.split(' ')[0]),
+              icon: GOAL_CATEGORY_ICONS[goalName] || GOAL_CATEGORY_ICONS[g['Category']] || '🎯',
+              saved: currentAmt,
+              target: targetAmt,
+              currency: currency,
+              date: targetDate,
+              priority: 'High',
+              status: status,
+              notes: ''
+            };
+          }).filter(g => g.name);
+
+          if (fetchedGoals.length > 0) {
+            savingsGoals = fetchedGoals;
+            renderGoalsList();
+            const badge = document.getElementById('goalCountBadge');
+            if (badge) badge.textContent = savingsGoals.length;
+          }
+        }
+      } catch (e) {
+        console.warn('Live Savings_Goals fetch notice:', e);
+      }
+    }
+
+    // Toggle Collapsible Section
+    let isGoalOpen = false;
+    function toggleGoalVisibility() {
+      isGoalOpen = !isGoalOpen;
+      const listEl = document.getElementById('goalCollapsibleContent');
+      const chevronEl = document.getElementById('goalChevronIcon');
+
+      if (listEl) listEl.classList.toggle('open', isGoalOpen);
+      if (chevronEl) chevronEl.classList.toggle('open', isGoalOpen);
+
+      if (isGoalOpen) {
+        renderGoalsList();
+      }
+    }
+
+    function filterGoalStatus(status) {
+      currentGoalFilter = status;
+      document.querySelectorAll('.goal-tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.filter === status);
+      });
+      renderGoalsList();
+    }
+
+    function renderGoalsList() {
+      const container = document.getElementById('goalCardsGrid');
+      if (!container) return;
+
+      const badge = document.getElementById('goalCountBadge');
+      if (badge) badge.textContent = savingsGoals.length;
+
+      const filtered = savingsGoals.filter(goal => {
+        if (currentGoalFilter === 'all') return true;
+        return goal.status === currentGoalFilter;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div style="text-align:center; padding:32px 16px; color:var(--text-muted); font-size:13px; background:var(--bg-card); border-radius:14px; border:1px dashed var(--border-card);">
+            No goals found under "${currentGoalFilter}".
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(goal => {
+        const pct = Math.min(100, Math.round((goal.saved / goal.target) * 100));
+        const statusClass = goal.status === 'On Track' ? 'on-track' : (goal.status === 'At Risk' ? 'at-risk' : 'behind');
+        
+        let fillModifier = statusClass;
+        if (goal.status === 'At Risk' && pct < 40) {
+          fillModifier = 'at-risk-amber';
+        }
+
+        const icon = goal.icon || GOAL_CATEGORY_ICONS[goal.category] || '🎯';
+        const displayCat = goal.displayCategory || goal.category;
+        const curSymbol = goal.currency === 'USD' ? '$' : (goal.currency === 'MMK' ? 'Ks ' : '¥');
+
+        return `
+          <div class="goal-card-item" onclick="editGoalItem(event, '${goal.id}')" title="Click to edit ${goal.name}">
+            <div class="goal-card-icon-box">
+              ${icon}
+            </div>
+            
+            <div class="goal-card-main">
+              <div class="goal-card-top">
+                <span class="goal-card-title">${goal.name}</span>
+                <span class="goal-status-badge ${statusClass}">${goal.status}</span>
+              </div>
+              
+              <div class="goal-card-category">${displayCat}</div>
+              
+              <div class="goal-card-amount-row">
+                <span class="goal-saved-amount ${statusClass}">${curSymbol}${goal.saved.toLocaleString()}</span> saved of ${curSymbol}${goal.target.toLocaleString()}
+              </div>
+              
+              <div class="goal-progress-track">
+                <div class="goal-progress-fill ${fillModifier}" style="width: ${pct}%;"></div>
+              </div>
+              
+              <div class="goal-card-date">Target: ${goal.date}</div>
+            </div>
+
+            <div class="goal-card-right">
+              <span class="goal-card-pct ${fillModifier}">${pct}%</span>
+              
+              <div class="recent-menu-anchor" onclick="event.stopPropagation()">
+                <button type="button" class="btn-item-more" onclick="toggleGoalItemMenu(event, '${goal.id}')" title="Goal Actions">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <circle cx="12" cy="5" r="2.2"/>
+                    <circle cx="12" cy="12" r="2.2"/>
+                    <circle cx="12" cy="19" r="2.2"/>
+                  </svg>
+                </button>
+                <div class="mobile-action-menu" id="goalMenu-${goal.id}">
+                  <button type="button" class="action-menu-item" onclick="editGoalItem(event, '${goal.id}')">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    <span>Edit Goal</span>
+                  </button>
+                  <div class="action-menu-divider"></div>
+                  <button type="button" class="action-menu-item text-danger" onclick="deleteGoalItem(event, '${goal.id}')">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    <span>Delete Goal</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const countBadge = document.getElementById('goalCountBadge');
+      if (countBadge) countBadge.textContent = savingsGoals.length;
+    }
+
+    // 3-Dots Menu Control
+    let activeGoalMenu = null;
+
+    function toggleGoalItemMenu(event, goalId) {
+      if (event) event.stopPropagation();
+      const menu = document.getElementById(`goalMenu-${goalId}`);
+      if (!menu) return;
+
+      const card = menu.closest('.goal-card-item');
+      const wasOpen = menu.classList.contains('open');
+      closeAllGoalMenus();
+
+      if (!wasOpen) {
+        menu.classList.add('open');
+        if (card) card.classList.add('menu-active');
+        activeGoalMenu = menu;
+      }
+    }
+
+    function closeAllGoalMenus() {
+      document.querySelectorAll('.mobile-action-menu.open').forEach(m => m.classList.remove('open'));
+      document.querySelectorAll('.goal-card-item.menu-active').forEach(c => c.classList.remove('menu-active'));
+      activeGoalMenu = null;
+    }
+
+    document.addEventListener('click', (e) => {
+      if (activeGoalMenu && !activeGoalMenu.contains(e.target)) {
+        closeAllGoalMenus();
+      }
+    });
+
+    function editGoalItem(event, goalId) {
+      if (event) event.stopPropagation();
+      closeAllGoalMenus();
+
+      const goal = savingsGoals.find(g => g.id === goalId);
+      if (!goal) return;
+
+      editingGoalId = goal.id;
+      document.getElementById('goalName').value = goal.name;
+      document.getElementById('goalCategory').value = goal.category;
+      document.getElementById('goalTarget').value = goal.target;
+      document.getElementById('goalCurrency').value = goal.currency || 'JPY';
+      document.getElementById('goalDate').value = goal.date;
+      document.getElementById('initialDeposit').value = goal.saved || '';
+      document.getElementById('goalPriority').value = goal.priority || 'High';
+      document.getElementById('goalNotes').value = goal.notes || '';
+
+      const btn = document.getElementById('saveBtn');
+      if (btn) btn.textContent = 'Update Savings Goal';
+
+      document.getElementById('goalForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => document.getElementById('goalTarget').focus(), 250);
+      showToast(`Editing goal: ${goal.name}`);
+    }
+
+    function deleteGoalItem(event, goalId) {
+      if (event) event.stopPropagation();
+      closeAllGoalMenus();
+
+      const goalIndex = savingsGoals.findIndex(g => g.id === goalId);
+      if (goalIndex === -1) return;
+
+      const goal = savingsGoals[goalIndex];
+      if (!confirm(`Are you sure you want to delete the goal "${goal.name}"?`)) {
+        return;
+      }
+
+      savingsGoals.splice(goalIndex, 1);
+      if (editingGoalId === goalId) {
+        resetGoalForm();
+      }
+
+      renderGoalsList();
+      showToast(`Deleted goal "${goal.name}"`);
+
+      // Sync deletion
+      fetch(APPS_SCRIPT_WEB_APP_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          formType: 'Savings_Goals',
+          goalName: goal.name,
+          goalTarget: 0,
+          goalNotes: 'Deleted'
+        }),
+        redirect: 'follow'
+      }).catch(e => console.warn('Sync delete', e));
+    }
+
+    function resetGoalForm() {
+      document.getElementById('goalForm').reset();
+      editingGoalId = null;
+      const btn = document.getElementById('saveBtn');
+      if (btn) {
+        btn.textContent = 'Create Savings Goal';
+        btn.disabled = false;
+      }
+    }
 
     function submitGoal(event) {
       event.preventDefault();
@@ -198,27 +533,50 @@
       const data = Object.fromEntries(formData.entries());
 
       const btn = document.getElementById('saveBtn');
+      const isUpdating = btn.textContent.includes('Update');
       btn.disabled = true;
-      btn.textContent = 'Saving Goal...';
+      btn.textContent = isUpdating ? 'Updating Goal...' : 'Saving Goal...';
+
+      const savedAmt = Number(data.initialDeposit) || 0;
+      const targetAmt = Number(data.goalTarget) || 1;
+      const pct = (savedAmt / targetAmt) * 100;
+      const status = pct >= 60 ? 'On Track' : (pct >= 25 ? 'At Risk' : 'Behind');
+
+      if (editingGoalId) {
+        const goal = savingsGoals.find(g => g.id === editingGoalId);
+        if (goal) {
+          goal.name = data.goalName;
+          goal.category = data.goalCategory;
+          goal.displayCategory = data.goalCategory.split(' ')[0];
+          goal.icon = GOAL_CATEGORY_ICONS[data.goalCategory] || '🎯';
+          goal.saved = savedAmt;
+          goal.target = targetAmt;
+          goal.currency = data.goalCurrency || 'JPY';
+          goal.date = data.goalDate;
+          goal.priority = data.goalPriority || 'High';
+          goal.status = status;
+          goal.notes = data.goalNotes || '';
+        }
+      } else {
+        const newGoal = {
+          id: 'goal_' + Date.now(),
+          name: data.goalName,
+          category: data.goalCategory,
+          displayCategory: data.goalCategory.split(' ')[0],
+          icon: GOAL_CATEGORY_ICONS[data.goalCategory] || '🎯',
+          saved: savedAmt,
+          target: targetAmt,
+          currency: data.goalCurrency || 'JPY',
+          date: data.goalDate,
+          priority: data.goalPriority || 'High',
+          status: status,
+          notes: data.goalNotes || ''
+        };
+        savingsGoals.unshift(newGoal);
+      }
 
       saveLocalRecent('goals', data);
-
-      // Optimistically add to table
-      const tbody = document.getElementById('goalsTableBody');
-      const tr = document.createElement('tr');
-      const saved = Number(data.initialDeposit) || 0;
-      const target = Number(data.goalTarget) || 1;
-      const pct = ((saved / target) * 100).toFixed(1);
-
-      tr.innerHTML = `
-        <td><strong>🎯 ${data.goalName}</strong></td>
-        <td>${data.goalCategory}</td>
-        <td>${data.goalDate}</td>
-        <td style="text-align:right; font-weight:700;">¥${target.toLocaleString()}</td>
-        <td style="text-align:right; color:#8b5cf6; font-weight:700;">¥${saved.toLocaleString()}</td>
-        <td style="text-align:right;"><strong style="color:#8b5cf6;">${pct}% (New)</strong></td>
-      `;
-      tbody.insertBefore(tr, tbody.firstChild);
+      renderGoalsList();
 
       fetch(APPS_SCRIPT_WEB_APP_URL, {
         method: 'POST',
@@ -230,12 +588,15 @@
       .then(res => {
         btn.disabled = false;
         btn.textContent = 'Create Savings Goal';
-        showToast('Savings goal created successfully!');
+        showToast(isUpdating ? 'Savings goal updated successfully!' : 'Savings goal created successfully!');
+        resetGoalForm();
+        renderGoalsList();
       })
       .catch(err => {
         btn.disabled = false;
         btn.textContent = 'Create Savings Goal';
         showToast('Goal saved locally & queued for sync!');
+        resetGoalForm();
       });
     }
   </script>

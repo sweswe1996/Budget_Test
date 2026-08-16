@@ -18,12 +18,9 @@
       <div class="nav-brand-text">BudgetTracker <span>Payment Schedules</span></div>
     </div>
 
-    <div class="nav-links-wrap">
-      <a class="nav-link-btn" href="./index.html">📊 Dashboard</a>
-      <a class="nav-link-btn" href="./input.html">✦ Transactions</a>
-      <a class="nav-link-btn" href="./budget.html">◔ Budget</a>
-      <a class="nav-link-btn" href="./goal.html">🎯 Goals</a>
-      <a class="nav-link-btn active" href="./schedule.html">🗓️ Schedule</a>
+    <!-- Center Title Group in Nav -->
+    <div class="nav-center-title-group">
+      <div class="nav-header-main-title">🗓️ Payment Schedule Entry</div>
     </div>
 
     <div class="nav-right-group">
@@ -32,11 +29,6 @@
   </nav>
 
   <div class="entry-page-wrapper">
-    <div class="entry-hero-banner">
-      <h1 class="entry-hero-title">🗓️ Payment & Debt Schedule Entry</h1>
-      <p class="entry-hero-subtitle">Organize upcoming monthly bills, loan amortizations, and automated card payment deadlines.</p>
-    </div>
-
     <!-- Main Schedule Entry Form Card -->
     <section class="entry-form-card theme-Schedule">
       <div class="form-card-header">
@@ -109,74 +101,54 @@
           </div>
 
           <div class="form-actions-row">
-            <button type="button" class="btn-form-clear" onclick="document.getElementById('scheduleForm').reset()">Clear Form</button>
+            <button type="button" class="btn-form-clear" onclick="resetScheduleForm()">Clear Form</button>
             <button id="saveBtn" type="submit" class="btn-form-save">Schedule Payment</button>
           </div>
         </form>
       </div>
     </section>
 
-    <!-- Upcoming Scheduled Payments List -->
-    <section class="recent-entries-section">
-      <div class="recent-section-header">
-        <h3 class="recent-section-title">🗓️ Upcoming Scheduled Payments (Next 30 Days)</h3>
-        <span style="font-size:11px; color:var(--text-muted);">Total Upcoming: ¥165,800</span>
+    <!-- Upcoming Scheduled Payments Journey Section (Default Collapsed with Show/Hide Header) -->
+    <section class="recent-entries-section" id="scheduleEntriesSection">
+      <div class="recent-section-header" onclick="toggleScheduleVisibility()" title="Click to view Upcoming Payments">
+        <div class="recent-section-title-wrap">
+          <div class="recent-section-icon-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <h3 class="recent-section-title">Upcoming Scheduled Payments</h3>
+          <span class="recent-count-pill" id="scheduleCountBadge">5</span>
+        </div>
+        <div class="recent-toggle-chevron" id="scheduleChevronIcon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
       </div>
-      <div class="recent-table-wrap">
-        <table class="recent-table">
-          <thead>
-            <tr>
-              <th>Payee / Bill</th>
-              <th>Due Date</th>
-              <th>Frequency</th>
-              <th>Source Account</th>
-              <th style="text-align:right;">Amount Due</th>
-              <th style="text-align:right;">Status</th>
-            </tr>
-          </thead>
-          <tbody id="scheduleTableBody">
-            <tr>
-              <td><strong>💳 Mizuho Credit Card</strong></td>
-              <td>2026-08-27</td>
-              <td>Monthly</td>
-              <td>Bk-MIZUHO_CS</td>
-              <td style="text-align:right; font-weight:700; color:#ef4444;">¥46,000</td>
-              <td style="text-align:right;"><span style="color:#f59e0b; font-weight:700;">12 days left</span></td>
-            </tr>
-            <tr>
-              <td><strong>🏠 House Rent Housing</strong></td>
-              <td>2026-08-28</td>
-              <td>Monthly</td>
-              <td>Bk-MUFG_MG</td>
-              <td style="text-align:right; font-weight:700; color:#ef4444;">¥70,000</td>
-              <td style="text-align:right;"><span style="color:#f59e0b; font-weight:700;">13 days left</span></td>
-            </tr>
-            <tr>
-              <td><strong>💳 JCB Credit Card MG</strong></td>
-              <td>2026-09-10</td>
-              <td>Monthly</td>
-              <td>Bk-MUFG_MG</td>
-              <td style="text-align:right; font-weight:700; color:#ef4444;">¥28,500</td>
-              <td style="text-align:right;"><span style="color:#10b981; font-weight:700;">26 days left</span></td>
-            </tr>
-            <tr>
-              <td><strong>💡 Tokyo Electric Power</strong></td>
-              <td>2026-09-12</td>
-              <td>Monthly</td>
-              <td>Bk-PAYPAY_CS</td>
-              <td style="text-align:right; font-weight:700; color:#ef4444;">¥11,300</td>
-              <td style="text-align:right;"><span style="color:#10b981; font-weight:700;">28 days left</span></td>
-            </tr>
-            <tr>
-              <td><strong>📶 SoftBank Internet Fiber</strong></td>
-              <td>2026-09-15</td>
-              <td>Monthly</td>
-              <td>Crd-RAKUTEN_CS</td>
-              <td style="text-align:right; font-weight:700; color:#ef4444;">¥6,200</td>
-              <td style="text-align:right;"><span style="color:#10b981; font-weight:700;">31 days left</span></td>
-            </tr>
-          </tbody>
-        </table>
+
+      <!-- Collapsible Container (Default Hidden) -->
+      <div id="scheduleCollapsibleContent" class="recent-cards-list">
+        <!-- Schedule Filter Tabs (All, Due Soon, Upcoming, Paid) -->
+        <div class="schedule-tabs-nav" id="scheduleTabsNav">
+          <button type="button" class="schedule-tab-btn active" data-filter="all" onclick="filterScheduleStatus('all')">
+            <span>All</span>
+            <span class="schedule-tab-count" id="tabCountAll">5</span>
+          </button>
+          <button type="button" class="schedule-tab-btn" data-filter="Due Soon" onclick="filterScheduleStatus('Due Soon')">
+            <span>Due Soon</span>
+            <span class="schedule-tab-count" id="tabCountDueSoon">2</span>
+          </button>
+          <button type="button" class="schedule-tab-btn" data-filter="Upcoming" onclick="filterScheduleStatus('Upcoming')">
+            <span>Upcoming</span>
+            <span class="schedule-tab-count" id="tabCountUpcoming">3</span>
+          </button>
+          <button type="button" class="schedule-tab-btn" data-filter="Paid" onclick="filterScheduleStatus('Paid')">
+            <span>Paid</span>
+            <span class="schedule-tab-count" id="tabCountPaid">0</span>
+          </button>
+        </div>
+
+        <!-- Modern Schedule Cards List Grid -->
+        <div class="schedule-cards-grid" id="scheduleCardsGrid">
+          <!-- Populated dynamically -->
+        </div>
       </div>
     </section>
   </div>
@@ -185,6 +157,118 @@
 
   <script src="./js/common-forms.js"></script>
   <script>
+    const SCHEDULE_CATEGORY_ICONS = {
+      'JCB Card Payment': '💳',
+      'MUFG Card Payment': '💳',
+      'Tokyo Electricity Bill': '⚡',
+      'Rakuten Card Payment': '💳',
+      'UR Home Rent Fee': '🏠',
+      'Home WiFi & Internet': '📶',
+      'Mobile Phone Plan': '📱',
+      'Tuition Fee Installment': '🎓',
+      'Credit Card Bill': '💳',
+      'House Rent': '🏠',
+      'Utilities & Bills': '⚡',
+      'Subscription Services': '📱',
+      'Education Fund': '🎓'
+    };
+
+    let scheduledPayments = [
+      {
+        id: 'sch_1',
+        payeeName: 'JCB Card Payment',
+        category: 'Credit Card Bill',
+        icon: '💳',
+        amount: 18000,
+        currency: 'JPY',
+        dueDate: '2026-08-10',
+        account: 'Bk-MUFG_MG',
+        notes: ''
+      },
+      {
+        id: 'sch_2',
+        payeeName: 'MUFG Card Payment',
+        category: 'Credit Card Bill',
+        icon: '💳',
+        amount: 10000,
+        currency: 'JPY',
+        dueDate: '2026-08-22',
+        account: 'Bk-MUFG_MG',
+        notes: ''
+      },
+      {
+        id: 'sch_3',
+        payeeName: 'Tokyo Electricity Bill',
+        category: 'Utilities & Bills',
+        icon: '⚡',
+        amount: 6800,
+        currency: 'JPY',
+        dueDate: '2026-08-25',
+        account: 'Bk-PAYPAY_CS',
+        notes: ''
+      },
+      {
+        id: 'sch_4',
+        payeeName: 'Rakuten Card Payment',
+        category: 'Credit Card Bill',
+        icon: '💳',
+        amount: 16000,
+        currency: 'JPY',
+        dueDate: '2026-08-27',
+        account: 'Crd-RAKUTEN_CS',
+        notes: ''
+      },
+      {
+        id: 'sch_5',
+        payeeName: 'UR Home Rent Fee',
+        category: 'House Rent',
+        icon: '🏠',
+        amount: 78000,
+        currency: 'JPY',
+        dueDate: '2026-08-25',
+        account: 'Bk-MUFG_MG',
+        notes: ''
+      },
+      {
+        id: 'sch_6',
+        payeeName: 'Home WiFi & Internet',
+        category: 'Subscription Services',
+        icon: '📶',
+        amount: 4950,
+        currency: 'JPY',
+        dueDate: '2026-08-10',
+        account: 'Crd-RAKUTEN_CS',
+        notes: ''
+      },
+      {
+        id: 'sch_7',
+        payeeName: 'Mobile Phone Plan',
+        category: 'Subscription Services',
+        icon: '📱',
+        amount: 3300,
+        currency: 'JPY',
+        dueDate: '2026-08-10',
+        account: 'Bk-PAYPAY_CS',
+        notes: ''
+      },
+      {
+        id: 'sch_8',
+        payeeName: 'Tuition Fee Installment',
+        category: 'Education Fund',
+        icon: '🎓',
+        amount: 270000,
+        currency: 'JPY',
+        dueDate: '2026-10-27',
+        account: 'Bk-MIZUHO_CS',
+        notes: ''
+      }
+    ];
+
+    const GOOGLE_SPREADSHEET_ID = '1OOrFs6uFBTt2nHW5lxTzqng0vMqWsCt_AyZ3ELare9s';
+
+    let currentScheduleFilter = 'all';
+    let editingScheduleId = null;
+
     document.addEventListener('DOMContentLoaded', () => {
       const d = new Date();
       d.setDate(d.getDate() + 10);
@@ -194,8 +278,319 @@
       const accSelect = document.getElementById('paymentAccount');
       const items = ALL_SOURCES.JPY;
       accSelect.innerHTML = groupedSourceOptions(items, 'Select Debit Account');
-      accSelect.value = 'Bk-MIZUHO_CS';
+      accSelect.value = 'Bk-MUFG_MG';
+
+      renderScheduleList();
+
+      // Fetch live data directly from Google Sheets Payment_Schedule tab
+      loadLiveSchedulesFromGoogleSheet();
     });
+
+    async function loadLiveSchedulesFromGoogleSheet() {
+      try {
+        const url = `https://docs.google.com/spreadsheets/d/${GOOGLE_SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=Payment_Schedule&t=${Date.now()}`;
+        const res = await fetch(url);
+        if (!res.ok) return;
+        const csvText = await res.text();
+        const lines = csvText.trim().split(/\r?\n/);
+        if (lines.length <= 1) return;
+
+        const parseRow = (line) => {
+          const row = [];
+          let inQuotes = false;
+          let curr = '';
+          for (let i = 0; i < line.length; i++) {
+            const c = line[i];
+            if (c === '"') {
+              if (inQuotes && line[i+1] === '"') { curr += '"'; i++; }
+              else inQuotes = !inQuotes;
+            } else if (c === ',' && !inQuotes) {
+              row.push(curr.trim());
+              curr = '';
+            } else {
+              curr += c;
+            }
+          }
+          row.push(curr.trim());
+          return row;
+        };
+
+        const headers = parseRow(lines[0]).map(h => h.replace(/^"|"$/g, '').trim());
+        const rows = lines.slice(1).map(line => {
+          const cols = parseRow(line);
+          const obj = {};
+          headers.forEach((h, i) => {
+            obj[h] = (cols[i] || '').replace(/^"|"$/g, '').trim();
+          });
+          return obj;
+        });
+
+        if (rows && rows.length > 0) {
+          const fetchedSchedules = rows.map((s, idx) => {
+            const name = s['Account'] || s['account'] || s['Payee'] || '';
+            const dueDate = s['Due Day'] || s['Due Date'] || s['dueDate'] || '';
+            const amount = parseFloat(s['Amount'] || s['amount'] || 0) || 0;
+            const currency = s['Currency'] || s['currency'] || 'JPY';
+
+            return {
+              id: 'sch_' + (idx + 1),
+              payeeName: name,
+              category: 'Credit Card Bill',
+              icon: SCHEDULE_CATEGORY_ICONS[name] || '💳',
+              amount: amount,
+              currency: currency,
+              dueDate: dueDate,
+              account: 'Bk-MUFG_MG',
+              notes: ''
+            };
+          }).filter(s => s.payeeName);
+
+          if (fetchedSchedules.length > 0) {
+            scheduledPayments = fetchedSchedules;
+            renderScheduleList();
+          }
+        }
+      } catch (e) {
+        console.warn('Live Payment_Schedule fetch notice:', e);
+      }
+    }
+
+    // Toggle Collapsible Section
+    let isScheduleOpen = false;
+    function toggleScheduleVisibility() {
+      isScheduleOpen = !isScheduleOpen;
+      const listEl = document.getElementById('scheduleCollapsibleContent');
+      const chevronEl = document.getElementById('scheduleChevronIcon');
+
+      if (listEl) listEl.classList.toggle('open', isScheduleOpen);
+      if (chevronEl) chevronEl.classList.toggle('open', isScheduleOpen);
+
+      if (isScheduleOpen) {
+        renderScheduleList();
+      }
+    }
+
+    function filterScheduleStatus(filterKey) {
+      currentScheduleFilter = filterKey;
+      document.querySelectorAll('.schedule-tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.filter === filterKey);
+      });
+      renderScheduleList();
+    }
+
+    function getBrandBadgeInfo(payeeName) {
+      const lower = (payeeName || '').toLowerCase();
+      if (lower.includes('rakuten')) return { badgeClass: 'rakuten', badgeText: 'R' };
+      if (lower.includes('smbc')) return { badgeClass: 'smbc', badgeText: 'SMBC' };
+      if (lower.includes('jcb')) return { badgeClass: 'jcb', badgeText: 'JCB' };
+      if (lower.includes('mufg')) return { badgeClass: 'mufg', badgeText: 'MUFG' };
+      if (lower.includes('loan') || lower.includes('debt')) return { badgeClass: 'loan', badgeText: '🏛️' };
+      if (lower.includes('electr') || lower.includes('power') || lower.includes('gas')) return { badgeClass: 'electric', badgeText: '⚡' };
+      if (lower.includes('rent') || lower.includes('ur home')) return { badgeClass: 'rent', badgeText: '🏠' };
+      if (lower.includes('wifi') || lower.includes('internet')) return { badgeClass: 'wifi', badgeText: '📶' };
+      if (lower.includes('phone') || lower.includes('mobile')) return { badgeClass: 'mobile', badgeText: '📱' };
+      if (lower.includes('tuition') || lower.includes('school')) return { badgeClass: 'tuition', badgeText: '🎓' };
+      return { badgeClass: 'default', badgeText: '💳' };
+    }
+
+    function getDuePillText(dueDateStr) {
+      if (!dueDateStr) return 'In 3 days';
+      const target = new Date(dueDateStr);
+      const today = new Date('2026-08-24');
+      today.setHours(0,0,0,0);
+      target.setHours(0,0,0,0);
+      const diff = Math.round((target - today) / (1000 * 60 * 60 * 24));
+      if (diff === 0) return 'Today';
+      if (diff === 1) return 'In 1 day';
+      if (diff > 1) return `In ${diff} days`;
+      if (diff < 0) return `${Math.abs(diff)} days ago`;
+      return 'In 3 days';
+    }
+
+    function renderScheduleList() {
+      const container = document.getElementById('scheduleCardsGrid');
+      if (!container) return;
+
+      // Update Tab Counts
+      let countAll = scheduledPayments.length;
+      let countDueSoon = scheduledPayments.filter(s => s.dueDate && s.dueDate.includes('-08-2')).length;
+      let countUpcoming = scheduledPayments.filter(s => s.dueDate && (s.dueDate.includes('-08-1') || s.dueDate.includes('-10-'))).length;
+      let countPaid = 0;
+
+      const elAll = document.getElementById('tabCountAll');
+      if (elAll) elAll.textContent = countAll;
+      const elDue = document.getElementById('tabCountDueSoon');
+      if (elDue) elDue.textContent = countDueSoon;
+      const elUp = document.getElementById('tabCountUpcoming');
+      if (elUp) elUp.textContent = countUpcoming;
+      const elPaid = document.getElementById('tabCountPaid');
+      if (elPaid) elPaid.textContent = countPaid;
+      
+      const badge = document.getElementById('scheduleCountBadge');
+      if (badge) badge.textContent = countAll;
+
+      const filtered = scheduledPayments.filter(item => {
+        if (currentScheduleFilter === 'all') return true;
+        if (currentScheduleFilter === 'Due Soon') return item.dueDate && item.dueDate.includes('-08-2');
+        if (currentScheduleFilter === 'Upcoming') return item.dueDate && (item.dueDate.includes('-08-1') || item.dueDate.includes('-10-'));
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div style="text-align:center; padding:32px 16px; color:var(--text-muted); font-size:13px; background:var(--bg-card); border-radius:14px; border:1px dashed var(--border-card);">
+            No scheduled payments found.
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(item => {
+        const brand = getBrandBadgeInfo(item.payeeName);
+        const curSymbol = item.currency === 'USD' ? '$' : (item.currency === 'MMK' ? 'Ks ' : '¥');
+        const duePill = getDuePillText(item.dueDate);
+
+        return `
+          <div class="schedule-card-item" onclick="editScheduleItem(event, '${item.id}')" title="Click to edit ${item.payeeName}">
+            <div class="schedule-card-left">
+              <div class="schedule-brand-badge ${brand.badgeClass}">
+                ${brand.badgeText}
+              </div>
+              <div class="schedule-info-box">
+                <div class="schedule-info-title">${item.payeeName}</div>
+                <div class="schedule-info-sub">Payment Due</div>
+              </div>
+            </div>
+
+            <div class="schedule-card-right">
+              <div class="schedule-amount-val">${curSymbol}${item.amount.toLocaleString()}</div>
+              <div class="schedule-due-pill">${duePill}</div>
+            </div>
+
+            <div class="recent-menu-anchor" onclick="event.stopPropagation()">
+              <button type="button" class="btn-item-more" onclick="toggleScheduleItemMenu(event, '${item.id}')" title="Schedule Actions">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <circle cx="12" cy="5" r="2.2"/>
+                  <circle cx="12" cy="12" r="2.2"/>
+                  <circle cx="12" cy="19" r="2.2"/>
+                </svg>
+              </button>
+              <div class="mobile-action-menu" id="scheduleMenu-${item.id}">
+                <button type="button" class="action-menu-item" onclick="editScheduleItem(event, '${item.id}')">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                  <span>Edit Schedule</span>
+                </button>
+                <div class="action-menu-divider"></div>
+                <button type="button" class="action-menu-item text-danger" onclick="deleteScheduleItem(event, '${item.id}')">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                  <span>Delete Schedule</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // 3-Dots / Arrow Menu Control
+    let activeScheduleMenu = null;
+
+    function toggleScheduleItemMenu(event, itemId) {
+      if (event) event.stopPropagation();
+      const menu = document.getElementById(`scheduleMenu-${itemId}`);
+      if (!menu) return;
+
+      const card = menu.closest('.schedule-card-item');
+      const wasOpen = menu.classList.contains('open');
+      closeAllScheduleMenus();
+
+      if (!wasOpen) {
+        menu.classList.add('open');
+        if (card) card.classList.add('menu-active');
+        activeScheduleMenu = menu;
+      }
+    }
+
+    function closeAllScheduleMenus() {
+      document.querySelectorAll('.mobile-action-menu.open').forEach(m => m.classList.remove('open'));
+      document.querySelectorAll('.schedule-card-item.menu-active').forEach(c => c.classList.remove('menu-active'));
+      activeScheduleMenu = null;
+    }
+
+    document.addEventListener('click', (e) => {
+      if (activeScheduleMenu && !activeScheduleMenu.contains(e.target)) {
+        closeAllScheduleMenus();
+      }
+    });
+
+    function editScheduleItem(event, itemId) {
+      if (event) event.stopPropagation();
+      closeAllScheduleMenus();
+
+      const item = scheduledPayments.find(s => s.id === itemId);
+      if (!item) return;
+
+      editingScheduleId = item.id;
+      document.getElementById('payeeName').value = item.payeeName;
+      document.getElementById('scheduleCategory').value = item.category;
+      document.getElementById('paymentAmount').value = item.amount;
+      document.getElementById('scheduleCurrency').value = item.currency || 'JPY';
+      document.getElementById('dueDate').value = item.dueDate;
+      document.getElementById('frequency').value = item.frequency || 'Monthly';
+      document.getElementById('paymentAccount').value = item.account || 'Bk-MIZUHO_CS';
+      document.getElementById('scheduleNotes').value = item.notes || '';
+
+      const btn = document.getElementById('saveBtn');
+      if (btn) btn.textContent = 'Update Scheduled Payment';
+
+      document.getElementById('scheduleForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => document.getElementById('paymentAmount').focus(), 250);
+      showToast(`Editing schedule: ${item.payeeName}`);
+    }
+
+    function deleteScheduleItem(event, itemId) {
+      if (event) event.stopPropagation();
+      closeAllScheduleMenus();
+
+      const itemIndex = scheduledPayments.findIndex(s => s.id === itemId);
+      if (itemIndex === -1) return;
+
+      const item = scheduledPayments[itemIndex];
+      if (!confirm(`Are you sure you want to delete the scheduled payment for "${item.payeeName}"?`)) {
+        return;
+      }
+
+      scheduledPayments.splice(itemIndex, 1);
+      if (editingScheduleId === itemId) {
+        resetScheduleForm();
+      }
+
+      renderScheduleList();
+      showToast(`Deleted scheduled payment for "${item.payeeName}"`);
+
+      // Sync deletion
+      fetch(APPS_SCRIPT_WEB_APP_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          formType: 'Payment_Schedule',
+          payeeName: item.payeeName,
+          paymentAmount: 0,
+          scheduleNotes: 'Deleted'
+        }),
+        redirect: 'follow'
+      }).catch(e => console.warn('Sync delete', e));
+    }
+
+    function resetScheduleForm() {
+      document.getElementById('scheduleForm').reset();
+      editingScheduleId = null;
+      const btn = document.getElementById('saveBtn');
+      if (btn) {
+        btn.textContent = 'Schedule Payment';
+        btn.disabled = false;
+      }
+    }
 
     function submitSchedule(event) {
       event.preventDefault();
@@ -204,23 +599,43 @@
       const data = Object.fromEntries(formData.entries());
 
       const btn = document.getElementById('saveBtn');
+      const isUpdating = btn.textContent.includes('Update');
       btn.disabled = true;
-      btn.textContent = 'Saving Schedule...';
+      btn.textContent = isUpdating ? 'Updating Schedule...' : 'Saving Schedule...';
+
+      const amount = Number(data.paymentAmount) || 0;
+
+      if (editingScheduleId) {
+        const item = scheduledPayments.find(s => s.id === editingScheduleId);
+        if (item) {
+          item.payeeName = data.payeeName;
+          item.category = data.scheduleCategory;
+          item.icon = SCHEDULE_CATEGORY_ICONS[data.payeeName] || SCHEDULE_CATEGORY_ICONS[data.scheduleCategory] || '💳';
+          item.amount = amount;
+          item.currency = data.scheduleCurrency || 'JPY';
+          item.dueDate = data.dueDate;
+          item.frequency = data.frequency || 'Monthly';
+          item.account = data.paymentAccount || 'Bk-MUFG_MG';
+          item.notes = data.scheduleNotes || '';
+        }
+      } else {
+        const newItem = {
+          id: 'sch_' + Date.now(),
+          payeeName: data.payeeName,
+          category: data.scheduleCategory,
+          icon: SCHEDULE_CATEGORY_ICONS[data.payeeName] || SCHEDULE_CATEGORY_ICONS[data.scheduleCategory] || '💳',
+          amount: amount,
+          currency: data.scheduleCurrency || 'JPY',
+          dueDate: data.dueDate,
+          frequency: data.frequency || 'Monthly',
+          account: data.paymentAccount || 'Bk-MUFG_MG',
+          notes: data.scheduleNotes || ''
+        };
+        scheduledPayments.unshift(newItem);
+      }
 
       saveLocalRecent('schedules', data);
-
-      // Optimistically add to table
-      const tbody = document.getElementById('scheduleTableBody');
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td><strong>🗓️ ${data.payeeName}</strong></td>
-        <td>${data.dueDate}</td>
-        <td>${data.frequency}</td>
-        <td>${data.paymentAccount}</td>
-        <td style="text-align:right; font-weight:700; color:#ef4444;">¥${Number(data.paymentAmount).toLocaleString()}</td>
-        <td style="text-align:right;"><span style="color:#10b981; font-weight:700;">Scheduled</span></td>
-      `;
-      tbody.insertBefore(tr, tbody.firstChild);
+      renderScheduleList();
 
       fetch(APPS_SCRIPT_WEB_APP_URL, {
         method: 'POST',
@@ -232,12 +647,15 @@
       .then(res => {
         btn.disabled = false;
         btn.textContent = 'Schedule Payment';
-        showToast('Payment scheduled successfully!');
+        showToast(isUpdating ? 'Payment schedule updated successfully!' : 'Payment scheduled successfully!');
+        resetScheduleForm();
+        renderScheduleList();
       })
       .catch(err => {
         btn.disabled = false;
         btn.textContent = 'Schedule Payment';
         showToast('Payment scheduled locally & queued for sync!');
+        resetScheduleForm();
       });
     }
   </script>
