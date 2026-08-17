@@ -386,8 +386,20 @@ Guidelines:
 
   function mountFloatingWidget() {
     if (typeof document === 'undefined') return;
-    // Don't mount generic pill button on home hub which has its own robot assistant
-    if (document.querySelector('.floating-robot-trigger') || (typeof window !== 'undefined' && window.location && (window.location.pathname.endsWith('home.html') || window.location.pathname === '/' && document.querySelector('.app-screen')))) {
+    // Only mount on full dashboard SPA (index.html / dashboard.html) which has .app-wrapper and dashboard CSS
+    if (!document.querySelector('.app-wrapper')) {
+      return;
+    }
+    // Don't mount generic pill button on home hub or standalone form / settings pages
+    if (document.querySelector('.floating-robot-trigger') || (typeof window !== 'undefined' && window.location && (
+      window.location.pathname.endsWith('home.html') || 
+      window.location.pathname.endsWith('settings.html') || 
+      window.location.pathname.endsWith('input.html') || 
+      window.location.pathname.endsWith('budget.html') || 
+      window.location.pathname.endsWith('goal.html') || 
+      window.location.pathname.endsWith('schedule.html') || 
+      (window.location.pathname === '/' && document.querySelector('.app-screen'))
+    ))) {
       return;
     }
     if (document.getElementById('aiCornerWidget')) return;

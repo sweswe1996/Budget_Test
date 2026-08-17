@@ -148,71 +148,62 @@
       <!-- Global Top Filter Bar -->
       <header class="top-header">
         <div class="filter-bar">
-          <!-- Sidebar Menu Toggle Button -->
-          <button class="btn-menu-toggle" id="sidebarMenuBtn" title="Toggle Navigation Menu">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-              <line x1="3" y1="12" x2="21" y2="12"></line>
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <line x1="3" y1="18" x2="21" y2="18"></line>
+          <!-- Home Hub Navigation Button -->
+          <a class="btn-top-home" href="./home.html" title="Back to Financial Hub">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
             </svg>
-            <span>Menu</span>
-          </button>
-
-          <!-- Quick Data Entry Launcher -->
-          <a class="btn-quick-entry" href="./input.html" title="Open Data Entry System">
-            <span>✦ + New Entry</span>
+            <span>Hub</span>
           </a>
 
-          <div class="filter-controls-group">
-            <!-- Date Range Filter with 2 Separate Date Boxes (From & To) + Quick Preset -->
-            <div class="filter-item date-range-group">
-              <label class="filter-label">Date Range</label>
-              <div class="date-inputs-wrap">
-                <div class="date-box-wrapper">
-                  <span class="date-box-tag">From</span>
-                  <input type="date" class="filter-date-input" id="filterStartDate" value="2026-08-01" min="2020-01-01" max="2030-12-31" />
-                </div>
-                <span class="date-sep">→</span>
-                <div class="date-box-wrapper">
-                  <span class="date-box-tag">To</span>
-                  <input type="date" class="filter-date-input" id="filterEndDate" value="2026-08-31" min="2020-01-01" max="2030-12-31" />
-                </div>
-                <select class="filter-select preset-select" id="filterDatePreset" title="Quick Month by Month Presets">
-                  <option value="2026-08" selected>Aug 2026</option>
-                  <option value="2026-07">Jul 2026</option>
-                  <option value="2026-06">Jun 2026</option>
-                  <option value="2026-05">May 2026</option>
-                  <option value="2026-04">Apr 2026</option>
-                  <option value="2026-03">Mar 2026</option>
-                  <option value="2026-02">Feb 2026</option>
-                  <option value="2026-01">Jan 2026</option>
-                  <option value="2025-12">Dec 2025</option>
-                  <option value="2025-11">Nov 2025</option>
-                  <option value="2025-10">Oct 2025</option>
-                  <option value="2025-09">Sep 2025</option>
-                  <option value="all_2026">2026 Full Year</option>
-                  <option value="year_2025">2025 Full Year</option>
-                  <option value="all_2_years">All 2 Years</option>
-                  <option value="custom">Custom Range</option>
-                </select>
-              </div>
-            </div>
+          <div class="filter-bar-divider"></div>
 
-            <!-- Currency Filter -->
-            <div class="filter-item">
-              <label class="filter-label">Currency</label>
-              <select class="filter-select" id="filterCurrency">
-                <option value="JPY" selected>JPY</option>
-                <option value="MMK">MMK</option>
-                <option value="USD">USD</option>
+          <!-- Unified Filter Controls -->
+          <div class="filter-controls-group">
+            <!-- Date Range Selector Pill -->
+            <div class="filter-chip-group date-chip-group" title="Select Date Range & Preset">
+              <span class="chip-icon">📅</span>
+              <div class="date-chip-inputs">
+                <input type="date" class="filter-date-input" id="filterStartDate" value="2026-08-01" min="2020-01-01" max="2030-12-31" title="Start Date" />
+                <span class="chip-sep">→</span>
+                <input type="date" class="filter-date-input" id="filterEndDate" value="2026-08-31" min="2020-01-01" max="2030-12-31" title="End Date" />
+              </div>
+              <select class="filter-select preset-select" id="filterDatePreset" title="Quick Month by Month Presets">
+                <option value="2026-08" selected>Aug 2026</option>
+                <option value="2026-07">Jul 2026</option>
+                <option value="2026-06">Jun 2026</option>
+                <option value="2026-05">May 2026</option>
+                <option value="2026-04">Apr 2026</option>
+                <option value="2026-03">Mar 2026</option>
+                <option value="2026-02">Feb 2026</option>
+                <option value="2026-01">Jan 2026</option>
+                <option value="2025-12">Dec 2025</option>
+                <option value="2025-11">Nov 2025</option>
+                <option value="2025-10">Oct 2025</option>
+                <option value="2025-09">Sep 2025</option>
+                <option value="all_2026">2026 Full Year</option>
+                <option value="year_2025">2025 Full Year</option>
+                <option value="all_2_years">All 2 Years</option>
+                <option value="custom">Custom Range</option>
               </select>
             </div>
 
-            <!-- ForWho Filter -->
-            <div class="filter-item">
-              <label class="filter-label">ForWho</label>
-              <select class="filter-select" id="filterForWho">
-                <option value="all" selected>All</option>
+            <!-- Currency Filter Chip -->
+            <div class="filter-chip-group">
+              <span class="chip-icon">💱</span>
+              <select class="filter-select chip-select" id="filterCurrency" title="Select Currency">
+                <option value="JPY" selected>JPY (¥)</option>
+                <option value="MMK">MMK (Ks)</option>
+                <option value="USD">USD ($)</option>
+              </select>
+            </div>
+
+            <!-- ForWho Filter Chip -->
+            <div class="filter-chip-group">
+              <span class="chip-icon">👤</span>
+              <select class="filter-select chip-select" id="filterForWho" title="Filter by Person">
+                <option value="all" selected>All Persons</option>
                 <option value="Me">Me</option>
                 <option value="Family">Family</option>
                 <option value="Partner">Partner</option>
@@ -223,11 +214,11 @@
               </select>
             </div>
 
-            <!-- Category Filter -->
-            <div class="filter-item">
-              <label class="filter-label">Category</label>
-              <select class="filter-select" id="filterCategory">
-                <option value="all" selected>All categories</option>
+            <!-- Category Filter Chip -->
+            <div class="filter-chip-group">
+              <span class="chip-icon">🏷️</span>
+              <select class="filter-select chip-select" id="filterCategory" title="Filter by Category">
+                <option value="all" selected>All Categories</option>
                 <option value="Food_Expenses">Food &amp; Dining</option>
                 <option value="Transportation_Expenses">Transportation</option>
                 <option value="Bills_Utilities">Utilities</option>
@@ -240,11 +231,11 @@
             </div>
           </div>
 
-          <!-- Reset Button -->
+          <!-- Clear Button -->
           <div class="filter-actions">
-            <button class="btn-reset" id="btnResetFilters">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-              <span>Reset Filters</span>
+            <button class="btn-reset" id="btnResetFilters" title="Clear all filters">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+              <span>Clear</span>
             </button>
           </div>
         </div>

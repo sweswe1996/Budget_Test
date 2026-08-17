@@ -77,11 +77,11 @@
        ------------------------------------------------------------ */
     .app-sidebar {
       display: none;
-      width: 260px;
+      width: 200px;
       flex-shrink: 0;
       background: #ffffff;
       border-right: 1px solid var(--border-card);
-      padding: 24px 18px;
+      padding: 16px 12px;
       flex-direction: column;
       justify-content: space-between;
       position: sticky;
@@ -100,67 +100,67 @@
     .sidebar-brand {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 0 6px 20px 6px;
+      gap: 10px;
+      padding: 0 4px 14px 4px;
     }
 
     .brand-logo-box {
-      width: 38px;
-      height: 38px;
-      border-radius: 12px;
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
       background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
       display: flex;
       align-items: center;
       justify-content: center;
       color: #ffffff;
-      box-shadow: 0 6px 14px rgba(79, 70, 229, 0.35);
+      box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
       flex-shrink: 0;
     }
 
     .brand-text h2 {
-      font-size: 15px;
+      font-size: 13.5px;
       font-weight: 800;
       color: var(--text-main);
       line-height: 1.2;
     }
 
     .brand-text p {
-      font-size: 11px;
+      font-size: 10px;
       color: var(--primary-indigo);
       font-weight: 600;
-      margin-top: 2px;
+      margin-top: 1px;
     }
 
     .sidebar-section-title {
-      font-size: 10.5px;
+      font-size: 9.5px;
       font-weight: 700;
       letter-spacing: 0.8px;
       color: var(--text-light);
       text-transform: uppercase;
-      margin: 16px 8px 8px 8px;
+      margin: 12px 6px 4px 6px;
     }
 
     .sidebar-menu {
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 2px;
     }
 
     .sidebar-item {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 10px 14px;
-      border-radius: 14px;
-      font-size: 13.5px;
+      gap: 9px;
+      padding: 7px 10px;
+      border-radius: 10px;
+      font-size: 12px;
       font-weight: 600;
       color: var(--text-muted);
       transition: all 0.2s ease;
     }
 
     .sidebar-item svg {
-      width: 19px;
-      height: 19px;
+      width: 16px;
+      height: 16px;
       stroke-width: 2.1;
       flex-shrink: 0;
     }
@@ -185,9 +185,9 @@
     .sidebar-ai-card {
       background: linear-gradient(145deg, #f8fafc 0%, #eef2ff 100%);
       border: 1px solid #e0e7ff;
-      border-radius: 18px;
-      padding: 14px;
-      margin-top: 20px;
+      border-radius: 14px;
+      padding: 10px;
+      margin-top: 12px;
       position: relative;
       overflow: hidden;
     }
@@ -196,33 +196,33 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .sidebar-ai-title {
-      font-size: 13px;
+      font-size: 11.5px;
       font-weight: 800;
       color: var(--text-main);
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
     }
 
     .badge-new {
       background: #ffedd5;
       color: #ea580c;
-      font-size: 9.5px;
+      font-size: 9px;
       font-weight: 800;
-      padding: 2px 6px;
-      border-radius: 6px;
+      padding: 2px 5px;
+      border-radius: 5px;
       text-transform: uppercase;
     }
 
     .sidebar-ai-desc {
-      font-size: 11px;
+      font-size: 10.5px;
       color: var(--text-muted);
-      line-height: 1.4;
-      margin-bottom: 12px;
+      line-height: 1.35;
+      margin-bottom: 8px;
     }
 
     .sidebar-ai-orb-wrap {
@@ -473,7 +473,7 @@
       position: relative;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: flex-start;
     }
 
     .dash-card-header {
@@ -1070,10 +1070,18 @@
       }
     }
 
+    .grid-row-bottom .dash-card {
+      justify-content: flex-start;
+    }
+
+    .grid-row-bottom .dash-card-header {
+      margin-bottom: 12px;
+    }
+
     .dash-list {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
     }
 
     .dash-list-item {
@@ -1541,13 +1549,10 @@
           <a class="sidebar-item" href="./index.html#reports">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
             <span>Reports</span>
-          </a>
-        </nav>
-
-        <!-- MORE Navigation -->
+             <!-- MORE Navigation -->
         <div class="sidebar-section-title">MORE</div>
         <nav class="sidebar-menu">
-          <a class="sidebar-item" href="./index.html#settings">
+          <a class="sidebar-item" href="./settings.html">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
             <span>Settings</span>
           </a>
@@ -1617,7 +1622,7 @@
           </select>
 
           <!-- User Avatar (Desktop) -->
-          <div class="user-avatar-btn" onclick="window.location.href='./index.html#settings'" title="User Profile">
+          <div class="user-avatar-btn" onclick="window.location.href='./settings.html'" title="User Profile">
             <div style="width:100%; height:100%; background:linear-gradient(135deg, #6366f1, #a855f7); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:13px;">
               KW
             </div>
@@ -1825,53 +1830,7 @@
               <a class="dash-card-link" href="./schedule.html">View All ›</a>
             </div>
             <div class="dash-list" id="upcomingPaymentsList">
-              <div class="dash-list-item">
-                <div class="dash-item-left">
-                  <div class="item-icon-box" style="background:#dc2626; color:#ffffff; font-weight:900; font-size:16px;">
-                    R
-                  </div>
-                  <div class="item-info">
-                    <span class="item-title">Rakuten Card</span>
-                    <span class="item-sub" style="color:#ef4444; font-weight:600;">Payment Due</span>
-                  </div>
-                </div>
-                <div class="dash-item-right">
-                  <span class="item-amount">¥10,000</span>
-                  <span class="countdown-pill">In 3 days</span>
-                </div>
-              </div>
-
-              <div class="dash-list-item">
-                <div class="dash-item-left">
-                  <div class="item-icon-box" style="background:#047857; color:#ffffff; font-weight:900; font-size:11px; text-align:center;">
-                    SMBC
-                  </div>
-                  <div class="item-info">
-                    <span class="item-title">SMBC Credit Card</span>
-                    <span class="item-sub" style="color:#ef4444; font-weight:600;">Payment Due</span>
-                  </div>
-                </div>
-                <div class="dash-item-right">
-                  <span class="item-amount">¥15,000</span>
-                  <span class="countdown-pill">In 8 days</span>
-                </div>
-              </div>
-
-              <div class="dash-list-item" id="desktopThirdUpcoming" style="display:none;">
-                <div class="dash-item-left">
-                  <div class="item-icon-box" style="background:#2563eb; color:#ffffff; font-size:16px;">
-                    🏦
-                  </div>
-                  <div class="item-info">
-                    <span class="item-title">Personal Loan</span>
-                    <span class="item-sub" style="color:#ef4444; font-weight:600;">Payment Due</span>
-                  </div>
-                </div>
-                <div class="dash-item-right">
-                  <span class="item-amount">¥25,000</span>
-                  <span class="countdown-pill">In 15 days</span>
-                </div>
-              </div>
+              <!-- Dynamically populated from Google Sheets Payment_Schedule -->
             </div>
           </div>
 
@@ -1893,47 +1852,7 @@
               <a class="dash-card-link" href="./index.html#accounts">View All ›</a>
             </div>
             <div class="dash-list" id="accountsList">
-              <a class="dash-list-item" href="./index.html#accounts">
-                <div class="dash-item-left">
-                  <div class="item-icon-box" style="background:#ecfdf5; color:#10b981;">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v4M12 14v4M16 14v4"/></svg>
-                  </div>
-                  <div class="item-info">
-                    <span class="item-title">Bank Accounts</span>
-                  </div>
-                </div>
-                <div class="dash-item-right">
-                  <span class="item-amount">¥1,245,600 ›</span>
-                </div>
-              </a>
-
-              <a class="dash-list-item" href="./index.html#accounts">
-                <div class="dash-item-left">
-                  <div class="item-icon-box" style="background:#f5f3ff; color:#8b5cf6;">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
-                  </div>
-                  <div class="item-info">
-                    <span class="item-title">Credit Cards</span>
-                  </div>
-                </div>
-                <div class="dash-item-right">
-                  <span class="item-amount" style="color:#ef4444;">-¥251,300 ›</span>
-                </div>
-              </a>
-
-              <a class="dash-list-item" href="./index.html#accounts">
-                <div class="dash-item-left">
-                  <div class="item-icon-box" style="background:#eff6ff; color:#3b82f6;">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>
-                  </div>
-                  <div class="item-info">
-                    <span class="item-title">e-Wallets</span>
-                  </div>
-                </div>
-                <div class="dash-item-right">
-                  <span class="item-amount">¥48,750 ›</span>
-                </div>
-              </a>
+              <!-- Dynamically calculated from Google Sheets transactions -->
             </div>
           </div>
 
@@ -1963,7 +1882,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
       <span>Payment</span>
     </a>
-    <a class="bottom-nav-item" href="./index.html#settings" title="Settings">
+    <a class="bottom-nav-item" href="./settings.html" title="Settings">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
       <span>Setting</span>
     </a>
@@ -2029,84 +1948,130 @@
   <script src="./js/ai-service.js"></script>
   <script>
     // ============================================================
-    // DYNAMIC 2-MONTH DATA STORE (August 2026 vs July 2026)
+    // DYNAMIC LIVE DATA ENGINE (100% REAL GOOGLE SHEETS SYNC)
     // ============================================================
-    const dashboardMonthsData = {
-      '2026-08': {
-        monthKey: '2026-08',
-        shortMonth: 'Aug',
-        fullLabel: 'Aug 2026',
-        overviewBadge: 'This Month',
-        totalBalance: 1985450,
-        trendVal: '▲ 8.45%',
-        trendSub: 'vs last month',
-        budgetLimit: 480000,
-        budgetActual: 363950,
-        budgetPct: 76,
-        budgetLeft: 116050,
-        income: 623800,
-        expense: 428350,
-        savings: 195450,
-        txCount: 46,
-        topCats: [
-          { name: 'Shopping', amount: 98450, pct: '22.8% of total', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" x2="21" y1="6" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>' },
-          { name: 'Food & Dining', amount: 85200, pct: '19.7% of total', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>' },
-          { name: 'Fixed Housing', amount: 52500, pct: '12.2% of total', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>' }
-        ],
-        needPct: 72,
-        wantPct: 28,
-        expenseCats: [
-          { name: 'Food & Dining', sub: 'Snack, Drinks, Groceries', amount: 128450, pct: 30, color: '#10b981', icon: '🍔' },
-          { name: 'Shopping & Style', sub: 'Clothes, Tech, Cosmetics', amount: 98450, pct: 23, color: '#8b5cf6', icon: '🛍️' },
-          { name: 'Living & Housing', sub: 'Rent, Home Supplies', amount: 82500, pct: 19, color: '#ea580c', icon: '🏠' },
-          { name: 'Utilities & Bills', sub: 'Electricity, Water, WiFi, Gas', amount: 45000, pct: 10, color: '#3b82f6', icon: '💡' },
-          { name: 'Entertainment & Fun', sub: 'Dining Out, Cinema, Cafe', amount: 45950, pct: 11, color: '#ec4899', icon: '🍿' },
-          { name: 'Transport & Commute', sub: 'Suica, Train, Taxi, Fuel', amount: 28000, pct: 7, color: '#06b6d4', icon: '🚆' }
-        ]
-      },
-      '2026-07': {
-        monthKey: '2026-07',
-        shortMonth: 'Jul',
-        fullLabel: 'Jul 2026',
-        overviewBadge: 'Jul 2026',
-        totalBalance: 1830750,
-        trendVal: '▲ 5.12%',
-        trendSub: 'vs June',
-        budgetLimit: 460000,
-        budgetActual: 412000,
-        budgetPct: 89.5,
-        budgetLeft: 48000,
-        income: 590000,
-        expense: 412000,
-        savings: 178000,
-        txCount: 52,
-        topCats: [
-          { name: 'Food & Dining', amount: 112600, pct: '27.3% of total', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>' },
-          { name: 'Shopping', amount: 84200, pct: '20.4% of total', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" x2="21" y1="6" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>' },
-          { name: 'Utilities & Bills', amount: 52000, pct: '12.6% of total', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>' }
-        ],
-        needPct: 78,
-        wantPct: 22,
-        expenseCats: [
-          { name: 'Food & Dining', sub: 'Snack, Drinks, Groceries', amount: 112600, pct: 27, color: '#10b981', icon: '🍔' },
-          { name: 'Shopping & Style', sub: 'Summer Clothes, Gadgets', amount: 84200, pct: 20, color: '#8b5cf6', icon: '🛍️' },
-          { name: 'Living & Housing', sub: 'Rent, Home Supplies', amount: 82500, pct: 20, color: '#ea580c', icon: '🏠' },
-          { name: 'Utilities & Bills', sub: 'Air Con, Water, Gas, WiFi', amount: 52000, pct: 13, color: '#3b82f6', icon: '💡' },
-          { name: 'Entertainment & Fun', sub: 'Travel, Dining Out, Movies', amount: 49700, pct: 12, color: '#ec4899', icon: '🍿' },
-          { name: 'Transport & Commute', sub: 'Shinkansen, Suica, Taxi', amount: 31000, pct: 8, color: '#06b6d4', icon: '🚆' }
-        ]
-      }
+    let liveDashboardData = {
+      transactions: [],
+      budgets: [],
+      goals: [],
+      schedules: []
     };
 
-    // App State
-    let currentMonth = '2026-08';
+    let currentMonth = new Date().toISOString().slice(0, 7); // e.g. '2026-08'
     let isHidden = localStorage.getItem('balance_privacy') === '1';
-    let selectedCurrency = 'JPY';
+    let selectedCurrency = localStorage.getItem('budget_tracker_base_currency') || 'JPY';
     let currentTopCatIdx = 0;
+    let topCategoriesList = [];
+    let currentCalculatedBalance = 0;
+
+    // Helper: Format Money
+    function formatMoney(amount, currency = selectedCurrency) {
+      const num = Math.round(Number(amount) || 0);
+      const symbol = currency === 'USD' ? '$' : (currency === 'MMK' ? 'Ks ' : '¥');
+      return (num < 0 ? `-${symbol}` : symbol) + Math.abs(num).toLocaleString();
+    }
+
+    // Helper: Month label formatter
+    function getMonthLabel(monthStr) {
+      if (!monthStr) return 'This Month';
+      const parts = monthStr.split('-');
+      const y = parts[0];
+      const m = parts[1];
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const mIdx = parseInt(m, 10) - 1;
+      return `${monthNames[mIdx] || m} ${y}`;
+    }
+
+    function getShortMonth(monthStr) {
+      if (!monthStr) return 'Aug';
+      const parts = monthStr.split('-');
+      const m = parts[1] || parts[0];
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      return monthNames[parseInt(m, 10) - 1] || monthStr;
+    }
+
+    function getCategoryIcon(type) {
+      const t = String(type || '').toLowerCase();
+      if (t.includes('food') || t.includes('cook') || t.includes('snack')) return '🍔';
+      if (t.includes('shop') || t.includes('fashion') || t.includes('cloth')) return '🛍️';
+      if (t.includes('liv') || t.includes('rent') || t.includes('hous')) return '🏠';
+      if (t.includes('util') || t.includes('bill') || t.includes('elect')) return '💡';
+      if (t.includes('entertain') || t.includes('game') || t.includes('fun') || t.includes('movie')) return '🍿';
+      if (t.includes('trans') || t.includes('commute') || t.includes('train')) return '🚆';
+      if (t.includes('educat') || t.includes('tuition') || t.includes('course')) return '🎓';
+      if (t.includes('health') || t.includes('medic') || t.includes('clinic')) return '💖';
+      if (t.includes('tax') || t.includes('insur')) return '📑';
+      if (t.includes('work') || t.includes('stationery')) return '💼';
+      if (t.includes('fam') || t.includes('support')) return '👨‍👩‍👧‍👦';
+      return '🛒';
+    }
+
+    const CAT_COLORS = ['#10b981', '#8b5cf6', '#ea580c', '#3b82f6', '#ec4899', '#06b6d4', '#eab308', '#6366f1'];
+    function getCategoryColor(idx) {
+      return CAT_COLORS[idx % CAT_COLORS.length];
+    }
+
+    function getDueCountdown(dueStr) {
+      if (!dueStr) return 'Upcoming';
+      const d = new Date(dueStr);
+      if (isNaN(d.getTime())) return dueStr;
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      d.setHours(0, 0, 0, 0);
+      const diff = Math.round((d - today) / (1000 * 60 * 60 * 24));
+      if (diff === 0) return 'Due Today';
+      if (diff === 1) return 'In 1 day';
+      if (diff > 1) return `In ${diff} days`;
+      if (diff < 0) return `${Math.abs(diff)}d ago`;
+      return 'Upcoming';
+    }
+
+    function getBrandBadge(name) {
+      const lower = (name || '').toLowerCase();
+      if (lower.includes('rakuten')) return { style: 'background:#dc2626; color:#ffffff; font-weight:900; font-size:16px;', text: 'R' };
+      if (lower.includes('smbc')) return { style: 'background:#047857; color:#ffffff; font-weight:900; font-size:11px; text-align:center;', text: 'SMBC' };
+      if (lower.includes('jcb')) return { style: 'background:#1d4ed8; color:#ffffff; font-weight:900; font-size:12px;', text: 'JCB' };
+      if (lower.includes('mufg')) return { style: 'background:#b91c1c; color:#ffffff; font-weight:900; font-size:11px;', text: 'MUFG' };
+      if (lower.includes('loan') || lower.includes('debt')) return { style: 'background:#4338ca; color:#ffffff; font-size:16px;', text: '🏛️' };
+      return { style: 'background:#2563eb; color:#ffffff; font-size:16px;', text: '💳' };
+    }
+
+    // Populate Dynamic Month Selector from Real Data
+    function populateMonthSelector() {
+      const select = document.getElementById('globalMonthSelect');
+      if (!select) return;
+
+      const txs = liveDashboardData.transactions || [];
+      const monthsSet = new Set();
+      const curM = new Date().toISOString().slice(0, 7);
+      monthsSet.add(curM);
+
+      txs.forEach(t => {
+        if (t.date && t.date.length >= 7) {
+          monthsSet.add(t.date.slice(0, 7));
+        }
+      });
+
+      const sortedMonths = Array.from(monthsSet).sort().reverse();
+      if (!sortedMonths.includes(currentMonth)) {
+        currentMonth = sortedMonths[0] || curM;
+      }
+
+      select.innerHTML = sortedMonths.map(m => `
+        <option value="${m}" ${m === currentMonth ? 'selected' : ''}>${getMonthLabel(m)}</option>
+      `).join('');
+    }
 
     // Handle Month Change from Global Dropdown
     function handleMonthChange(monthKey) {
       currentMonth = monthKey;
+      renderDashboard();
+    }
+
+    // Handle Currency Change
+    function handleCurrencyChange(cur) {
+      selectedCurrency = cur;
+      localStorage.setItem('budget_tracker_base_currency', cur);
       renderDashboard();
     }
 
@@ -2117,18 +2082,20 @@
       updateBalanceDisplay();
     }
 
-    function updateBalanceDisplay() {
-      const data = dashboardMonthsData[currentMonth] || dashboardMonthsData['2026-08'];
+    function updateBalanceDisplay(netVal) {
+      if (typeof netVal === 'number') currentCalculatedBalance = netVal;
       const netValEl = document.getElementById('netWorthValue');
       const eyeIcon = document.getElementById('eyeIcon');
       
+      const symbol = selectedCurrency === 'USD' ? '$' : (selectedCurrency === 'MMK' ? 'Ks ' : '¥');
+
       if (isHidden) {
-        if (netValEl) netValEl.textContent = '¥ ••••••••';
+        if (netValEl) netValEl.textContent = `${symbol} ••••••••`;
         if (eyeIcon) {
           eyeIcon.innerHTML = `<path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/>`;
         }
       } else {
-        if (netValEl) netValEl.textContent = `¥${data.totalBalance.toLocaleString()}`;
+        if (netValEl) netValEl.textContent = formatMoney(currentCalculatedBalance);
         if (eyeIcon) {
           eyeIcon.innerHTML = `<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>`;
         }
@@ -2137,18 +2104,28 @@
 
     // Switch Top Category Carousel
     function switchTopCat(idx) {
-      const data = dashboardMonthsData[currentMonth] || dashboardMonthsData['2026-08'];
       currentTopCatIdx = idx;
-      const item = data.topCats[idx] || data.topCats[0];
+      const item = topCategoriesList[idx] || topCategoriesList[0];
       
       const nameEl = document.getElementById('topCatName');
       const amtEl = document.getElementById('topCatAmount');
       const pctEl = document.getElementById('topCatPercent');
       const iconEl = document.getElementById('topCatIcon');
       
+      if (!item) {
+        if (nameEl) nameEl.textContent = 'No Expenses';
+        if (amtEl) amtEl.textContent = formatMoney(0);
+        if (pctEl) pctEl.textContent = '0% of total';
+        if (iconEl) iconEl.innerHTML = '🛒';
+        return;
+      }
+
+      const totalExp = topCategoriesList.reduce((acc, c) => acc + c.amount, 0) || 1;
+      const pct = Math.round((item.amount / totalExp) * 100 * 10) / 10;
+
       if (nameEl) nameEl.textContent = item.name;
-      if (amtEl) amtEl.textContent = `¥${item.amount.toLocaleString()}`;
-      if (pctEl) pctEl.textContent = item.pct;
+      if (amtEl) amtEl.textContent = formatMoney(item.amount);
+      if (pctEl) pctEl.textContent = `${pct}% of total`;
       if (iconEl) iconEl.innerHTML = item.icon;
 
       const dots = document.querySelectorAll('#topCatDots .pag-dot');
@@ -2156,104 +2133,325 @@
         dot.classList.toggle('active', i === idx);
       });
     }
-
-    // Render Full Dashboard for Current Selected Month
+    // Render Full Dashboard with Live Calculations
     function renderDashboard() {
-      const data = dashboardMonthsData[currentMonth] || dashboardMonthsData['2026-08'];
+      const txs = liveDashboardData.transactions || [];
+      const budgets = liveDashboardData.budgets || [];
+      const schedules = liveDashboardData.schedules || [];
 
-      // Month Badges (Overview & Cards)
+      // 1. Filter transactions by currency and month
+      const curTxs = txs.filter(t => (t.currency || 'JPY') === selectedCurrency);
+      const monthTxs = curTxs.filter(t => t.date && t.date.startsWith(currentMonth));
+
+      // Month Badges
+      const monthLabel = getMonthLabel(currentMonth);
+      const shortM = getShortMonth(currentMonth);
+
       const pLabel = document.getElementById('netWorthPeriodLabel');
-      if (pLabel) pLabel.textContent = data.overviewBadge;
-
+      if (pLabel) pLabel.textContent = monthLabel;
       const bMonth = document.getElementById('budgetCardMonth');
-      if (bMonth) bMonth.textContent = data.overviewBadge;
-
+      if (bMonth) bMonth.textContent = monthLabel;
       const oMonth = document.getElementById('overviewCardMonth');
-      if (oMonth) oMonth.textContent = data.overviewBadge;
-
+      if (oMonth) oMonth.textContent = monthLabel;
       const topMonth = document.getElementById('topCatMonthBadge');
-      if (topMonth) topMonth.textContent = data.shortMonth;
-
+      if (topMonth) topMonth.textContent = shortM;
       const nwMonth = document.getElementById('needWantMonthBadge');
-      if (nwMonth) nwMonth.textContent = data.shortMonth;
+      if (nwMonth) nwMonth.textContent = shortM;
 
-      // 1. Total Balance
-      updateBalanceDisplay();
-      const trendValEl = document.getElementById('netWorthTrendVal');
-      if (trendValEl) trendValEl.textContent = data.trendVal;
-      const trendSubEl = document.getElementById('netWorthTrendSub');
-      if (trendSubEl) trendSubEl.textContent = data.trendSub;
+      // 2. Compute Account Balances & Total Net Balance up to end of selected month
+      const monthEndPrefix = currentMonth + '-31';
+      const historyTxs = curTxs.filter(t => t.date <= monthEndPrefix);
+      
+      const accountBalances = {};
+      historyTxs.forEach(t => {
+        const amt = Number(t.amount) || 0;
+        const from = t.fromSource;
+        const to = t.toSource;
+        const flow = t.cashFlow;
 
-      // 2. Budget vs Actual
-      const bLimit = document.getElementById('budgetLimitVal');
-      if (bLimit) bLimit.textContent = `¥${data.budgetLimit.toLocaleString()}`;
-      const bActual = document.getElementById('budgetActualVal');
-      if (bActual) bActual.textContent = `¥${data.budgetActual.toLocaleString()}`;
-      const bBar = document.getElementById('budgetProgressBar');
-      if (bBar) bBar.style.width = `${Math.min(data.budgetPct, 100)}%`;
-      const bPct = document.getElementById('budgetProgressPct');
-      if (bPct) bPct.textContent = `${Math.round(data.budgetPct)}%`;
-      const bRem = document.getElementById('budgetRemainingVal');
-      if (bRem) bRem.textContent = `¥${data.budgetLeft.toLocaleString()} left`;
+        if (flow === 'Income') {
+          const acc = (to && to !== '-') ? to : from;
+          if (acc && acc !== '-') accountBalances[acc] = (accountBalances[acc] || 0) + amt;
+        } else if (flow === 'Expense') {
+          if (from && from !== '-') accountBalances[from] = (accountBalances[from] || 0) - amt;
+        } else if (flow === 'Transfer') {
+          if (from && from !== '-') accountBalances[from] = (accountBalances[from] || 0) - amt;
+          if (to && to !== '-') accountBalances[to] = (accountBalances[to] || 0) + amt;
+        }
+      });
 
-      // 3. Overview 4 Metrics
+      let bankTotal = 0;
+      let creditTotal = 0;
+      let walletTotal = 0;
+
+      Object.entries(accountBalances).forEach(([accName, bal]) => {
+        if (accName.startsWith('Bk-')) {
+          bankTotal += bal;
+        } else if (accName.startsWith('Crd-')) {
+          creditTotal += bal;
+        } else {
+          walletTotal += bal;
+        }
+      });
+
+      const totalNetBalance = (bankTotal + walletTotal) + creditTotal;
+      updateBalanceDisplay(totalNetBalance);
+
+      // Trend vs previous month
+      const prevMonthDate = new Date(currentMonth + '-01');
+      prevMonthDate.setMonth(prevMonthDate.getMonth() - 1);
+      const prevMonthStr = prevMonthDate.toISOString().slice(0, 7);
+      const prevHistoryTxs = curTxs.filter(t => t.date <= prevMonthStr + '-31');
+      let prevTotal = 0;
+      prevHistoryTxs.forEach(t => {
+        const amt = Number(t.amount) || 0;
+        if (t.cashFlow === 'Income') prevTotal += amt;
+        else if (t.cashFlow === 'Expense') prevTotal -= amt;
+      });
+
+      const trendEl = document.getElementById('netWorthTrendVal');
+      const trendSub = document.getElementById('netWorthTrendSub');
+      if (trendEl && trendSub) {
+        if (prevTotal !== 0 && totalNetBalance !== 0) {
+          const diff = totalNetBalance - prevTotal;
+          const pct = Math.abs(Math.round((diff / Math.abs(prevTotal)) * 100 * 10) / 10);
+          trendEl.textContent = `${diff >= 0 ? '▲' : '▼'} ${pct}%`;
+          trendSub.textContent = `vs ${getShortMonth(prevMonthStr)}`;
+        } else {
+          trendEl.textContent = `● Live`;
+          trendSub.textContent = `from sheet`;
+        }
+      }
+
+      // 3. Overview (4 Metrics)
+      let monthIncome = 0;
+      let monthExpense = 0;
+      monthTxs.forEach(t => {
+        const amt = Number(t.amount) || 0;
+        if (t.cashFlow === 'Income' || t.classification === 'income') {
+          monthIncome += amt;
+        } else if (t.cashFlow === 'Expense' || t.classification === 'expense') {
+          monthExpense += amt;
+        }
+      });
+      const monthSavings = monthIncome - monthExpense;
+      const txCount = monthTxs.length;
+
       const incEl = document.getElementById('overviewIncomeVal');
-      if (incEl) incEl.textContent = `¥${data.income.toLocaleString()}`;
+      if (incEl) incEl.textContent = formatMoney(monthIncome);
       const expEl = document.getElementById('overviewExpenseVal');
-      if (expEl) expEl.textContent = `¥${data.expense.toLocaleString()}`;
+      if (expEl) expEl.textContent = formatMoney(monthExpense);
       const savEl = document.getElementById('overviewSavingsVal');
-      if (savEl) savEl.textContent = `¥${data.savings.toLocaleString()}`;
+      if (savEl) savEl.textContent = formatMoney(monthSavings);
       const txEl = document.getElementById('overviewTxsCount');
-      if (txEl) txEl.textContent = data.txCount;
+      if (txEl) txEl.textContent = txCount;
 
-      // 4. Top Spending Category
+      // 4. Budget vs Actual
+      const monthBudgets = budgets.filter(b => (!b.month || b.month === currentMonth) && (b.currency || 'JPY') === selectedCurrency);
+      let totalBudgetLimit = monthBudgets.reduce((acc, b) => acc + (Number(b.amount) || 0), 0);
+      
+      const bLimit = document.getElementById('budgetLimitVal');
+      if (bLimit) bLimit.textContent = formatMoney(totalBudgetLimit);
+      const bActual = document.getElementById('budgetActualVal');
+      if (bActual) bActual.textContent = formatMoney(monthExpense);
+      
+      const budgetPct = totalBudgetLimit > 0 ? Math.min(Math.round((monthExpense / totalBudgetLimit) * 100), 100) : (monthExpense > 0 ? 100 : 0);
+      const bBar = document.getElementById('budgetProgressBar');
+      if (bBar) bBar.style.width = `${budgetPct}%`;
+      const bPct = document.getElementById('budgetProgressPct');
+      if (bPct) bPct.textContent = `${budgetPct}%`;
+      
+      const bRem = document.getElementById('budgetRemainingVal');
+      if (bRem) {
+        if (totalBudgetLimit > 0) {
+          const diff = totalBudgetLimit - monthExpense;
+          if (diff >= 0) {
+            bRem.textContent = `${formatMoney(diff)} left`;
+            bRem.style.color = 'var(--primary-indigo)';
+          } else {
+            bRem.textContent = `${formatMoney(Math.abs(diff))} over`;
+            bRem.style.color = '#ef4444';
+          }
+        } else {
+          bRem.textContent = monthExpense > 0 ? `${formatMoney(monthExpense)} spent` : 'No budget set';
+          bRem.style.color = 'var(--text-muted)';
+        }
+      }
+
+      // 5. Group Category Expenses
+      const catExpenseMap = {};
+      monthTxs.filter(t => t.cashFlow === 'Expense' || t.classification === 'expense').forEach(t => {
+        const cat = (t.cashFlowType || 'Other_Expenses').replace(/_/g, ' ');
+        const amt = Number(t.amount) || 0;
+        if (!catExpenseMap[cat]) {
+          catExpenseMap[cat] = { name: cat, amount: 0, sub: t.detail || '-', icon: getCategoryIcon(t.cashFlowType) };
+        }
+        catExpenseMap[cat].amount += amt;
+      });
+
+      const sortedCats = Object.values(catExpenseMap).sort((a, b) => b.amount - a.amount);
+      topCategoriesList = sortedCats;
+
+      // Render Top Spending Carousel
       switchTopCat(0);
 
-      // 5. Need vs Want Donut Chart
+      // Render Expense by Category List
+      const expListEl = document.getElementById('categoryExpenseList');
+      if (expListEl) {
+        if (sortedCats.length === 0) {
+          expListEl.innerHTML = `
+            <div style="text-align:center; padding:24px 12px; color:var(--text-muted); font-size:12.5px;">
+              No expenses recorded for ${monthLabel}.
+            </div>
+          `;
+        } else {
+          const totalCatExpense = monthExpense || 1;
+          expListEl.innerHTML = sortedCats.map((cat, idx) => {
+            const pct = Math.round((cat.amount / totalCatExpense) * 100);
+            const color = getCategoryColor(idx);
+            return `
+              <div class="expense-cat-item">
+                <div class="expense-cat-header-row">
+                  <div class="expense-cat-title-group">
+                    <span class="expense-cat-icon">${cat.icon}</span>
+                    <span class="expense-cat-name">${cat.name}</span>
+                    <span class="expense-cat-subitems">• ${cat.sub}</span>
+                  </div>
+                  <div class="expense-cat-amount-group">
+                    <span class="expense-cat-amount">${formatMoney(cat.amount)}</span>
+                    <span class="expense-cat-pct">${pct}%</span>
+                  </div>
+                </div>
+                <div class="expense-cat-progress-bg">
+                  <div class="expense-cat-progress-fill" style="width:${pct}%; background:${color};"></div>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+      }
+
+      // 6. Need vs Want Donut Chart
+      let needTotal = 0;
+      let wantTotal = 0;
+      monthTxs.filter(t => t.cashFlow === 'Expense' || t.classification === 'expense').forEach(t => {
+        const amt = Number(t.amount) || 0;
+        if (t.status === 'Need') needTotal += amt;
+        else if (t.status === 'Want') wantTotal += amt;
+        else needTotal += amt;
+      });
+
+      const totalNeedWant = needTotal + wantTotal;
+      const needPct = totalNeedWant > 0 ? Math.round((needTotal / totalNeedWant) * 100) : 0;
+      const wantPct = totalNeedWant > 0 ? (100 - needPct) : 0;
+
       const needVal = document.getElementById('needPctVal');
-      if (needVal) needVal.textContent = `${data.needPct}%`;
+      if (needVal) needVal.textContent = `${needPct}%`;
       const wantVal = document.getElementById('wantPctVal');
-      if (wantVal) wantVal.textContent = `${data.wantPct}%`;
+      if (wantVal) wantVal.textContent = `${wantPct}%`;
       const centerPct = document.getElementById('donutCenterPct');
-      if (centerPct) centerPct.textContent = `${data.needPct}%`;
+      if (centerPct) centerPct.textContent = `${needPct}%`;
       
       const donutNeed = document.getElementById('donutNeedCircle');
-      if (donutNeed) {
-        donutNeed.setAttribute('stroke-dasharray', `${data.needPct} 100`);
+        donutNeed.setAttribute('stroke-dasharray', `${needPct} 100`);
         donutNeed.setAttribute('stroke-dashoffset', '0');
       }
       const donutWant = document.getElementById('donutWantCircle');
       if (donutWant) {
-        donutWant.setAttribute('stroke-dasharray', `${data.wantPct} 100`);
-        donutWant.setAttribute('stroke-dashoffset', `-${data.needPct}`);
+        donutWant.setAttribute('stroke-dasharray', `${wantPct} 100`);
+        donutWant.setAttribute('stroke-dashoffset', `-${needPct}`);
       }
 
-      // 6. Category Expense Breakdown Progress Bars
-      const expListEl = document.getElementById('categoryExpenseList');
-      if (expListEl) {
-        expListEl.innerHTML = data.expenseCats.map(cat => `
-          <div class="expense-cat-item">
-            <div class="expense-cat-header-row">
-              <div class="expense-cat-title-group">
-                <span class="expense-cat-icon">${cat.icon}</span>
-                <span class="expense-cat-name">${cat.name}</span>
-                <span class="expense-cat-subitems">• ${cat.sub}</span>
-              </div>
-              <div class="expense-cat-amount-group">
-                <span class="expense-cat-amount">¥${cat.amount.toLocaleString()}</span>
-                <span class="expense-cat-pct">${cat.pct}%</span>
-              </div>
+      // 7. Upcoming Payments List
+      const upcomingListEl = document.getElementById('upcomingPaymentsList');
+      if (upcomingListEl) {
+        if (schedules.length === 0) {
+          upcomingListEl.innerHTML = `
+            <div style="text-align:center; padding:24px 12px; color:var(--text-muted); font-size:12.5px;">
+              No payment schedules found. <a href="./schedule.html" style="color:var(--primary-indigo); font-weight:700;">+ Add Schedule</a>
             </div>
-            <div class="expense-cat-progress-bg">
-              <div class="expense-cat-progress-fill" style="width:${cat.pct}%; background:${cat.color};"></div>
-            </div>
-          </div>
-        `).join('');
+          `;
+        } else {
+          upcomingListEl.innerHTML = schedules.slice(0, 4).map(s => {
+            const payee = s.payeeName || s.account || 'Recurring Bill';
+            const amt = Number(s.amount) || 0;
+            const cur = s.currency || selectedCurrency;
+            const dueStr = s.dueDate || s.dueDay || '';
+            const countdown = getDueCountdown(dueStr);
+            const brand = getBrandBadge(payee);
+
+            return `
+              <div class="dash-list-item">
+                <div class="dash-item-left">
+                  <div class="item-icon-box" style="${brand.style}">
+                    ${brand.text}
+                  </div>
+                  <div class="item-info">
+                    <span class="item-title">${payee}</span>
+                    <span class="item-sub" style="color:#ef4444; font-weight:600;">Payment Due</span>
+                  </div>
+                </div>
+                <div class="dash-item-right">
+                  <span class="item-amount">${formatMoney(amt, cur)}</span>
+                  <span class="countdown-pill">${countdown}</span>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
       }
 
-      // Prompt in AI Advisor
+      // 8. Accounts & Wallets List
+      const accountsListEl = document.getElementById('accountsList');
+      if (accountsListEl) {
+        accountsListEl.innerHTML = `
+          <a class="dash-list-item" href="./index.html#accounts">
+            <div class="dash-item-left">
+              <div class="item-icon-box" style="background:#ecfdf5; color:#10b981;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v4M12 14v4M16 14v4"/></svg>
+              </div>
+              <div class="item-info">
+                <span class="item-title">Bank Accounts</span>
+              </div>
+            </div>
+            <div class="dash-item-right">
+              <span class="item-amount">${formatMoney(bankTotal)} ›</span>
+            </div>
+          </a>
+
+          <a class="dash-list-item" href="./index.html#accounts">
+            <div class="dash-item-left">
+              <div class="item-icon-box" style="background:#f5f3ff; color:#8b5cf6;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+              </div>
+              <div class="item-info">
+                <span class="item-title">Credit Cards</span>
+              </div>
+            </div>
+            <div class="dash-item-right">
+              <span class="item-amount" style="${creditTotal < 0 ? 'color:#ef4444;' : ''}">${formatMoney(creditTotal)} ›</span>
+            </div>
+          </a>
+
+          <a class="dash-list-item" href="./index.html#accounts">
+            <div class="dash-item-left">
+              <div class="item-icon-box" style="background:#eff6ff; color:#3b82f6;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>
+              </div>
+              <div class="item-info">
+                <span class="item-title">e-Wallets &amp; Cash</span>
+              </div>
+            </div>
+            <div class="dash-item-right">
+              <span class="item-amount">${formatMoney(walletTotal)} ›</span>
+            </div>
+          </a>
+        `;
+      }
+
+      // Update AI Advisor prompt
       const aiPrompt = document.getElementById('aiSavedPrompt');
-      if (aiPrompt) aiPrompt.textContent = `¥${data.savings.toLocaleString()}`;
+      if (aiPrompt) aiPrompt.textContent = formatMoney(monthSavings);
     }
 
     // Toggle AI Advisor Popover
@@ -2298,8 +2496,7 @@
           botBubble.innerHTML = reply.replace(/\n/g, '<br>');
         } else {
           setTimeout(() => {
-            const data = dashboardMonthsData[currentMonth];
-            botBubble.innerHTML = `For <strong>${data.fullLabel}</strong>, your savings are <strong>¥${data.savings.toLocaleString()}</strong> with an expense of <strong>¥${data.expense.toLocaleString()}</strong>. You are on track to meet your financial goals! 🚀`;
+            botBubble.innerHTML = `You are on track with your real Google Sheets financial ledger! 🚀`;
           }, 600);
         }
       } catch (err) {
@@ -2308,11 +2505,7 @@
       body.scrollTop = body.scrollHeight;
     }
 
-    function handleCurrencyChange(cur) {
-      selectedCurrency = cur;
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
       // Dynamic Greeting based on time of day
       const hour = new Date().getHours();
       let greeting = 'Good Morning';
@@ -2324,14 +2517,35 @@
         titleEl.textContent = `${greeting} 👋`;
       }
 
+      // Currency selector sync with local preference
+      const currSelect = document.getElementById('currencySelect');
+      if (currSelect) {
+        currSelect.value = selectedCurrency;
+      }
+
+      // Initial clean render
+      populateMonthSelector();
+      renderDashboard();
+
+      // Load Live Google Sheets Data
+      try {
+        if (window.BudgetTrackerData) {
+          const liveData = await window.BudgetTrackerData.getDashboardData();
+          if (liveData) {
+            liveDashboardData = liveData;
+            populateMonthSelector();
+            renderDashboard();
+          }
+        }
+      } catch (e) {
+        console.warn('Live Google Sheets fetch notice:', e);
+      }
+
       // Check desktop viewport width for 3rd upcoming payment
       if (window.innerWidth >= 1024) {
         const thirdPayment = document.getElementById('desktopThirdUpcoming');
         if (thirdPayment) thirdPayment.style.display = 'flex';
       }
-
-      // Initial Render
-      renderDashboard();
     });
   </script>
 </body>

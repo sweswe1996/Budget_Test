@@ -114,30 +114,27 @@ window.BudgetTrackerViews.settings = (() => {
             <div class="settings-inner-grid">
               <div class="form-group">
                 <label style="font-size:11.5px; font-weight:600; color:var(--text-heading); margin-bottom:4px; display:block;">Base Currency</label>
-                <select class="form-select" style="width:100%; font-size:12px;">
-                  <option value="JPY" selected>JPY — Japanese Yen (¥)</option>
-                  <option value="MMK">MMK — Myanmar Kyat (Ks)</option>
-                  <option value="USD">USD — US Dollar ($)</option>
+                <select class="form-select" style="width:100%; font-size:12px;" onchange="localStorage.setItem('budget_tracker_base_currency', this.value)">
+                  <option value="JPY" ${(typeof localStorage !== 'undefined' && localStorage.getItem('budget_tracker_base_currency') === 'JPY') || true ? 'selected' : ''}>JPY — Japanese Yen (¥)</option>
+                  <option value="MMK" ${(typeof localStorage !== 'undefined' && localStorage.getItem('budget_tracker_base_currency') === 'MMK') ? 'selected' : ''}>MMK — Myanmar Kyat (Ks)</option>
+                  <option value="USD" ${(typeof localStorage !== 'undefined' && localStorage.getItem('budget_tracker_base_currency') === 'USD') ? 'selected' : ''}>USD — US Dollar ($)</option>
                 </select>
               </div>
 
               <div class="form-group">
                 <label style="font-size:11.5px; font-weight:600; color:var(--text-heading); margin-bottom:4px; display:block;">Default ForWho Owner</label>
-                <select class="form-select" style="width:100%; font-size:12px;">
-                  <option value="US" selected>US (Joint / Household)</option>
-                  <option value="CS">CS</option>
-                  <option value="MG">MG</option>
-                  <option value="Family">Family</option>
-                  <option value="Me">Me</option>
+                <select class="form-select" style="width:100%; font-size:12px;" onchange="localStorage.setItem('budget_tracker_default_forwho', this.value)">
+                  <option value="US" ${(typeof localStorage !== 'undefined' && (localStorage.getItem('budget_tracker_default_forwho') === 'US' || !localStorage.getItem('budget_tracker_default_forwho'))) ? 'selected' : ''}>US (Joint / Household)</option>
+                  <option value="CS" ${(typeof localStorage !== 'undefined' && localStorage.getItem('budget_tracker_default_forwho') === 'CS') ? 'selected' : ''}>CS</option>
+                  <option value="MG" ${(typeof localStorage !== 'undefined' && localStorage.getItem('budget_tracker_default_forwho') === 'MG') ? 'selected' : ''}>MG</option>
+                  <option value="Family" ${(typeof localStorage !== 'undefined' && localStorage.getItem('budget_tracker_default_forwho') === 'Family') ? 'selected' : ''}>Family</option>
+                  <option value="Me" ${(typeof localStorage !== 'undefined' && localStorage.getItem('budget_tracker_default_forwho') === 'Me') ? 'selected' : ''}>Me</option>
                 </select>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Right: Data Backup & Reset -->
-        <div style="display:flex; flex-direction:column; gap:14px;">
-          <!-- Backup & Restore -->
+          <!-- Data Backup & Export -->
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">Data Backup &amp; Export</h3>
@@ -145,25 +142,13 @@ window.BudgetTrackerViews.settings = (() => {
             <div style="display:flex; flex-direction:column; gap:8px;">
               <p style="font-size:11.5px; color:var(--text-muted);">Backup your entire dashboard data (transactions, budgets, goals, accounts) into JSON format.</p>
               
-              <button class="btn-primary" onclick="exportDataJSON()" style="font-size:12px; padding:8px 12px; background:var(--primary); margin-top:6px;">
+              <button class="btn-primary" onclick="exportDataJSON()" style="font-size:12px; padding:10px 14px; background:#7c3aed; margin-top:4px; width:100%;">
                 <span>💾 Backup to JSON File</span>
               </button>
 
-              <button class="btn-reset" onclick="window.BudgetTrackerReports.exportCSV()" style="font-size:12px; padding:8px 12px;">
+              <button class="btn-reset" onclick="window.BudgetTrackerReports.exportCSV()" style="font-size:12px; padding:10px 14px; width:100%;">
                 <span>📥 Export All to CSV</span>
               </button>
-            </div>
-          </div>
-
-          <!-- App Information -->
-          <div class="card" style="background:linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%); border-color:#ddd6fe;">
-            <div class="card-header" style="margin-bottom:6px;">
-              <h3 class="card-title" style="color:#6d28d9;">About BudgetTracker</h3>
-            </div>
-            <div style="font-size:11.5px; color:#7c3aed; line-height:1.4;">
-              <strong>Version:</strong> 2.5.0 SaaS Pro<br>
-              <strong>Architecture:</strong> Single Page App + Offline In-Memory Cache + Google Sheets Compatible<br>
-              <strong>Status:</strong> Ready for Google Apps Script deployment
             </div>
           </div>
         </div>

@@ -29,7 +29,7 @@ window.BudgetTrackerApp = (() => {
     setupModal();
 
     // 4. Initial render immediately
-    renderActiveView();
+    switchView(activeView);
 
     // 5. Silent Background Live Sync with Google Sheets (Refreshes real sheet every time)
     window.BudgetTrackerData.fetchLiveGoogleSheetsData().then(liveData => {
@@ -179,6 +179,12 @@ window.BudgetTrackerApp = (() => {
   function switchView(viewName) {
     if (!window.BudgetTrackerViews[viewName]) return;
     activeView = viewName;
+
+    // Hide top filter bar on settings view
+    const filterBar = document.querySelector(".filter-bar");
+    if (filterBar) {
+      filterBar.style.display = (viewName === "settings") ? "none" : "";
+    }
 
     // Update Tab active class
     document.querySelectorAll(".view-tab").forEach(tab => {

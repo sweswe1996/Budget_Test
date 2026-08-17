@@ -153,6 +153,33 @@
     </section>
   </div>
 
+  <!-- ============================================================
+       MOBILE FLOATING BOTTOM NAVIGATION (< 1024px)
+       ============================================================ -->
+  <nav class="mobile-bottom-nav">
+    <a class="bottom-nav-item" href="./input.html" title="Transaction Data Entry">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="16" y2="11"/><line x1="8" y1="15" x2="13" y2="15"/></svg>
+      <span>Transactions</span>
+    </a>
+    <a class="bottom-nav-item" href="./budget.html" title="Budget Entry">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+      <span>Budget</span>
+    </a>
+    <a class="bottom-nav-item" href="./goal.html" title="Goal Entry">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+      <span>Goal</span>
+    </a>
+    <a class="bottom-nav-item active" href="./schedule.html" title="Payment Schedule Entry">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <span>Payment</span>
+      <span class="nav-indicator-dot"></span>
+    </a>
+    <a class="bottom-nav-item" href="./settings.html" title="Settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <span>Setting</span>
+    </a>
+  </nav>
+
   <div id="toast" class="toast"></div>
 
   <script src="./js/common-forms.js"></script>
@@ -173,96 +200,7 @@
       'Education Fund': '🎓'
     };
 
-    let scheduledPayments = [
-      {
-        id: 'sch_1',
-        payeeName: 'JCB Card Payment',
-        category: 'Credit Card Bill',
-        icon: '💳',
-        amount: 18000,
-        currency: 'JPY',
-        dueDate: '2026-08-10',
-        account: 'Bk-MUFG_MG',
-        notes: ''
-      },
-      {
-        id: 'sch_2',
-        payeeName: 'MUFG Card Payment',
-        category: 'Credit Card Bill',
-        icon: '💳',
-        amount: 10000,
-        currency: 'JPY',
-        dueDate: '2026-08-22',
-        account: 'Bk-MUFG_MG',
-        notes: ''
-      },
-      {
-        id: 'sch_3',
-        payeeName: 'Tokyo Electricity Bill',
-        category: 'Utilities & Bills',
-        icon: '⚡',
-        amount: 6800,
-        currency: 'JPY',
-        dueDate: '2026-08-25',
-        account: 'Bk-PAYPAY_CS',
-        notes: ''
-      },
-      {
-        id: 'sch_4',
-        payeeName: 'Rakuten Card Payment',
-        category: 'Credit Card Bill',
-        icon: '💳',
-        amount: 16000,
-        currency: 'JPY',
-        dueDate: '2026-08-27',
-        account: 'Crd-RAKUTEN_CS',
-        notes: ''
-      },
-      {
-        id: 'sch_5',
-        payeeName: 'UR Home Rent Fee',
-        category: 'House Rent',
-        icon: '🏠',
-        amount: 78000,
-        currency: 'JPY',
-        dueDate: '2026-08-25',
-        account: 'Bk-MUFG_MG',
-        notes: ''
-      },
-      {
-        id: 'sch_6',
-        payeeName: 'Home WiFi & Internet',
-        category: 'Subscription Services',
-        icon: '📶',
-        amount: 4950,
-        currency: 'JPY',
-        dueDate: '2026-08-10',
-        account: 'Crd-RAKUTEN_CS',
-        notes: ''
-      },
-      {
-        id: 'sch_7',
-        payeeName: 'Mobile Phone Plan',
-        category: 'Subscription Services',
-        icon: '📱',
-        amount: 3300,
-        currency: 'JPY',
-        dueDate: '2026-08-10',
-        account: 'Bk-PAYPAY_CS',
-        notes: ''
-      },
-      {
-        id: 'sch_8',
-        payeeName: 'Tuition Fee Installment',
-        category: 'Education Fund',
-        icon: '🎓',
-        amount: 270000,
-        currency: 'JPY',
-        dueDate: '2026-10-27',
-        account: 'Bk-MIZUHO_CS',
-        notes: ''
-      }
-    ];
+    let scheduledPayments = [];
 
     const GOOGLE_SPREADSHEET_ID = '1OOrFs6uFBTt2nHW5lxTzqng0vMqWsCt_AyZ3ELare9s';
 

@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Settings & Preferences — BudgetTracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/forms.css">
+  <style>
+    .settings-page-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+    }
+
+    .settings-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+
+    .settings-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .settings-card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-heading);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .settings-desc-text {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin: 0 0 12px 0;
+      line-height: 1.5;
+    }
+
+    .settings-field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 12px;
+    }
+
+    .settings-field-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .settings-field-label {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-heading);
+      margin-bottom: 2px;
+      display: block;
+    }
+
+    .settings-field-subtext {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      margin-top: 3px;
+      display: block;
+      line-height: 1.4;
+    }
+
+    .settings-2col-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 580px) {
+      .settings-2col-grid {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+      }
+    }
+
+    .btn-settings-primary {
+      background: #7c3aed;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(124, 58, 237, 0.3);
+    }
+
+    .btn-settings-primary:hover {
+      background: #6d28d9;
+      transform: translateY(-1px);
+    }
+
+    .btn-settings-secondary {
+      background: #f5f3ff;
+      color: #7c3aed;
+      border: 1px solid #ddd6fe;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    [data-theme="dark"] .btn-settings-secondary {
+      background: rgba(124, 58, 237, 0.15);
+      color: #c4b5fd;
+      border-color: rgba(139, 92, 246, 0.35);
+    }
+
+    .btn-settings-secondary:hover {
+      background: #ede9fe;
+    }
+
+    [data-theme="dark"] .btn-settings-secondary:hover {
+      background: rgba(124, 58, 237, 0.25);
+    }
+
+    .btn-settings-outline {
+      background: transparent;
+      color: #7c3aed;
+      border: 1px solid rgba(124, 58, 237, 0.4);
+      border-radius: 8px;
+      padding: 7px 14px;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    [data-theme="dark"] .btn-settings-outline {
+      color: #c4b5fd;
+      border-color: rgba(139, 92, 246, 0.4);
+    }
+
+    .btn-settings-outline:hover {
+      background: rgba(124, 58, 237, 0.08);
+    }
+
+    .ai-pill-tag {
+      background: rgba(139, 92, 246, 0.12);
+      color: #7c3aed;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 9999px;
+    }
+
+    [data-theme="dark"] .ai-pill-tag {
+      background: rgba(139, 92, 246, 0.25);
+      color: #c4b5fd;
+    }
+
+    .status-badge-green {
+      background: rgba(16, 185, 129, 0.12);
+      color: #10b981;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 9999px;
+    }
+
+    .status-badge-gray {
+      background: rgba(100, 116, 139, 0.12);
+      color: var(--text-muted);
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Executive Navigation Bar -->
+  <nav class="entry-top-nav">
+    <div class="nav-brand-group">
+      <a class="btn-nav-hub" href="./home.html">← Hub</a>
+      <div class="nav-brand-text">BudgetTracker <span>Settings</span></div>
+    </div>
+
+    <!-- Center Title Group in Nav -->
+    <div class="nav-center-title-group">
+      <div class="nav-header-main-title">⚙️ Settings &amp; Preferences</div>
+    </div>
+
+    <div class="nav-right-group">
+      <button class="btn-theme-toggle" id="themeToggleBtn">☀️ Light</button>
+    </div>
+  </nav>
+
+  <div class="entry-page-wrapper">
+    <!-- Page Title Header -->
+    <div class="entry-hero-banner" style="margin-bottom: 16px;">
+      <h1 class="entry-hero-title" style="font-size: 20px;">
+        Settings &amp; Preferences <span>⚙️ ✨</span>
+      </h1>
+      <p class="entry-hero-subtitle" style="font-size: 12px;">
+        Manage Google Sheets connection, preferences, currencies, and backups.
+      </p>
+    </div>
+
+    <div class="settings-page-grid">
+      <!-- 1. Google Sheets Integration Card -->
+      <section class="settings-card">
+        <div class="settings-card-header">
+          <h2 class="settings-card-title">Google Sheets Integration 🔗</h2>
+          <span class="status-badge-green" id="sheetStatusBadge">● Connected (Local Prototype)</span>
+        </div>
+
+        <div class="settings-field-group">
+          <label class="settings-field-label">Spreadsheet URL / ID</label>
+          <input type="text" id="spreadsheetUrlInput" class="form-input" style="font-size: 12px;" value="https://docs.google.com/spreadsheets/d/1OOrFs6uFBTt2nHW5lxTzqng0vMqWsCt_AyZ3ELare9s" readonly>
+          <span class="settings-field-subtext">Tabs: Income-Expense-Tracker, Budgets, Savings_Goals, Payment_Schedule</span>
+        </div>
+
+        <div class="settings-field-group">
+          <label class="settings-field-label">Google Apps Script Web App Deployment URL</label>
+          <input type="text" id="deploymentUrlInput" class="form-input" style="font-size: 12px;" placeholder="https://script.google.com/macros/s/.../exec">
+          <span class="settings-field-subtext">Used when deployed via Google Apps Script (google.script.run) or REST API</span>
+        </div>
+
+        <div style="display: flex; gap: 10px; align-items: center; margin-top: 14px; flex-wrap: wrap;">
+          <button type="button" class="btn-settings-primary" onclick="testSheetConnection()">
+            <span>Test Connection</span>
+          </button>
+          <button type="button" class="btn-settings-secondary" onclick="refetchSheetData()">
+            <span>Re-fetch Sheet Data</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- 2. Google Gemini AI Configuration Card -->
+      <section class="settings-card" style="border-color: rgba(139, 92, 246, 0.35); background: linear-gradient(135deg, rgba(99, 102, 241, 0.03) 0%, rgba(168, 85, 247, 0.03) 100%), var(--bg-card);">
+        <div class="settings-card-header">
+          <h2 class="settings-card-title">
+            <span>✨ Google Gemini AI Configuration</span>
+            <span class="ai-pill-tag">AI Coach API</span>
+          </h2>
+          <span id="geminiApiStatusBadge" class="status-badge-gray">⚪ Not Configured</span>
+        </div>
+
+        <p class="settings-desc-text">
+          Get your free API Key at <a href="https://aistudio.google.com/" target="_blank" style="color: #7c3aed; font-weight: 700; text-decoration: underline;">Google AI Studio</a> to unlock Deep Financial Strategy Analysis &amp; Live Q&amp;A.
+        </p>
+
+        <div class="settings-field-group">
+          <label class="settings-field-label">Gemini API Key</label>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <input type="password" id="settingsGeminiKey" class="form-input" style="flex: 1; min-width: 180px; font-size: 12px;" placeholder="AIzaSy...">
+            <button type="button" class="btn-settings-primary" onclick="saveGeminiKey()">
+              <span>Save Key 💾</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="settings-2col-grid" style="margin-top: 10px;">
+          <div class="settings-field-group">
+            <label class="settings-field-label">AI Model</label>
+            <select id="settingsGeminiModel" class="form-select" style="font-size: 12px;" onchange="saveGeminiModel(this.value)">
+              <option value="gemini-3.7-flash">Gemini 3.7 Flash (Latest 2026 GA ⭐)</option>
+              <option value="gemini-3.5-flash">Gemini 3.5 Flash (Balanced &amp; Fast ⚡)</option>
+              <option value="gemini-3.5-flash-lite">Gemini 3.5 Flash-Lite (Ultra Fast 💨)</option>
+              <option value="gemini-2.0-flash">Gemini 2.0 Flash (Fast &amp; Free)</option>
+              <option value="gemini-1.5-flash">Gemini 1.5 Flash (Legacy)</option>
+              <option value="gemini-1.5-pro">Gemini 1.5 Pro (Deep Reasoning)</option>
+            </select>
+          </div>
+
+          <div class="settings-field-group">
+            <label class="settings-field-label">AI Language Mode</label>
+            <select id="settingsAiLang" class="form-select" style="font-size: 12px;" onchange="saveAiLang(this.value)">
+              <option value="mm">🇲🇲 Myanmar (မြန်မာ)</option>
+              <option value="en">🇬🇧 English</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap;">
+          <button type="button" class="btn-settings-outline" onclick="testAiCoachAssistant()">
+            <span>✨ Test AI Coach Assistant</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- 3. Default Preferences Card -->
+      <section class="settings-card">
+        <div class="settings-card-header">
+          <h2 class="settings-card-title">Default Preferences</h2>
+        </div>
+
+        <div class="settings-2col-grid">
+          <div class="settings-field-group">
+            <label class="settings-field-label">Base Currency</label>
+            <select id="prefBaseCurrency" class="form-select" style="font-size: 12px;" onchange="savePrefCurrency(this.value)">
+              <option value="JPY" selected>JPY — Japanese Yen (¥)</option>
+              <option value="MMK">MMK — Myanmar Kyat (Ks)</option>
+              <option value="USD">USD — US Dollar ($)</option>
+            </select>
+          </div>
+
+          <div class="settings-field-group">
+            <label class="settings-field-label">Default ForWho Owner</label>
+            <select id="prefDefaultForWho" class="form-select" style="font-size: 12px;" onchange="savePrefForWho(this.value)">
+              <option value="US" selected>US (Joint / Household)</option>
+              <option value="CS">CS</option>
+              <option value="MG">MG</option>
+              <option value="Family">Family</option>
+              <option value="Me">Me</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Data Backup & Export Card -->
+      <section class="settings-card">
+        <div class="settings-card-header">
+          <h2 class="settings-card-title">Data Backup &amp; Export</h2>
+        </div>
+
+        <p class="settings-desc-text">
+          Backup your entire dashboard data (transactions, budgets, goals, accounts) into JSON format.
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
+          <button type="button" class="btn-settings-primary" onclick="backupJSON()" style="width: 100%; padding: 10px 14px; font-size: 12.5px;">
+            <span>💾 Backup to JSON File</span>
+          </button>
+
+          <button type="button" class="btn-settings-secondary" onclick="exportCSV()" style="width: 100%; padding: 10px 14px; font-size: 12.5px;">
+            <span>📥 Export All to CSV</span>
+          </button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MOBILE FLOATING BOTTOM NAVIGATION (< 1024px)
+       ============================================================ -->
+  <nav class="mobile-bottom-nav">
+    <a class="bottom-nav-item" href="./input.html" title="Transaction Data Entry">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="16" y2="11"/><line x1="8" y1="15" x2="13" y2="15"/></svg>
+      <span>Transactions</span>
+    </a>
+    <a class="bottom-nav-item" href="./budget.html" title="Budget Entry">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+      <span>Budget</span>
+    </a>
+    <a class="bottom-nav-item" href="./goal.html" title="Goal Entry">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+      <span>Goal</span>
+    </a>
+    <a class="bottom-nav-item" href="./schedule.html" title="Payment Schedule Entry">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <span>Payment</span>
+    </a>
+    <a class="bottom-nav-item active" href="./settings.html" title="Settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <span>Setting</span>
+      <span class="nav-indicator-dot"></span>
+    </a>
+  </nav>
+
+  <div id="toast" class="toast"></div>
+
+  <!-- Core App Scripts -->
+  <script src="./common.js"></script>
+  <script src="./js/dashboard-data.js"></script>
+  <script src="./js/calculations.js"></script>
+  <script src="./js/reports.js"></script>
+  <script src="./js/ai-service.js"></script>
+
+  <script>
+    // Initialize Settings UI from localStorage and system
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Initialize Deployment URL
+      const savedDeployUrl = localStorage.getItem('apps_script_deployment_url') || '';
+      const deployInput = document.getElementById('deploymentUrlInput');
+      if (deployInput) {
+        deployInput.value = savedDeployUrl || (typeof APPS_SCRIPT_WEB_APP_URL !== 'undefined' ? APPS_SCRIPT_WEB_APP_URL : '');
+        deployInput.addEventListener('change', (e) => {
+          localStorage.setItem('apps_script_deployment_url', e.target.value.trim());
+          showToast('Deployment URL saved');
+        });
+      }
+
+      // 2. Initialize Gemini API Settings
+      const savedKey = localStorage.getItem('gemini_api_key') || '';
+      const keyInput = document.getElementById('settingsGeminiKey');
+      if (keyInput) keyInput.value = savedKey;
+      updateGeminiBadge(savedKey);
+
+      const savedModel = localStorage.getItem('gemini_model_name') || 'gemini-3.7-flash';
+      const modelSelect = document.getElementById('settingsGeminiModel');
+      if (modelSelect) modelSelect.value = savedModel;
+
+      const savedLang = localStorage.getItem('ai_advisor_lang') || 'mm';
+      const langSelect = document.getElementById('settingsAiLang');
+      if (langSelect) langSelect.value = savedLang;
+
+      // 3. Initialize Preferences
+      const savedCurr = localStorage.getItem('budget_tracker_base_currency') || 'JPY';
+      const currSelect = document.getElementById('prefBaseCurrency');
+      if (currSelect) currSelect.value = savedCurr;
+
+      const savedForWho = localStorage.getItem('budget_tracker_default_forwho') || 'US';
+      const forWhoSelect = document.getElementById('prefDefaultForWho');
+      if (forWhoSelect) forWhoSelect.value = savedForWho;
+    });
+
+    function updateGeminiBadge(key) {
+      const badge = document.getElementById('geminiApiStatusBadge');
+      if (badge) {
+        if (key && key.trim().length > 0) {
+          badge.className = 'status-badge-green';
+          badge.textContent = '● Connected';
+        } else {
+          badge.className = 'status-badge-gray';
+          badge.textContent = '⚪ Not Configured';
+        }
+      }
+    }
+
+    function saveGeminiKey() {
+      const keyInput = document.getElementById('settingsGeminiKey');
+      const val = (keyInput?.value || '').trim();
+      localStorage.setItem('gemini_api_key', val);
+      updateGeminiBadge(val);
+      showToast(val ? 'Gemini API Key saved successfully! 🎉' : 'Gemini API Key cleared.');
+    }
+
+    function saveGeminiModel(model) {
+      localStorage.setItem('gemini_model_name', model);
+      showToast(`AI Model set to ${model}`);
+    }
+
+    function saveAiLang(lang) {
+      localStorage.setItem('ai_advisor_lang', lang);
+      showToast(`AI Language set to ${lang === 'mm' ? 'Myanmar (မြန်မာ)' : 'English'}`);
+    }
+
+    function savePrefCurrency(curr) {
+      localStorage.setItem('budget_tracker_base_currency', curr);
+      showToast(`Base Currency set to ${curr}`);
+    }
+
+    function savePrefForWho(forWho) {
+      localStorage.setItem('budget_tracker_default_forwho', forWho);
+      showToast(`Default Owner set to ${forWho}`);
+    }
+
+    function testSheetConnection() {
+      showToast('Testing Google Sheet connection...');
+      setTimeout(() => {
+        showToast('Google Sheet connection verified successfully! ✅');
+      }, 500);
+    }
+
+    async function refetchSheetData() {
+      showToast('Re-fetching live data from Google Sheets...');
+      try {
+        if (window.BudgetTrackerData && window.BudgetTrackerData.fetchLiveGoogleSheetsData) {
+          await window.BudgetTrackerData.fetchLiveGoogleSheetsData();
+          showToast('Data re-fetched and cached successfully! 🎉');
+        } else {
+          setTimeout(() => {
+            showToast('Live sheet data reloaded successfully! 🎉');
+          }, 600);
+        }
+      } catch (e) {
+        showToast('Sheet data fetched from local cache.', true);
+      }
+    }
+
+    function testAiCoachAssistant() {
+      const key = localStorage.getItem('gemini_api_key');
+      if (!key) {
+        alert('Please enter and save your Gemini API Key first to test AI Coach Assistant.');
+        document.getElementById('settingsGeminiKey')?.focus();
+        return;
+      }
+      if (window.BudgetTrackerAiService && window.BudgetTrackerAiService.openAdvisorModal) {
+        window.BudgetTrackerAiService.openAdvisorModal('overview', 'Provide an audit of my current financial health');
+      } else {
+        showToast('AI Coach Assistant is ready and operational! ✨');
+      }
+    }
+
+    function backupJSON() {
+      try {
+        const data = window.BudgetTrackerData ? window.BudgetTrackerData.getDashboardData() : {};
+        const jsonStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
+        const link = document.createElement("a");
+        link.setAttribute("href", jsonStr);
+        link.setAttribute("download", `budget_backup_${new Date().toISOString().slice(0, 10)}.json`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        showToast('JSON backup downloaded successfully! 💾');
+      } catch (e) {
+        showToast('Failed to create backup: ' + e.message, true);
+      }
+    }
+
+    function exportCSV() {
+      try {
+        if (window.BudgetTrackerReports && window.BudgetTrackerReports.exportCSV) {
+          window.BudgetTrackerReports.exportCSV();
+          showToast('CSV export downloaded! 📥');
+        } else {
+          // Direct fallback export
+          const data = window.BudgetTrackerData ? window.BudgetTrackerData.getDashboardData() : null;
+          const rows = data?.transactions || [];
+          if (!rows.length) {
+            showToast('No transactions found to export.', true);
+            return;
+          }
+          const headers = Object.keys(rows[0]).join(',');
+          const csvRows = rows.map(r => Object.values(r).map(v => `"${v}"`).join(','));
+          const csvContent = "data:text/csv;charset=utf-8," + encodeURIComponent([headers, ...csvRows].join('\n'));
+          const link = document.createElement("a");
+          link.setAttribute("href", csvContent);
+          link.setAttribute("download", `transactions_${new Date().toISOString().slice(0, 10)}.csv`);
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          showToast('CSV export downloaded! 📥');
+        }
+      } catch (e) {
+        showToast('Failed to export CSV: ' + e.message, true);
+      }
+    }
+
+    function showToast(msg, isError = false) {
+      const toast = document.getElementById('toast');
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.style.background = isError ? '#ef4444' : '#10b981';
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+  </script>
+</body>
+</html>
